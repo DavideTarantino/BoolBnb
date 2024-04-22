@@ -1,9 +1,11 @@
 <script>
   import NavBar from './components/NavBar.vue'
+  import Cards from './components/Cards.vue'
 
   export default{
     components: {
-      NavBar
+      NavBar,
+      Cards
     },
     data(){
       return{}
@@ -15,7 +17,11 @@
   <header>
     <NavBar/>
   </header>
-  <h1 class="text-red-300">cazzo guardi ?</h1>
+  <main class="p-16 flex flex-wrap gap-20 justify-center">
+    <div v-for="index in 20" :key="index">
+      <Cards/>
+    </div>
+  </main>
 </template>
 
 <style scoped>
