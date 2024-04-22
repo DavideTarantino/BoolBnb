@@ -1,6 +1,5 @@
 <script>
-  import NavBar from './components/NavBar.vue'
-  import Cards from './components/Cards.vue'
+  import { RouterLink, RouterView } from 'vue-router'
 
   export default{
     components: {
@@ -15,14 +14,13 @@
 
 <template>
   <header>
-    <NavBar/>
+    <RouterView />
   </header>
-  <main class="p-16 flex flex-wrap gap-20 justify-center">
-    <div v-for="index in 20" :key="index">
-      <Cards/>
-    </div>
-  </main>
-</template>
+  <nav>
+    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/about">About</RouterLink>
+  </nav>
+  </template>
 
 <style scoped>
 

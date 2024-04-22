@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <h1>about</h1>
+    <h1 class="text-7xl">about</h1>
 </template>
 
 <style>
