@@ -1,21 +1,11 @@
-<script>
-  import NavBar from './components/NavBar.vue'
-
-  export default{
-    components: {
-      NavBar
-    },
-    data(){
-      return{}
-    }
-  }
+<script setup>
+  import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
   <header>
-    <NavBar/>
+    <RouterView />
   </header>
-  <h1 class="text-red-300">cazzo guardi ?</h1>
 </template>
 
 <style scoped>
