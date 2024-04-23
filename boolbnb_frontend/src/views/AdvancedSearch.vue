@@ -21,7 +21,7 @@ export default {
         },
         showLess() {
             this.displayedServices.length = 6;
-        }
+        },
     }
 }
 
@@ -37,8 +37,9 @@ export default {
                 <div class="px-10 py-10">
                     <p class="text-2xl"><strong>Distance from your search</strong></p>
                     <p>Extend your search</p>
-                    <div>
-
+                    <div class="slidecontainer flex gap-10 mt-6">
+                        <p class="w-1/12 border-2">Value</p>
+                        <input class="w-10/12" type="range" name="" id="">
                     </div>
                     <hr class="my-8">
                     <p class="text-2xl"><strong>Price range</strong></p>
