@@ -22,6 +22,101 @@ import { RouterLink, RouterView } from 'vue-router'
                         <input type="number" class="border-2 border-black py-4 pr-56 pl-2 rounded" placeholder="Minimum">
                         <input type="number" class="border-2 border-black py-4 pr-56 pl-2 rounded" placeholder="Maximum">
                     </div>
+                    <hr class="my-8">
+                    <p class="text-2xl"><strong>Rooms and beds</strong></p>
+                    <div>
+                        <p class="pt-4">Bedrooms</p>
+                        <div class="flex">
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">Any</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">1</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">2</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">3</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">4</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">5</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">6</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">7</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">8+</p>
+                            </div>
+                        </div>
+                        <p class="pt-4">Beds</p>
+                        <div class="flex">
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">Any</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">1</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">2</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">3</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">4</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">5</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">6</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">7</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">8+</p>
+                            </div>
+                        </div>
+                        <p class="pt-4">Bathrooms</p>
+                        <div class="flex">
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">Any</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">1</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">2</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">3</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">4</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">5</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">6</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">7</p>
+                            </div>
+                            <div class="p-2">
+                                <p class="check-button px-8 py-2 border-2 rounded-full">8+</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-8">
                 </div>
             </div>
         </div>
@@ -34,5 +129,11 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   appearance: none; 
   margin: 0;
+}
+
+.check-button:hover{
+    color: white;
+    background-color: black;
+    cursor: pointer;
 }
 </style>
