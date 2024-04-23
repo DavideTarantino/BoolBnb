@@ -4,7 +4,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
     <main>
-        <div class="py-24 px-96">
+        <div class="py-24 w-6/12" style="margin: 0 auto;">
             <div class="border-2 h-screen relative">
                 <p class="py-8 text-center"><strong>Filters</strong></p>
                 <RouterLink class="absolute top-1 left-2" to="/">X</RouterLink>
@@ -18,8 +18,9 @@ import { RouterLink, RouterView } from 'vue-router'
                     <hr class="my-8">
                     <p class="text-2xl"><strong>Price range</strong></p>
                     <p>Nightly prices including fees and taxes</p>
-                    <div>
-                        <input type="number" class="border-2 py-4 pr-28 pl-2 rounded" placeholder="Minimum"> - <input type="number" class="border-2 py-4 pr-28 pl-2 rounded" placeholder="Maximum">
+                    <div class="flex items-center justify-center gap-8 pt-6">
+                        <input type="number" class="border-2 border-black py-4 pr-56 pl-2 rounded" placeholder="Minimum">
+                        <input type="number" class="border-2 border-black py-4 pr-56 pl-2 rounded" placeholder="Maximum">
                     </div>
                 </div>
             </div>
@@ -28,5 +29,10 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style>
-
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none; 
+  margin: 0;
+}
 </style>
