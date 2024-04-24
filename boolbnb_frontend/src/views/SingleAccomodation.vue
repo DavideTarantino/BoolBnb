@@ -18,16 +18,16 @@
     </header>
     <main class="py-12 px-16">
         <RouterLink to="/"  class="text-2xl"><span><</span> <span>Accomodation Name</span></RouterLink>
-        <section class="flex all-thumbs">
-            <img class="main-img" src="https://picsum.photos/id/237/200/300" alt="">
+        <section class="flex gap-1 all-thumbs">
+            <img class="main-img rounded-l-md" src="https://picsum.photos/id/237/200/300" alt="">
             <div id="side-img-container">
-                <div class="flex flex-wrap side-img">
+                <div class="flex gap-1 flex-wrap side-img" style="margin-bottom: 0.25rem;">
                     <img src="https://picsum.photos/id/237/200/300" alt="">
-                    <img src="https://picsum.photos/id/237/200/300" alt="">
+                    <img class="rounded-r-md" src="https://picsum.photos/id/237/200/300" alt="">
                 </div>
-                <div class="flex flex-wrap side-img">
+                <div class="flex flex-wrap gap-1 side-img">
                     <img src="https://picsum.photos/id/237/200/300" alt="">
-                    <img src="https://picsum.photos/id/237/200/300" alt="">
+                    <img class="rounded-r-md" src="https://picsum.photos/id/237/200/300" alt="">
                 </div>
             </div>
         </section>
@@ -45,7 +45,7 @@
     }
 
     .side-img img{
-        height: 200px;
-        width: calc(100% / 2 )
+        height: 198px;
+        width: calc((100% - 0.25rem) / 2 )
     }
 </style>
