@@ -1,4 +1,6 @@
 <script>
+import { RouterLink, RouterView } from 'vue-router'
+
 export default {
     name: 'Cards',
     props: ['prop_accomodation'],
@@ -11,7 +13,7 @@ export default {
 <template>
     <div class="card">
         <figure id="thumb-container" class="w-full aspect-square">
-            <img class="rounded-md w-full h-full" :src="prop_accomodation.thumb" alt="thumb">
+            <RouterLink to="/Single_Accomodation"><img class="rounded-md w-full h-full" :src="prop_accomodation.thumb" alt="thumb"></RouterLink>
         </figure>
         <div>
             <div class="title flex items-center justify-between">
