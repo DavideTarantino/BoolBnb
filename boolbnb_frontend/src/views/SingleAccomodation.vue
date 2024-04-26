@@ -18,6 +18,8 @@
     </header>
     <main class="py-12 px-16">
         <RouterLink to="/"  class="text-2xl"><span><</span> <span>Accomodation Name</span></RouterLink>
+
+<!-- THUMB SECTION -->
         <section class="flex gap-1 all-thumbs">
             <img class="main-img rounded-l-md" src="https://picsum.photos/id/237/200/300" alt="">
             <div id="side-img-container">
@@ -31,6 +33,18 @@
                 </div>
             </div>
         </section>
+
+        <section>
+            <div>
+                <p class="text-3xl mt-5"><strong>Entire rental unit hosted by Ghazal</strong></p>
+                <div><span>2 guests</span> - <span>1 bedroom</span> - <span>1 bed</span> - <span>1 bath</span></div>
+                <div>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </section>
+
     </main>
 </template>
 
