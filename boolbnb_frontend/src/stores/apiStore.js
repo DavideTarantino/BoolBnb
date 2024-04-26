@@ -18,6 +18,9 @@ export const useApiStore = defineStore('api_store', {
         }
         axios.get(this.api_endpoint, params).then((res) => {
           let returned_accomodations = res.data.res.data
+          returned_accomodations.forEach(element => {
+            element.pictures = element.pictures.slice(0,5)
+          });
           resolve(returned_accomodations)
         }).catch((err) => {
           console.log(err)

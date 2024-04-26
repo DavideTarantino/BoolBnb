@@ -7,7 +7,9 @@ img {
     width: 100%;
 }
 
-
+* {
+    font-family: "Montserrat", sans-serif;
+}
 
 /* Width */
 ::-webkit-scrollbar {
