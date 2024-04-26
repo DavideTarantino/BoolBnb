@@ -32,6 +32,7 @@ export const useApiStore = defineStore('api_store', {
           returned_accomodations.forEach(element => {
             element.pictures = element.pictures.slice(0, 5)
           });
+          this.home_api_response = returned_accomodations
           resolve(returned_accomodations)
         }).catch((err) => {
           console.log(err)
@@ -51,6 +52,9 @@ export const useApiStore = defineStore('api_store', {
         axios.get(this.db_endpoint, { params }).then((res) => {
           if (res.data) {
             let returned_accomodations = res.data.res.data
+            returned_accomodations.forEach(element => {
+              element.pictures = element.pictures.slice(0, 5)
+            }); c
             this.api_filtered_results = returned_accomodations
             this.found_results = res.data.res.total || 0
           }
