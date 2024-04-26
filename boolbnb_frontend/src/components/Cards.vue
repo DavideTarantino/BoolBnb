@@ -14,42 +14,50 @@ export default defineComponent({
     },
     props: ['prop_accomodation'],
     data() {
-        return {}
+        return {
+            image_loaded: false
+        }
     }
 })
 </script>
 
 <template>
-    
-    <div class="card pb-6">
-            <Carousel class="w-full aspect-square" :wrap-around="true">
-                <Slide v-for="slide in prop_accomodation?.pictures" :key="slide" class="w-full aspect-square">
-                    <img class="rounded-md w-full h-full" :src="slide.url" :alt="slide.name">
-                </Slide>
-    
-                <template #addons>
-                    <Navigation />
-                    <div class="overflow-hidden w-4">
-                        <Pagination />
-                    </div>
-                </template>
-            </Carousel>
-        
-        <RouterLink to="/Single_Accomodation"  class="mt-5 flex flex-col">
-            <div class="flex items-center justify-between">
-                <h2 class="text-base font-semibold text-sm">{{ prop_accomodation?.address }}</h2>
-                <div class="rating flex items-center text-sm gap-1">
-                    <i class="fa-solid fa-star"></i>
-                    <span class="text-sm">
-                        {{ prop_accomodation?.rating }}
-                    </span>
-                </div>
-            </div>
 
+    <div class="card pb-6">
+        <Carousel class="w-full aspect-square" :wrap-around="true">
+            <Slide v-for="slide in prop_accomodation?.pictures" :key="slide" class="w-full aspect-square">
+                <img class="rounded-md w-full h-full" :src="slide.url" :alt="slide.name">
+            </Slide>
+
+            <template #addons>
+                <Navigation />
+                <div class="overflow-hidden w-4">
+                    <Pagination />
+                </div>
+            </template>
+        </Carousel>
+
+
+        <div class="flex items-center justify-between">
+            <h2 class="text-base font-semibold text-sm">{{ prop_accomodation?.address }}</h2>
+            <div class="rating flex items-center text-sm gap-1">
+                <i class="fa-solid fa-star"></i>
+                <span class="text-sm">
+                    {{ prop_accomodation?.rating }}
+                </span>
+            </div>
+        </div>
+        <div>
+            <div v-if="prop_accomodation.distance_from_point"> {{ prop_accomodation.distance_from_point.toFixed(1) }} km
+            </div>
             <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.type }}</p>
-            <p class="font-semibold text-sm mt-2">€ {{ prop_accomodation?.price_per_night }} <span class="font-normal">night</span></p>
-        </RouterLink>
+            <p class="font-semibold text-sm mt-2">€ {{ prop_accomodation?.price_per_night }} <span
+                    class="font-normal">night</span>
+            </p>
+        </div>
+
     </div>
+
 </template>
 
 <style scoped>
@@ -105,11 +113,11 @@ img {
     background-color: white;
 }
 
-.card:hover .carousel__prev{
+.card:hover .carousel__prev {
     display: flex;
 }
 
-.card:hover .carousel__next{
+.card:hover .carousel__next {
     display: flex;
 }
 

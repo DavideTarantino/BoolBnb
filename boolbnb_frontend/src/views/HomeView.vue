@@ -2,9 +2,24 @@
   <header>
     <NavBar />
   </header>
-  <section class="cards p-16 pr-32 pl-32 flex flex-wrap justify-between">
-    <Cards v-for="(accomodation, index) in api_reponse" :key="accomodation.id" :prop_accomodation="accomodation" />
+
+  <p v-if="api_store.found_results > 0">
+    {{ api_store.found_results }} results whitin {{ api_store.distance_filter }}KM from {{
+      api_store.user_query }}
+  </p>
+  <h1 class="text-5xl text-rd-600" v-if="api_store.found_results == 0 && api_store.api_filtered_results">
+    0 RESULTS
+  </h1>
+  <section class="cards p-16 pr-32 pl-32 flex flex-wrap justify-between"
+    v-if="api_store.api_filtered_results == undefined">
+    <Cards v-for="accomodation in api_store.home_api_response" :key="accomodation.id"
+      :prop_accomodation="accomodation" />
   </section>
+  <section class="cards p-16 pr-32 pl-32 flex flex-wrap justify-between" v-else>
+    <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
+      :prop_accomodation="accomodation" />
+  </section>
+
 
 </template>
 
@@ -18,15 +33,12 @@ export default {
     return {
       title: 'hello',
       api_store: useApiStore(),
-      api_reponse: undefined
+
     }
   },
   components: { NavBar, Cards },
   async mounted() {
-    let fetched_accomodations = await this.api_store.getHomeAccomodations(1);
-    this.api_reponse = fetched_accomodations;
-    console.log(this.api_reponse)
-
+    await this.api_store.getHomeAccomodations(1);
 
   }
 }
