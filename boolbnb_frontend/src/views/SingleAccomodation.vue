@@ -18,7 +18,7 @@
     <header>
         <NavBar/>
     </header>
-    <main class="py-12 px-16">
+    <main class="py-12 px-16 relative">
         <RouterLink to="/" class="flex items-center gap-3">
             <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10 3.16666L4.66667 8.5L10 13.8333" stroke="#222222" stroke-width="1.77778" stroke-linecap="round" stroke-linejoin="round"/>
@@ -106,8 +106,67 @@
             <hr class="my-8"> 
         </section>
 
+    <!-- CONTACT HOST SECTION -->
+        <section>
+            <div class="flex items-center gap-10">
+                <figure class="w-16">
+                    <img class="h-16 rounded-full" src="https://picsum.photos/id/237/200/300" alt="">
+                </figure>
+                <div>
+                    <h1 class="text-2xl font-medium">Hosted by (nome del proprietario)</h1>
+                    <p>Joined (data)</p>
+                </div>
+            </div>
+            <button class="py-4 px-6 border-2 rounded-md border-black mt-5">Contact Host</button>
+            <div class="flex gap-3 gap-2 mt-7">
+                <svg class="w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#FFD43B" d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.6 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8V444.8C394 378 431.1 230.1 432 141.4L256 66.8l0 0z"/></svg>
+                <p class="text-xs w-2/12">To protect your payment, never transfer money or communicate outside of the Airbnb website or app.</p>
+            </div>
+        </section>
         
-
+    <!-- PRICE SECTION -->
+        <section class="border-2 rounded-lg flex flex-col items-center gap-3 py-10 absolute right-16 price-section" style="width: 380px;">
+            <p>$price / night</p>
+            <div class="flex">
+                <div class="py-1 pr-24 pl-2 border-2 border-r-0 rounded-l-lg">
+                    <p class="text-xs">CHECK-IN</p>
+                    <p class="text-xs">xx/xx/xxxx</p>
+                </div>
+                <div class="py-1 pr-24 pl-2 border-2 rounded-r-lg">
+                    <p class="text-xs">CHECKOUT</p>
+                    <p class="text-xs">xx/xx/xxxx</p>
+                </div>
+            </div>
+            <button class="py-2 px-28 rounded-lg gradient-button text-white">Message Host</button>
+            <p>You won't be charged yet</p>
+            <div class="flex flex-col gap-2 w-9/12">
+                <div class="flex justify-between">
+                    <p>$ price x n nights</p>
+                    <p>$ price</p>
+                </div>
+                <div class="flex justify-between">
+                    <p>Weekly discount</p>
+                    <p>-$ price</p>
+                </div>
+                <div class="flex justify-between">
+                    <p>Cleaning fee</p>
+                    <p>$ price</p>
+                </div>
+                <div class="flex justify-between">
+                    <p>Service fee</p>
+                    <p>$ price</p>
+                </div>
+                <div class="flex justify-between">
+                    <p>Occupancy taxes and fees</p>
+                    <p>$ price</p>
+                </div>
+                <hr>
+                <div class="flex justify-between">
+                    <p>Total</p>
+                    <p>$ price</p>
+                </div>
+            </div>
+        </section>
     </main>
 </template>
 
@@ -124,5 +183,13 @@
     .side-img img{
         height: 198px;
         width: calc((100% - 0.25rem) / 2 )
+    }
+
+    .gradient-button{
+        background: linear-gradient(135deg, #00CBD8, #B844FF);
+    }
+
+    .price-section{
+        top: 540px;
     }
 </style>
