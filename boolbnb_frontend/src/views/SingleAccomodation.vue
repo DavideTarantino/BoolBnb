@@ -6,7 +6,9 @@
     export default {
      name: 'SingleAccomodation',
      data(){
-        return{}
+        return{
+            
+        }
      },
      components: {NavBar},
     }
@@ -76,7 +78,35 @@
                         <p class="text-lg">Service Name</p>
                     </div>
                 </div>
+
+            <!-- BOTTONI DA COMPLETARE CON IL TRIGGER PER IL FUNZIONAMENTO  -->
+                <button class="text-blue-500 mt-4">See more</button>
+                <button class="text-blue-500 mt-4">See less</button>
+
+                <hr class="my-8">
+
+                <p id="description">descrizione</p>
+            <!-- BOTTONI DA COMPLETARE CON IL TRIGGER PER IL FUNZIONAMENTO  -->
+                <button class="text-blue-500 mt-4">See more</button>
+                <button class="text-blue-500 mt-4">See less</button>
+
+                <hr class="my-8">    
         </section>
+
+    <!-- CALENDAR SECTION -->
+        <section class="w-8/12">
+            <p>calendario</p>
+            <hr class="my-8"> 
+        </section>
+
+    <!-- POSITION SECTION -->
+        <section class="w-8/12">
+            <h1 class="text-2xl font-medium">Where you'll be</h1>
+            <p>mappa</p>
+            <hr class="my-8"> 
+        </section>
+
+        
 
     </main>
 </template>
