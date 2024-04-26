@@ -10,7 +10,12 @@ export const useApiStore = defineStore('api_store', {
     //TODO - hide api key
     tom_api_key: '8Rmovsb8R8G88p20FduMGLj1mzLNxCZd',
     tom_endpoint: 'https://api.tomtom.com/',
-    tom_search_endpoint: 'search/2/search/123%20main%20st.json?'
+    tom_search_endpoint: 'search/2/search/123%20main%20st.json?',
+    home_api_response: [],
+    api_filtered_results: undefined,
+    user_query: '',
+    distance_filter: 0,
+    found_results: 0
 
   }),
   getters: {
@@ -24,6 +29,7 @@ export const useApiStore = defineStore('api_store', {
         }
         axios.get(this.db_endpoint, params).then((res) => {
           let returned_accomodations = res.data.res.data
+          this.home_api_response = returned_accomodations
           resolve(returned_accomodations)
         }).catch((err) => {
           console.log(err)
@@ -31,16 +37,31 @@ export const useApiStore = defineStore('api_store', {
       })
 
     },
-    getFilteredAccomodations(filters) {
+    getFilteredAccomodations(page, position, filters) {
+      console.log(position)
       return new Promise((resolve) => {
         const params = {
           max_distance: filters.max_distance || null,
+          page,
+          lat: position.lat,
+          lng: position.lon
         }
-        axios.get(this.db_endpoint, params).then((res) => {
-          let returned_accomodations = res.data.res.data
+        axios.get(this.db_endpoint, { params }).then((res) => {
+          if (res.data) {
+            let returned_accomodations = res.data.res.data
+            this.api_filtered_results = returned_accomodations
+            this.found_results = res.data.res.total || 0
+          }
+          if (!this.api_filtered_results) {
+            this.api_filtered_results = []
+          }
+          console.log(this.api_filtered_results)
+
+
           resolve(returned_accomodations)
         }).catch((err) => {
-          console.log(err)
+
+
         })
       })
     },
@@ -58,9 +79,11 @@ export const useApiStore = defineStore('api_store', {
           .then((res) => {
             let address_suggestions = [];
             let top_five_results = res.data.results.slice(0, 5);
+
             top_five_results.forEach((el) => {
+              let label = el.type == 'POI' ? el.poi.name : el.address.freeformAddress
               let res_obj = {
-                address: el.address.freeformAddress,
+                address: label,
                 position: el.position
               };
               address_suggestions.push(res_obj);

@@ -7,7 +7,7 @@
                     class="search-group flex items-center justify-between border-2 rounded-full w-[500px] px-3 pl-6 py-2 ">
                     <input class="w-4/5" type="search" placeholder="Search accomodation..." v-model="search_string"
                         @input="getAddressReccomandations">
-                    <i class="fa-solid fa-magnifying-glass" style="color: #bdc6d6;"></i>
+                    <i class="fa-solid fa-magnifying-glass" style="color: #bdc6d6;" @click="searchAccomodations"></i>
                 </div>
 
                 <!-- <a href="#" class="p-2 border-2 rounded-full"></a> -->
@@ -59,7 +59,12 @@ export default {
         return {
             api_store: useApiStore(),
             search_string: '',
-            address_suggestions: []
+            address_suggestions: [],
+            selected_position: undefined,
+            page: 1,
+            filters: {
+                max_distance: 20
+            }
         }
     },
     methods: {
@@ -71,7 +76,7 @@ export default {
                         this.address_suggestions = result_reccomandations
                     }
 
-                    console.log(this.address_suggestions)
+
                 } catch (error) {
                     console.error('Error getting address recommendations:', error);
                 }
@@ -79,8 +84,16 @@ export default {
             debouncedGetAddressReccomandations(this.search_string);
         },
         setReaserch(suggestion) {
+            this.selected_position = suggestion.position
             this.search_string = suggestion.address
             this.address_suggestions = []
+        },
+        async searchAccomodations() {
+            console.log(this.page, this.selected_position, this.filters)
+            console.log(await this.api_store.getFilteredAccomodations(this.page, this.selected_position, this.filters))
+            this.api_store.user_query = this.search_string
+            this.api_store.distance_filter = this.filters.max_distance
+            this.search_string = ''
         }
 
     }
