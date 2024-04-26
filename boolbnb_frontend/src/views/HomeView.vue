@@ -26,9 +26,6 @@ export default {
   async mounted() {
     let fetched_accomodations = await this.api_store.getHomeAccomodations(1);
     this.api_reponse = fetched_accomodations;
-    console.log(this.api_reponse)
-
-
   }
 }
 </script>
