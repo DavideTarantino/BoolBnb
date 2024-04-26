@@ -2,8 +2,7 @@
   <header>
     <NavBar />
   </header>
-  <section class="p-16 flex flex-wrap gap-20 justify-between">
-
+  <section class="cards p-16 pr-32 pl-32 flex flex-wrap justify-between">
     <Cards v-for="(accomodation, index) in api_reponse" :key="accomodation.id" :prop_accomodation="accomodation" />
   </section>
 
@@ -33,4 +32,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.cards {
+  gap: 15px;
+}
+</style>
