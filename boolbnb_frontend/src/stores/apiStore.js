@@ -13,8 +13,14 @@ export const useApiStore = defineStore('api_store', {
     tom_search_endpoint: 'search/2/search/123%20main%20st.json?',
     home_api_response: [],
     api_filtered_results: undefined,
+    selected_position: undefined,
     user_query: '',
-    distance_filter: 0,
+    page: 1,
+    filters: {
+      max_distance: 20,
+      min_price: undefined,
+      max_price: undefined
+    },
     found_results: 0
 
   }),
@@ -22,10 +28,10 @@ export const useApiStore = defineStore('api_store', {
 
   },
   actions: {
-    getHomeAccomodations: async function (page) {
+    getHomeAccomodations: async function () {
       return new Promise((resolve) => {
         const params = {
-          page
+          page: this.page
         }
         axios.get(this.db_endpoint, params).then((res) => {
           let returned_accomodations = res.data.res.data
@@ -40,21 +46,23 @@ export const useApiStore = defineStore('api_store', {
       })
 
     },
-    getFilteredAccomodations(page, position, filters) {
-      console.log(position)
+    getFilteredAccomodations() {
       return new Promise((resolve) => {
         const params = {
-          max_distance: filters.max_distance || null,
-          page,
-          lat: position.lat,
-          lng: position.lon
+          max_distance: this.filters.max_distance || null,
+          page: this.page,
+          lat: this.selected_position.lat,
+          lng: this.selected_position.lon,
+          min_price: this.filters.min_price,
+          max_price: this.filters.max_price
         }
         axios.get(this.db_endpoint, { params }).then((res) => {
+
           if (res.data) {
             let returned_accomodations = res.data.res.data
             returned_accomodations.forEach(element => {
               element.pictures = element.pictures.slice(0, 5)
-            }); c
+            });
             this.api_filtered_results = returned_accomodations
             this.found_results = res.data.res.total || 0
           }

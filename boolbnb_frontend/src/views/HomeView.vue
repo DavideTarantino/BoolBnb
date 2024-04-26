@@ -1,17 +1,20 @@
 <template>
+  <AdvancedSearch v-show="utility_store.show_filters"></AdvancedSearch>
   <header>
     <NavBar />
   </header>
 
+
+
   <p v-if="api_store.found_results > 0">
-    {{ api_store.found_results }} results whitin {{ api_store.distance_filter }}KM from {{
+    {{ api_store.found_results }} results whitin {{ api_store.filters.max_distance }}KM from {{
       api_store.user_query }}
   </p>
   <h1 class="text-5xl text-rd-600" v-if="api_store.found_results == 0 && api_store.api_filtered_results">
     0 RESULTS
   </h1>
   <section class="cards p-16 pr-32 pl-32 flex flex-wrap justify-between"
-    v-if="api_store.api_filtered_results == undefined">
+    v-if="api_store.api_filtered_results == undefined" :class="utility_store.show_filters ? 'blur-md' : ''">
     <Cards v-for="accomodation in api_store.home_api_response" :key="accomodation.id"
       :prop_accomodation="accomodation" />
   </section>
@@ -26,19 +29,22 @@
 <script>
 import NavBar from '../components/NavBar.vue'
 import Cards from '../components/Cards.vue'
+import AdvancedSearch from '@/components/AdvancedSearch.vue'
 import { useApiStore } from '@/stores/apiStore'
+import { useUtilityStore } from '@/stores/utilityStore'
 
 export default {
   data() {
     return {
       title: 'hello',
       api_store: useApiStore(),
+      utility_store: useUtilityStore()
 
     }
   },
-  components: { NavBar, Cards },
+  components: { NavBar, Cards, AdvancedSearch },
   async mounted() {
-    await this.api_store.getHomeAccomodations(1);
+    await this.api_store.getHomeAccomodations();
 
   }
 }

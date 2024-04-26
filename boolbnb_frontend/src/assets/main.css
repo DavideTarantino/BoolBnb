@@ -47,3 +47,7 @@ img {
     background: linear-gradient(135deg, #00CBD8, #B844FF);
     /* Linear gradient */
 }
+
+.fa-circle-xmark {
+    color: #B844FF;
+}
