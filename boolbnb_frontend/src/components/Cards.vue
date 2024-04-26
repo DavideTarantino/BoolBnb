@@ -2,6 +2,7 @@
 import 'vue3-carousel/dist/carousel.css'
 import { defineComponent } from 'vue'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+import { RouterLink, RouterView } from 'vue-router'
 
 export default defineComponent({
     name: 'Cards',
@@ -19,7 +20,8 @@ export default defineComponent({
 </script>
 
 <template>
-    <div class="card pb-6">
+    
+    <RouterLink to="/Single_Accomodation" class="card pb-6">
             <Carousel class="w-full aspect-square" :wrap-around="true">
                 <Slide v-for="slide in prop_accomodation?.pictures" :key="slide" class="w-full aspect-square">
                     <img class="rounded-md w-full h-full" :src="slide.url" :alt="slide.name">
@@ -47,7 +49,7 @@ export default defineComponent({
             <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.type }}</p>
             <p class="font-semibold text-sm mt-2">€ {{ prop_accomodation?.price_per_night }} <span class="font-normal">night</span></p>
         </div>
-    </div>
+    </RouterLink>
 </template>
 
 <style scoped>
