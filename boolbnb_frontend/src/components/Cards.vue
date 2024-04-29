@@ -34,7 +34,7 @@ export default defineComponent({
             <template #addons>
                 <Navigation />
                 <div class="overflow-hidden w-4">
-                    <Pagination />
+                    <!-- <Pagination /> -->
                 </div>
             </template>
         </Carousel>
