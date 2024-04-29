@@ -1,6 +1,7 @@
 <script>
     import NavBar from '../components/NavBar.vue'
     import { RouterLink, RouterView } from 'vue-router'
+    import MessageHost from '@/components/MessageHost.vue'
 
 
     export default {
@@ -10,7 +11,7 @@
             
         }
      },
-     components: {NavBar},
+     components: {NavBar, MessageHost},
     }
 </script>
 
@@ -168,6 +169,7 @@
             </div>
         </section>
     </main>
+    <MessageHost/>
 </template>
 
 <style scoped>
