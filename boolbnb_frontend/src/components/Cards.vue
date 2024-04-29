@@ -37,7 +37,7 @@ export default defineComponent({
             </Carousel>
         
             <div class="flex items-center justify-between mt-4">
-                <h2 class="text-base font-semibold text-sm">{{ prop_accomodation?.address }}</h2>
+                <h2 class="font-semibold text-sm">{{ prop_accomodation?.address }}</h2>
                 <div class="rating flex items-center text-sm gap-1">
                     <i class="fa-solid fa-star"></i>
                     <span class="text-sm">
