@@ -10,9 +10,14 @@
       <strong class="text-black">{{ api_store.found_results }}</strong> results whitin <strong class="text-black">{{ api_store.filters.max_distance }}KM</strong> from "{{
         api_store.user_query }}"
     </p>
-    <h1 class="text-5xl text-rd-600" v-if="api_store.found_results == 0 && api_store.api_filtered_results">
+    <!-- <h1 class="text-5xl  text-rd-600" v-if="api_store.found_results == 0 && api_store.api_filtered_results">
       0 RESULTS
-    </h1>
+    </h1> -->
+    <div class="flex flex-col mt-32 items-center" v-if="api_store.found_results == 0 && api_store.api_filtered_results">
+      <strong class="text-2xl">No accommodation found in this area :( </strong>
+      <p class="text-xl">Try searching for specific place or address</p>
+    </div>
+
     <section class="cards p-16 pr-32 pl-32 flex flex-wrap justify-between">
 
       <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
