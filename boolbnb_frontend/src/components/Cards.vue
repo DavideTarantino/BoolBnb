@@ -22,6 +22,7 @@ export default defineComponent({
 <template>
     
     <div class="card pb-6">
+        <!-- <RouterLink to="/Single_Accomodation"  class="mt-5 flex flex-col"> -->
             <Carousel class="w-full aspect-square" :wrap-around="true">
                 <Slide v-for="slide in prop_accomodation?.pictures" :key="slide" class="w-full aspect-square">
                     <img class="rounded-md w-full h-full" :src="slide.url" :alt="slide.name">
@@ -29,13 +30,10 @@ export default defineComponent({
     
                 <template #addons>
                     <Navigation />
-                    <div class="overflow-hidden w-4">
-                        <Pagination />
-                    </div>
+                    <!-- <Pagination /> -->
                 </template>
             </Carousel>
         
-        <RouterLink to="/Single_Accomodation"  class="mt-5 flex flex-col">
             <div class="flex items-center justify-between">
                 <h2 class="text-base font-semibold text-sm">{{ prop_accomodation?.address }}</h2>
                 <div class="rating flex items-center text-sm gap-1">
@@ -48,7 +46,7 @@ export default defineComponent({
 
             <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.type }}</p>
             <p class="font-semibold text-sm mt-2">€ {{ prop_accomodation?.price_per_night }} <span class="font-normal">night</span></p>
-        </RouterLink>
+        <!-- </RouterLink> -->
     </div>
 </template>
 

@@ -5,7 +5,8 @@ import axios from 'axios'
 export const useApiStore = defineStore('api_store', {
   state: () => ({
     //this could be different for some of us
-    api_endpoint: 'http://127.0.0.1:8000/api/accommodations'
+    api_endpoint: 'http://127.0.0.1:8000/api/accommodations',
+    single_accomodation: undefined
   }),
   getters: {
 
@@ -27,6 +28,12 @@ export const useApiStore = defineStore('api_store', {
         })
       })
 
+    },
+    getSingleAccomodation: async function (id) {
+      axios.get(this.api_endpoint+"/"+id).then((res) => {
+        this.single_accomodation = res.data.res
+        console.log(res.data.res)
+      })
     }
   },
 })

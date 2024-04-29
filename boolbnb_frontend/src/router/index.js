@@ -18,7 +18,7 @@ const router = createRouter({
       component: () => import('../views/AdvancedSearch.vue')
     },
     {
-      path: '/Single_Accomodation',
+      path: '/Single_Accomodation/:id',
       name: 'SingleAccomodation',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
