@@ -2,6 +2,7 @@
 
 import { useUtilityStore } from '@/stores/utilityStore';
 import { useApiStore } from '@/stores/apiStore';
+import { useMapStore } from '@/stores/mapStore';
 
 export default {
     name: 'AdvancedSearch',
@@ -48,7 +49,8 @@ export default {
 
             displayedServices: [],
             utility_store: useUtilityStore(),
-            api_store: useApiStore()
+            api_store: useApiStore(),
+            map_store: useMapStore()
         }
     },
     mounted() {
@@ -116,12 +118,16 @@ export default {
             this.api_store.filters.bathrooms = 'Any'
             this.api_store.filters.type = undefined
         },
-        applyFilters() {
+        async applyFilters() {
+            let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
             //TODO - fix possible fucked up filters
             console.log(this.api_store.filters)
             this.api_store.api_filtered_results = []
             this.utility_store.show_filters = false
-            this.api_store.getFilteredAccomodations()
+            await this.api_store.getFilteredAccomodations()
+            await this.api_store.getMarkersData();
+            this.map_store.flyTo(selected_position)
+            this.map_store.setMarkers(this.api_store.api_unpaginated_results);
         }
     },
     computed: {
