@@ -39,7 +39,7 @@ export default defineComponent({
             </template>
         </Carousel>
 
-
+    <RouterLink to="/Single_Accomodation">
         <div class="flex items-center justify-between">
             <h2 class="text-base font-semibold">{{ prop_accomodation?.address }}</h2>
             <div class="rating flex items-center text-sm gap-1">
@@ -57,6 +57,7 @@ export default defineComponent({
                     class="font-normal">night</span>
             </p>
         </div>
+    </RouterLink>
     </div>
 
     <div class="card pb-6" v-if="!image_loaded">
