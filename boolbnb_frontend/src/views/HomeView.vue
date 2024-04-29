@@ -6,17 +6,22 @@
   </header>
 
   <div class="card-list" v-if="!utility_store.show_map">
-    <p v-if="api_store.found_results > 0 && api_store.user_query">
-      {{ api_store.found_results }} results whitin {{ api_store.filters.max_distance }}KM from {{
-        api_store.user_query }}
+    <p class="text-center mt-5 gradient-background w-max mx-auto p-2 rounded-lg text-white" v-if="api_store.found_results > 0 && api_store.user_query">
+      <strong class="text-black">{{ api_store.found_results }}</strong> results whitin <strong class="text-black">{{ api_store.filters.max_distance }}KM</strong> from "{{
+        api_store.user_query }}"
     </p>
-    <h1 class="text-5xl text-rd-600" v-if="api_store.found_results == 0 && api_store.api_filtered_results">
+    <!-- <h1 class="text-5xl  text-rd-600" v-if="api_store.found_results == 0 && api_store.api_filtered_results">
       0 RESULTS
-    </h1>
-    <section class="cards p-16 pr-32 pl-32 flex flex-wrap justify-between">
+    </h1> -->
+    <div class="flex flex-col mt-32 items-center" v-if="api_store.found_results == 0 && api_store.api_filtered_results">
+      <strong class="text-2xl">No accommodation found in this area :( </strong>
+      <p class="text-xl">Try searching for specific place or address</p>
+    </div>
+
+    <section class="cards p-16 pr-32 pl-32 flex flex-wrap">
 
       <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
-        :prop_accomodation="accomodation" />
+        :prop_accomodation="accomodation" @click="goToSingleAccomodation(accomodation)" />
     </section>
   </div>
   <!-- map is rendered with opacity-0 to avoid loadings and sizing bus -->
@@ -29,8 +34,6 @@
     </span>
     <i class="fa-solid" :class="utility_store.show_map ? 'fa-list' : 'fa-map'"></i>
   </div>
-
-
 
 
 </template>
@@ -70,10 +73,12 @@ export default {
       setTimeout(() => {
         this.map_store.map_istance.resize()
       }, 10)
+    },
 
-
-
-    }
+    goToSingleAccomodation(accomodation) {
+      this.$router.push({ name: 'SingleAccomodation', params: { id: accomodation?.id }})
+      this.api_store.single_accomodation = accomodation
+    },
   },
 }
 </script>
@@ -99,4 +104,8 @@ export default {
   left: 50%;
   transform: translateX(-50%);
 }
+
+.gradient-background{
+        background: linear-gradient(135deg, #00CBD8, #B844FF);
+    }
 </style>
