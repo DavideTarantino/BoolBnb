@@ -16,7 +16,7 @@
     <section class="cards p-16 pr-32 pl-32 flex flex-wrap justify-between">
 
       <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
-        :prop_accomodation="accomodation" />
+        :prop_accomodation="accomodation" @click="goToSingleAccomodation(accomodation)" />
     </section>
   </div>
   <!-- map is rendered with opacity-0 to avoid loadings and sizing bus -->
@@ -29,8 +29,6 @@
     </span>
     <i class="fa-solid" :class="utility_store.show_map ? 'fa-list' : 'fa-map'"></i>
   </div>
-
-
 
 
 </template>
@@ -70,10 +68,12 @@ export default {
       setTimeout(() => {
         this.map_store.map_istance.resize()
       }, 10)
+    },
 
-
-
-    }
+    goToSingleAccomodation(accomodation) {
+      this.$router.push({ name: 'SingleAccomodation', params: { id: accomodation?.id }})
+      this.api_store.single_accomodation = accomodation
+    },
   },
 }
 </script>

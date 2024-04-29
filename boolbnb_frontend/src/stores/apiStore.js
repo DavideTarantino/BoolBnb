@@ -16,6 +16,7 @@ export const useApiStore = defineStore('api_store', {
     home_api_response: [],
     api_filtered_results: undefined,
     selected_position: undefined,
+    single_accomodation: undefined,
     utility_store: useUtilityStore(),
     user_query: '',
     page: 1,
@@ -116,8 +117,11 @@ export const useApiStore = defineStore('api_store', {
       });
     },
 
-
-
-
+    getSingleAccomodation: async function (id) {
+      axios.get(this.db_endpoint + "/" + id).then((res) => {
+        this.single_accomodation = res.data.res
+        console.log(res.data.res)
+      })
+    }
   },
 })
