@@ -102,10 +102,19 @@ export default {
             this.address_suggestions = []
         },
         async searchAccomodations() {
-            this.api_store.api_filtered_results = []
-            await this.api_store.getFilteredAccomodations()
-            this.api_store.user_query = this.search_string
-            this.search_string = ''
+            try {
+                this.api_store.api_filtered_results = [];
+                this.api_store.user_query = this.search_string;
+                let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
+                await this.api_store.getFilteredAccomodations();
+
+                this.api_store.flyTo(selected_position)
+                this.api_store.setMarkers(this.api_store.api_filtered_results);
+                this.search_string = '';
+            } catch (err) {
+                // Handle errors that occur during the operation
+                console.error('Error in searchAccomodations:', err);
+            }
         }
 
     }

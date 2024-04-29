@@ -1,5 +1,6 @@
-import { ref, computed } from 'vue'
+import { ref, computed, toRaw } from 'vue'
 import { defineStore } from 'pinia'
+import { useUtilityStore } from './utilityStore'
 
 import axios from 'axios'
 
@@ -14,12 +15,17 @@ export const useApiStore = defineStore('api_store', {
     home_api_response: [],
     api_filtered_results: undefined,
     selected_position: undefined,
+    utility_store: useUtilityStore(),
     user_query: '',
     page: 1,
     filters: {
       max_distance: 20,
       min_price: undefined,
-      max_price: undefined
+      max_price: undefined,
+      rooms: 'Any',
+      beds: 'Any',
+      bathrooms: 'Any',
+      type: undefined
     },
     found_results: 0
 
@@ -46,39 +52,45 @@ export const useApiStore = defineStore('api_store', {
       })
 
     },
-    getFilteredAccomodations() {
-      return new Promise((resolve) => {
+    async getFilteredAccomodations() {
+      try {
         const params = {
           max_distance: this.filters.max_distance || null,
           page: this.page,
-          lat: this.selected_position.lat,
-          lng: this.selected_position.lon,
+          lat: this.selected_position?.lat || null,
+          lng: this.selected_position?.lon || null,
           min_price: this.filters.min_price,
-          max_price: this.filters.max_price
+          max_price: this.filters.max_price,
+          type: this.filters.type || null,
+          rooms: this.filters.rooms == 'Any' ? null : Number(this.filters.rooms),
+          beds: this.filters.beds == 'Any' ? null : Number(this.filters.beds),
+          bathrooms: this.filters.bathrooms == 'Any' ? null : Number(this.filters.bathrooms),
+        };
+
+        const res = await axios.get(this.db_endpoint, { params });
+
+        if (res.data) {
+          let returned_accomodations = res.data.res.data;
+
+          returned_accomodations.forEach(element => {
+            element.pictures = element.pictures.slice(0, 5);
+          });
+          this.api_filtered_results = returned_accomodations;
+          this.found_results = res.data.res.total || 0;
         }
-        axios.get(this.db_endpoint, { params }).then((res) => {
 
-          if (res.data) {
-            let returned_accomodations = res.data.res.data
-            returned_accomodations.forEach(element => {
-              element.pictures = element.pictures.slice(0, 5)
-            });
-            this.api_filtered_results = returned_accomodations
-            this.found_results = res.data.res.total || 0
-          }
-          if (!this.api_filtered_results) {
-            this.api_filtered_results = []
-          }
-          console.log(this.api_filtered_results)
+        if (!this.api_filtered_results) {
+          this.api_filtered_results = [];
+          return [];
+        }
 
-
-          resolve(returned_accomodations)
-        }).catch((err) => {
-
-
-        })
-      })
+        return this.api_filtered_results;
+      } catch (err) {
+        console.error('Error in getFilteredAccomodations:', err);
+        throw err; // Rethrow the error to propagate it up
+      }
     },
+
     getAddressReccomandations: async function (search_string) {
       if (search_string.length < 5) {
         return
@@ -109,6 +121,20 @@ export const useApiStore = defineStore('api_store', {
             reject(err);
           });
       });
+    },
+    flyTo(position) {
+      this.utility_store.map_istance.flyTo({
+        center: position,
+        zoom: 13
+      })
+    },
+    setMarkers(accommodations) {
+      let mapInstance = toRaw(this.utility_store.map_istance);
+      accommodations.forEach((el) => {
+        let new_marker = new tt.Marker()
+          .setLngLat([el.longitude, el.latitude])
+          .addTo(mapInstance);
+      })
     }
 
   },

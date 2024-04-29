@@ -36,7 +36,26 @@ export default {
         updateMinPrice(event) {
             this.api_store.filters.min_price = Number(event.target.value);
         },
+        updateType(type) {
+            this.api_store.filters.type = type;
+        },
+        updateNumber(value, field) {
+            switch (field) {
+                case 'rooms':
+                    this.api_store.filters.rooms = value
+                    break;
+                case 'beds':
+                    this.api_store.filters.beds = value
+                    break;
 
+                case 'bathrooms':
+                    this.api_store.filters.bathrooms = value
+                    break;
+                default:
+                    return
+            }
+
+        },
         closeFilters() {
             this.utility_store.show_filters = false
         },
@@ -48,6 +67,7 @@ export default {
         applyFilters() {
             //TODO - fix possible fucked up filters
             console.log(this.api_store.filters)
+            this.api_store.api_filtered_results = []
             this.utility_store.show_filters = false
             this.api_store.getFilteredAccomodations()
         }
@@ -87,36 +107,43 @@ export default {
                 <div>
                     <p class="pt-4">Bedrooms</p>
                     <div class="flex">
-                        <div class="p-2" v-for="(element, index) in Data" :key="index">
-                            <p class="check-button px-8 py-2 border-2 rounded-full">{{ element }}</p>
+                        <div class="p-2" v-for="(element, index) in Data" :key="index"
+                            @click="updateNumber(element, 'rooms')">
+                            <p class="check-button px-8 py-2 border-2 rounded-full"
+                                :class="element == api_store.filters.rooms ? 'active' : ''">{{ element }}</p>
                         </div>
                     </div>
                     <p class="pt-4">Beds</p>
                     <div class="flex">
-                        <div class="p-2" v-for="(element, index) in Data" :key="index">
-                            <p class="check-button px-8 py-2 border-2 rounded-full">{{ element }}</p>
+                        <div class="p-2" v-for="(element, index) in Data" :key="index"
+                            @click="updateNumber(element, 'beds')">
+                            <p class="check-button px-8 py-2 border-2 rounded-full"
+                                :class="element == api_store.filters.beds ? 'active' : ''">{{ element }}</p>
                         </div>
                     </div>
                     <p class="pt-4">Bathrooms</p>
                     <div class="flex">
-                        <div class="p-2" v-for="(element, index) in Data" :key="index">
-                            <p class="check-button px-8 py-2 border-2 rounded-full">{{ element }}</p>
+                        <div class="p-2" v-for="(element, index) in Data" :key="index"
+                            @click="updateNumber(element, 'bathrooms')">
+                            <p class="check-button px-8 py-2 border-2 rounded-full"
+                                :class="element == api_store.filters.bathrooms ? 'active' : ''">{{ element }}</p>
                         </div>
                     </div>
                 </div>
                 <hr class="my-8">
                 <p class="text-2xl"><strong>Property type</strong></p>
                 <div class="flex justify-between mt-6">
-                    <div
-                        class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline">
+                    <div class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline"
+                        :class="api_store.filters.type == 'House' ? 'border-black' : ''" @click="updateType('House')">
                         <svg class="w-8 mt-3 ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                             <path fill="#000000"
                                 d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
                         </svg>
                         <p class="mb-3 ml-3 text-xl">House</p>
                     </div>
-                    <div
-                        class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline">
+                    <div class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline"
+                        @click="updateType('Apartment')"
+                        :class="api_store.filters.type == 'Apartment' ? 'border-black' : ''">
                         <svg class="w-8 mt-3 ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
 
                             <path fill="#000000"
@@ -124,8 +151,9 @@ export default {
                         </svg>
                         <p class="mb-3 ml-3 text-xl">Apartment</p>
                     </div>
-                    <div
-                        class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline">
+                    <div class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline"
+                        @click="updateType('GuestHouse')"
+                        :class="api_store.filters.type == 'GuestHouse' ? 'border-black' : ''">
                         <svg class="w-8 mt-3 ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
 
                             <path fill="#000000"
@@ -133,8 +161,8 @@ export default {
                         </svg>
                         <p class="mb-3 ml-3 text-xl">Guesthouse</p>
                     </div>
-                    <div
-                        class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline">
+                    <div class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline"
+                        @click="updateType('Hotel')" :class="api_store.filters.type == 'Hotel' ? 'border-black' : ''">
                         <svg class="w-8 mt-3 ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 
                             <path fill="#000000"
@@ -238,12 +266,20 @@ input[type="number"]::-webkit-outer-spin-button {
 
 div.container {
 
-    position: absolute;
-    z-index: 10;
+    position: fixed;
+    z-index: 12;
     left: 50%;
-    top: 10%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
     background-color: white;
+    max-height: 90vh;
+    overflow: scroll;
+    border-radius: 20px;
 
+}
+
+.active {
+    color: white;
+    background-color: black;
 }
 </style>

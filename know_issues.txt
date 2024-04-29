@@ -1,0 +1,6 @@
+
+handle user appliyng filters before research
+handle first loading accomodations
+(maybe merge home and filter in 1 array)
+icon black bg white when filters
+fix overlay (filters and bottom bar are  fixed)
