@@ -26,7 +26,8 @@ export const useApiStore = defineStore('api_store', {
       rooms: 'Any',
       beds: 'Any',
       bathrooms: 'Any',
-      type: undefined
+      type: undefined,
+      services: []
     },
     found_results: 0
 
@@ -57,6 +58,7 @@ export const useApiStore = defineStore('api_store', {
           rooms: this.filters.rooms == 'Any' ? null : Number(this.filters.rooms),
           beds: this.filters.beds == 'Any' ? null : Number(this.filters.beds),
           bathrooms: this.filters.bathrooms == 'Any' ? null : Number(this.filters.bathrooms),
+          services: this.filters.services || null
         };
 
         const res = await axios.get(this.db_endpoint, { params });
