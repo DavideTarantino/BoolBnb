@@ -60,21 +60,21 @@ export const useMapStore = defineStore('map_store', {
             let mapInstance = toRaw(this.map_istance);
             accommodations.forEach((el) => {
                 const popupContent = `
-                <div class="popup-card cursor-pointer rounded-lg">
+                <a href="/Single_Accomodation/${el.id}" class="popup-card cursor-pointer rounded-lg">
                     <img src="${el.thumb}" alt="Accommodation Thumbnail" class="popup_thumbnail w-full">
                     <div class="flex justify-between font-bold">
-                        <div>${el.address} </div>
+                        <div>${el.address}</div>
                         <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-star"></i>
-                        <span>${el.rating} </span>
-                        
+                            <i class="fa-solid fa-star"></i>
+                            <span>${el.rating}</span>
                         </div>
                     </div>
                     <div class="popup_title">${el.title}</div>
                     <div class="popup_price"><strong>${el.price_per_night}€</strong> per Night</div>
-                    
-                </div>
+                </a>
             `;
+
+
                 let new_marker = new tt.Marker()
                     .setLngLat([el.longitude, el.latitude])
                     .addTo(mapInstance);
