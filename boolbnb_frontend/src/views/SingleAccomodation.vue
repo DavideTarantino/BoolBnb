@@ -62,19 +62,19 @@
             <h1 class="text-2xl font-medium">What this place offers</h1>
                 <div class="flex flex-wrap mt-8 w-7/12 gap-x-32 gap-y-6">
                     <div class="flex items-center gap-2">
-                        <img class="w-8" src="../../public/service-icons/coffee_maker.svg" alt="">
+                        <img class="w-8" src="/service-icons/coffee_maker.svg" alt="">
                         <p class="text-lg">Service Name</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <img class="w-8" src="../../public/service-icons/coffee_maker.svg" alt="">
+                        <img class="w-8" src="/service-icons/coffee_maker.svg" alt="">
                         <p class="text-lg">Service Name</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <img class="w-8" src="../../public/service-icons/coffee_maker.svg" alt="">
+                        <img class="w-8" src="/service-icons/coffee_maker.svg" alt="">
                         <p class="text-lg">Service Name</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <img class="w-8" src="../../public/service-icons/coffee_maker.svg" alt="">
+                        <img class="w-8" src="/service-icons/coffee_maker.svg" alt="">
                         <p class="text-lg">Service Name</p>
                     </div>
                 </div>
