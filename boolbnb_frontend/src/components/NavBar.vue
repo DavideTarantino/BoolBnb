@@ -1,7 +1,7 @@
 <template>
     <main>
         <header class="flex justify-between pr-32 pl-32 py-5 border-b-2 border-black items-center">
-            <a href="#"><img class="w-28" src="../../public/monsterbnb-logo.svg" alt="logo"></a>
+            <a href="#"><img class="w-35" src="../../public/monsterbnb-logo.svg" alt="logo"></a>
             <div class="flex items-center gap-2">
                 <div class="flex items-center gap-2  dropdown">
                     <div

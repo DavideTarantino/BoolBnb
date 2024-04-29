@@ -157,11 +157,11 @@ const range = ref({
                     <div class="flex">
                         <div class="py-1 pr-24 pl-2 border-2 border-r-0 rounded-l-lg">
                             <p class="text-xs">CHECK-IN</p>
-                            <p class="text-xs">xx/xx/xxxx</p>
+                            <p class="text-xs">dd-mm-yyyy</p>
                         </div>
                         <div class="py-1 pr-24 pl-2 border-2 rounded-r-lg">
                             <p class="text-xs">CHECKOUT</p>
-                            <p class="text-xs">xx/xx/xxxx</p>
+                            <p class="text-xs">dd-mm-yyyy</p>
                         </div>
                     </div>
                     <button class="py-2 px-28 rounded-lg gradient-button text-white mt-4">Message Host</button>
