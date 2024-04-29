@@ -7,9 +7,10 @@ import axios from 'axios'
 export const useApiStore = defineStore('api_store', {
   state: () => ({
     //this could be different for some of us
+    backend_endpoint: 'http://127.0.0.1:8000/api',
     db_endpoint: 'http://127.0.0.1:8000/api/accommodations',
     //TODO - hide api key
-    tom_api_key: '8Rmovsb8R8G88p20FduMGLj1mzLNxCZd',
+    tom_api_key: undefined,
     tom_endpoint: 'https://api.tomtom.com/',
     tom_search_endpoint: 'search/2/search/123%20main%20st.json?',
     home_api_response: [],
@@ -34,23 +35,14 @@ export const useApiStore = defineStore('api_store', {
 
   },
   actions: {
-    getHomeAccomodations: async function () {
-      return new Promise((resolve) => {
-        const params = {
-          page: this.page
-        }
-        axios.get(this.db_endpoint, params).then((res) => {
-          let returned_accomodations = res.data.res.data
-          returned_accomodations.forEach(element => {
-            element.pictures = element.pictures.slice(0, 5)
-          });
-          this.home_api_response = returned_accomodations
-          resolve(returned_accomodations)
-        }).catch((err) => {
-          console.log(err)
-        })
-      })
-
+    async getApiKey() {
+      try {
+        const res = await axios.get(this.backend_endpoint + '/get-api-key')
+        this.tom_api_key = res.data.key
+        console.log(this.tom_api_key)
+      } catch (err) {
+        console.log(err)
+      }
     },
     async getFilteredAccomodations() {
       try {
@@ -72,9 +64,9 @@ export const useApiStore = defineStore('api_store', {
         if (res.data) {
           let returned_accomodations = res.data.res.data;
 
-          returned_accomodations.forEach(element => {
-            element.pictures = element.pictures.slice(0, 5);
-          });
+          // returned_accomodations.forEach(element => {
+          //   element.pictures = element.pictures.slice(0, 5);
+          // });
           this.api_filtered_results = returned_accomodations;
           this.found_results = res.data.res.total || 0;
         }
@@ -90,7 +82,6 @@ export const useApiStore = defineStore('api_store', {
         throw err; // Rethrow the error to propagate it up
       }
     },
-
     getAddressReccomandations: async function (search_string) {
       if (search_string.length < 5) {
         return
@@ -122,20 +113,8 @@ export const useApiStore = defineStore('api_store', {
           });
       });
     },
-    flyTo(position) {
-      this.utility_store.map_istance.flyTo({
-        center: position,
-        zoom: 13
-      })
-    },
-    setMarkers(accommodations) {
-      let mapInstance = toRaw(this.utility_store.map_istance);
-      accommodations.forEach((el) => {
-        let new_marker = new tt.Marker()
-          .setLngLat([el.longitude, el.latitude])
-          .addTo(mapInstance);
-      })
-    }
+
+
 
   },
 })

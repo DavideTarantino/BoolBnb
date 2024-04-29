@@ -67,6 +67,7 @@
 import axios from 'axios'
 import { useApiStore } from '@/stores/apiStore'
 import { useUtilityStore } from '@/stores/utilityStore';
+import { useMapStore } from '@/stores/mapStore';
 import { debounce } from 'lodash';
 
 
@@ -76,6 +77,7 @@ export default {
         return {
             api_store: useApiStore(),
             utility_store: useUtilityStore(),
+            map_store: useMapStore(),
             search_string: '',
             address_suggestions: [],
         }
@@ -108,8 +110,8 @@ export default {
                 let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
                 await this.api_store.getFilteredAccomodations();
 
-                this.api_store.flyTo(selected_position)
-                this.api_store.setMarkers(this.api_store.api_filtered_results);
+                this.map_store.flyTo(selected_position)
+                this.map_store.setMarkers(this.api_store.api_filtered_results);
                 this.search_string = '';
             } catch (err) {
                 // Handle errors that occur during the operation
