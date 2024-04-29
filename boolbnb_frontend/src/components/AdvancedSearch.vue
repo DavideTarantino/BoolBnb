@@ -135,24 +135,24 @@ export default {
                 <div class="flex justify-between mt-6">
                     <div class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline"
                         :class="api_store.filters.type == 'House' ? 'border-black' : ''" @click="updateType('House')">
-                        <img class="w-8 mt-3 ml-3" src="../../public/other-icons/Home.svg" alt="house">
+                        <img class="w-8 mt-3 ml-3" src="/other-icons/Home.svg" alt="house">
                         <p class="mb-3 ml-3 text-xl">House</p>
                     </div>
                     <div class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline"
                         @click="updateType('Apartment')"
                         :class="api_store.filters.type == 'Apartment' ? 'border-black' : ''">
-                        <img class="w-8 mt-3 ml-3" src="../../public/other-icons/Apartment.svg" alt="">
+                        <img class="w-8 mt-3 ml-3" src="/other-icons/Apartment.svg" alt="">
                         <p class="mb-3 ml-3 text-xl">Apartment</p>
                     </div>
                     <div class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline"
                         @click="updateType('GuestHouse')"
                         :class="api_store.filters.type == 'GuestHouse' ? 'border-black' : ''">
-                        <img class="w-8 mt-3 ml-3" src="../../public/other-icons/Guesthouse.svg" alt="guesthouse">
+                        <img class="w-8 mt-3 ml-3" src="/other-icons/Guesthouse.svg" alt="guesthouse">
                         <p class="mb-3 ml-3 text-xl">Guesthouse</p>
                     </div>
                     <div class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline"
                         @click="updateType('Hotel')" :class="api_store.filters.type == 'Hotel' ? 'border-black' : ''">
-                        <img class="w-8 mt-3 ml-3" src="../../public/other-icons/hotelbnb.svg" alt="hotelbnb">
+                        <img class="w-8 mt-3 ml-3" src="/other-icons/hotelbnb.svg" alt="hotelbnb">
                         <p class="mb-3 ml-3 text-xl">Hotel / B&B</p>
                     </div>
                 </div>
