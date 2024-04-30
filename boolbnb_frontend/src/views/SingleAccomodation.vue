@@ -6,8 +6,12 @@ import { DatePicker, Calendar } from 'v-calendar'
 import 'v-calendar/style.css'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import AdvancedSearch from '@/components/AdvancedSearch.vue'
 
 import { useScreens } from 'vue-screen-utils'
+import SingleMapVue from '@/components/SingleMapVue.vue'
+import { useMapStore } from '@/stores/mapStore'
+import { useUtilityStore } from '@/stores/utilityStore'
 
 const { mapCurrent } = useScreens({ xs: '0px', sm: '640px', md: '768px', lg: '1024px' });
 const columns = mapCurrent({ lg: 2 }, 1);
@@ -23,6 +27,8 @@ export default {
         return {
             api_store: useApiStore(),
             api_reponse: undefined,
+            map_store: useMapStore(),
+            utility_store: useUtilityStore(),
             date: new Date(),
             route: useRoute(),
             range: {
@@ -32,8 +38,12 @@ export default {
         }
     },
     async mounted() {
-        console.log(this.route.params.id)
+        if (!this.api_store.tom_api_key) {
+            await this.api_store.getApiKey()
+        }
         await this.api_store.getSingleAccomodation(this.route.params.id)
+
+
     },
     methods: {
         formatDate(date) {
@@ -72,7 +82,7 @@ export default {
         }
     },
 
-    components: { NavBar, DatePicker, Calendar },
+    components: { NavBar, DatePicker, Calendar, SingleMapVue, AdvancedSearch },
 }
 </script>
 
@@ -80,6 +90,7 @@ export default {
     <header>
         <NavBar />
     </header>
+    <AdvancedSearch v-show="utility_store.show_filters"></AdvancedSearch>
     <main class="py-12 px-16 pr-32 pl-32 relative">
         <RouterLink to="/" class="flex items-center gap-3">
             <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -176,7 +187,7 @@ export default {
                 <!-- POSITION SECTION -->
                 <section class="">
                     <h1 class="text-2xl font-medium">Where you'll be</h1>
-                    <p>mappa</p>
+                    <SingleMapVue></SingleMapVue>
                     <hr class="my-8">
                 </section>
 
@@ -200,7 +211,7 @@ export default {
             <!-- PRICE SECTION -->
 
             <div class="bottom-right flex justify-end w-2/5">
-                <section class="rounded-lg flex flex-col items-center gap-3 py-10 price-section">
+                <section class="rounded-lg flex flex-col items-center gap-3 py-10 price-section sticky">
                     <p>€ {{ api_store.single_accomodation?.price_per_night }} / night</p>
                     <div class="flex">
                         <div class="py-1 pr-24 pl-2 border-2 border-r-0 rounded-l-lg">

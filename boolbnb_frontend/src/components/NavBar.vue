@@ -1,7 +1,7 @@
 <template>
     <main>
         <header class="flex justify-between pr-32 pl-32 py-5 border-b-2 border-black items-center">
-            <RouterLink to="/"><img class="w-28" src="/monsterbnb-logo.svg" alt="logo"></RouterLink>
+            <RouterLink to="/"><img class="w-36" src="/monsterbnb-logo.svg" alt="logo"></RouterLink>
             <div class="flex items-center gap-2">
                 <div class="flex items-center gap-2  dropdown">
                     <div
@@ -110,7 +110,7 @@ export default {
                 let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
                 await this.api_store.getFilteredAccomodations();
                 await this.api_store.getMarkersData();
-
+                this.$router.push({ name: 'home' })
                 this.map_store.flyTo(selected_position)
                 this.map_store.setMarkers(this.api_store.api_unpaginated_results);
                 this.search_string = '';
