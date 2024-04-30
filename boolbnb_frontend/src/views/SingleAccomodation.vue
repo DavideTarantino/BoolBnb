@@ -1,195 +1,324 @@
 <script>
-    import NavBar from '../components/NavBar.vue'
-    import { RouterLink, RouterView } from 'vue-router'
+import NavBar from '../components/NavBar.vue'
+import { RouterLink, RouterView } from 'vue-router'
+import { useApiStore } from '@/stores/apiStore'
+import { DatePicker, Calendar } from 'v-calendar'
+import 'v-calendar/style.css'
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import AdvancedSearch from '@/components/AdvancedSearch.vue'
+
+import { useScreens } from 'vue-screen-utils'
+import SingleMapVue from '@/components/SingleMapVue.vue'
+import { useMapStore } from '@/stores/mapStore'
+import { useUtilityStore } from '@/stores/utilityStore'
+
+const { mapCurrent } = useScreens({ xs: '0px', sm: '640px', md: '768px', lg: '1024px' });
+const columns = mapCurrent({ lg: 2 }, 1);
 
 
-    export default {
-     name: 'SingleAccomodation',
-     data(){
-        return{
-            
+
+export default {
+    name: 'SingleAccomodation',
+    data() {
+        const today = new Date();
+        const tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
+        return {
+            api_store: useApiStore(),
+            api_reponse: undefined,
+            map_store: useMapStore(),
+            utility_store: useUtilityStore(),
+            date: new Date(),
+            route: useRoute(),
+            range: {
+                start: today,
+                end: tomorrow,
+            }
         }
-     },
-     components: {NavBar},
-    }
+    },
+    async mounted() {
+        if (!this.api_store.tom_api_key) {
+            await this.api_store.getApiKey()
+        }
+        await this.api_store.getSingleAccomodation(this.route.params.id)
+
+
+    },
+    methods: {
+        formatDate(date) {
+            if (!date || isNaN(date)) {
+                return '';
+            }
+            // Convert milliseconds to a Date object
+            const dateObj = new Date(date);
+            // Check if the conversion was successful
+            if (isNaN(dateObj.getTime())) {
+                return '';
+            }
+            // Extract year, month, and day from the Date object
+            const day = dateObj.getDate();
+            const month = dateObj.getMonth() + 1; // Months are zero-based
+            const year = dateObj.getFullYear();
+            // Format the date string
+            return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+        }
+
+    },
+    computed: {
+        nights() {
+            if (!this.range.start || !this.range.end) {
+                return 0;
+            }
+            // Convert start and end dates to milliseconds
+            const startDate = new Date(this.range.start).getTime();
+            const endDate = new Date(this.range.end).getTime();
+            // Calculate the difference in milliseconds
+            const difference = endDate - startDate;
+            // Convert milliseconds to days
+            const days = difference / (1000 * 3600 * 24);
+            // Return the number of nights (rounded to the nearest whole number)
+            return Math.round(days);
+        }
+    },
+
+    components: { NavBar, DatePicker, Calendar, SingleMapVue, AdvancedSearch },
+}
 </script>
 
 <template>
     <header>
-        <NavBar/>
+        <NavBar />
     </header>
-    <main class="py-12 px-16 relative">
+    <AdvancedSearch v-show="utility_store.show_filters"></AdvancedSearch>
+    <main class="py-12 px-16 pr-32 pl-32 relative">
         <RouterLink to="/" class="flex items-center gap-3">
             <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 3.16666L4.66667 8.5L10 13.8333" stroke="#222222" stroke-width="1.77778" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 3.16666L4.66667 8.5L10 13.8333" stroke="#222222" stroke-width="1.77778"
+                    stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <h1 class="text-2xl font-medium">Titolo accommodation</h1>
+            <h1 class="text-2xl font-medium">{{ api_store.single_accomodation?.title }}</h1>
         </RouterLink>
 
 
-<!-- THUMB SECTION -->
-        <section class="flex gap-1 all-thumbs mt-5">
-            <img class="main-img rounded-l-md" src="https://picsum.photos/id/237/200/300" alt="">
-            <div id="side-img-container">
-                <div class="flex gap-1 flex-wrap side-img" style="margin-bottom: 0.25rem;">
-                    <img src="https://picsum.photos/id/237/200/300" alt="">
-                    <img class="rounded-r-md" src="https://picsum.photos/id/237/200/300" alt="">
-                </div>
-                <div class="flex flex-wrap gap-1 side-img">
-                    <img src="https://picsum.photos/id/237/200/300" alt="">
-                    <img class="rounded-r-md" src="https://picsum.photos/id/237/200/300" alt="">
+        <!-- THUMB SECTION -->
+        <section class="flex gap-1 all-thumbs mt-5 rounded-md overflow-hidden">
+            <div class="left-thumbs">
+                <img class="main-img" :src="api_store.single_accomodation?.pictures[0].url" alt="">
+            </div>
+
+            <div class="flex flex-wrap right-thumbs">
+                <div v-for="(image, index) in api_store.single_accomodation?.pictures.slice(1, 5)" :key="index"
+                    class="right-pictures">
+                    <img :src="image.url" alt="">
                 </div>
             </div>
+
         </section>
 
-<!-- INFO SECTION -->
-        <section class="w-8/12 mt-8">
-            <div class="flex justify-between items-center">
-                <h1 class="text-2xl font-medium">Entire rental unit hosted by Ghazal</h1>
-                <figure class="w-16">
-                    <img class="h-16 rounded-full" src="https://picsum.photos/id/237/200/300" alt="">
-                </figure>
-            </div>
-            <div><span>2 guests</span> - <span>1 bedroom</span> - <span>1 bed</span> - <span>1 bath</span></div>
-            <div class="flex gap-2 items-center mt-5">
-                <span><svg class="w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#000000" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/></svg></span>
-                <span>rating</span>
-            </div>
-
-            <hr class="my-8">
-
-        <!-- SERVICES -->
-            <h1 class="text-2xl font-medium">What this place offers</h1>
-                <div class="flex flex-wrap mt-8 w-7/12 gap-x-32 gap-y-6">
-                    <div class="flex items-center gap-2">
-                        <img class="w-8" src="/service-icons/coffee_maker.svg" alt="">
-                        <p class="text-lg">Service Name</p>
+        <!-- INFO SECTION -->
+        <div class="bottom-section flex mt-8">
+            <div class="bottom-left w-3/5">
+                <section class="">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-2xl font-medium">{{ api_store.single_accomodation?.title }}</h2>
+                        <figure class="w-16">
+                            <img class="h-16 rounded-full" :src="api_store.single_accomodation?.host_thumb" alt="">
+                        </figure>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <img class="w-8" src="/service-icons/coffee_maker.svg" alt="">
-                        <p class="text-lg">Service Name</p>
+                    <div>
+                        <span v-if="api_store.single_accomodation?.rooms === 1">{{ api_store.single_accomodation?.rooms
+                            }} bedroom</span>
+                        <span v-else>{{ api_store.single_accomodation?.rooms }} bedrooms</span>
+                        -
+                        <span v-if="api_store.single_accomodation?.beds === 1">{{ api_store.single_accomodation?.beds }}
+                            bed</span>
+                        <span v-else>{{ api_store.single_accomodation?.beds }} beds</span>
+                        -
+                        <span v-if="api_store.single_accomodation?.bathrooms === 1">{{
+                            api_store.single_accomodation?.bathrooms }} bathroom</span>
+                        <span v-else>{{ api_store.single_accomodation?.bathrooms }} bathrooms</span>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <img class="w-8" src="/service-icons/coffee_maker.svg" alt="">
-                        <p class="text-lg">Service Name</p>
+                    <div class="flex gap-2 items-center mt-5">
+                        <i class="fa-solid fa-star"></i>
+                        <span>{{ api_store.single_accomodation?.rating }}</span>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <img class="w-8" src="/service-icons/coffee_maker.svg" alt="">
-                        <p class="text-lg">Service Name</p>
+
+                    <hr class="my-8">
+
+                    <!-- SERVICES -->
+                    <h2 class="text-2xl font-medium">What this place offers</h2>
+
+                    <div class="columns-2 mt-4">
+                        <div v-for="(service, index) in api_store.single_accomodation?.services" :key="index"
+                            class="flex gap-4 mb-4">
+                            <div>
+                                <img class="w-6" :src="`/service-icons/${service.icons}`" alt="">
+                            </div>
+                            <p class="text-base">{{ service.name }}</p>
+                        </div>
                     </div>
-                </div>
 
-            <!-- BOTTONI DA COMPLETARE CON IL TRIGGER PER IL FUNZIONAMENTO  -->
-                <button class="text-blue-500 mt-4">See more</button>
-                <button class="text-blue-500 mt-4">See less</button>
 
-                <hr class="my-8">
+                    <!-- BOTTONI DA COMPLETARE CON IL TRIGGER PER IL FUNZIONAMENTO  -->
+                    <!-- <button class="text-blue-500 mt-4">See more</button>
+                        <button class="text-blue-500 mt-4">See less</button> -->
 
-                <p id="description">descrizione</p>
-            <!-- BOTTONI DA COMPLETARE CON IL TRIGGER PER IL FUNZIONAMENTO  -->
-                <button class="text-blue-500 mt-4">See more</button>
-                <button class="text-blue-500 mt-4">See less</button>
+                    <!-- <hr class="my-8"> -->
 
-                <hr class="my-8">    
-        </section>
+                    <!-- <p id="description">descrizione</p> -->
+                    <!-- BOTTONI DA COMPLETARE CON IL TRIGGER PER IL FUNZIONAMENTO  -->
+                    <!-- <button class="text-blue-500 mt-4">See more</button>
+                        <button class="text-blue-500 mt-4">See less</button> -->
 
-    <!-- CALENDAR SECTION -->
-        <section class="w-8/12">
-            <p>calendario</p>
-            <hr class="my-8"> 
-        </section>
+                    <hr class="my-8">
+                </section>
 
-    <!-- POSITION SECTION -->
-        <section class="w-8/12">
-            <h1 class="text-2xl font-medium">Where you'll be</h1>
-            <p>mappa</p>
-            <hr class="my-8"> 
-        </section>
+                <!-- CALENDAR SECTION -->
+                <section class="">
+                    <h2 class="text-2xl font-medium">How many nights you'll stay</h2>
 
-    <!-- CONTACT HOST SECTION -->
-        <section>
-            <div class="flex items-center gap-10">
-                <figure class="w-16">
-                    <img class="h-16 rounded-full" src="https://picsum.photos/id/237/200/300" alt="">
-                </figure>
-                <div>
-                    <h1 class="text-2xl font-medium">Hosted by (nome del proprietario)</h1>
-                    <p>Joined (data)</p>
-                </div>
+                    <DatePicker class="mt-4" v-model.range.number="range" :columns="2" />
+
+
+                    <hr class="my-8">
+                </section>
+
+                <!-- POSITION SECTION -->
+                <section class="">
+                    <h1 class="text-2xl font-medium">Where you'll be</h1>
+                    <SingleMapVue></SingleMapVue>
+                    <hr class="my-8">
+                </section>
+
+                <!-- CONTACT HOST SECTION -->
+                <section class="contact-host">
+                    <div class="flex items-center gap-10">
+                        <figure class="w-16">
+                            <img class="h-16 rounded-full" :src="api_store.single_accomodation?.host_thumb" alt="">
+                        </figure>
+                        <div>
+                            <h1 class="text-2xl font-medium">Hosted by {{ api_store.single_accomodation?.host_fullname
+                                }}</h1>
+                            <p>Joined {{ api_store.single_accomodation?.host_registration_date }}</p>
+                        </div>
+                    </div>
+                    <button class="py-4 px-6 border-2 rounded-md border-black mt-5">Contact Host</button>
+
+                </section>
             </div>
-            <button class="py-4 px-6 border-2 rounded-md border-black mt-5">Contact Host</button>
-            <div class="flex gap-3 gap-2 mt-7">
-                <svg class="w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#FFD43B" d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.6 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8V444.8C394 378 431.1 230.1 432 141.4L256 66.8l0 0z"/></svg>
-                <p class="text-xs w-2/12">To protect your payment, never transfer money or communicate outside of the Airbnb website or app.</p>
+
+            <!-- PRICE SECTION -->
+
+            <div class="bottom-right flex justify-end w-2/5">
+                <section class="rounded-lg flex flex-col items-center gap-3 py-10 price-section sticky">
+                    <p>€ {{ api_store.single_accomodation?.price_per_night }} / night</p>
+                    <div class="flex">
+                        <div class="py-1 pr-24 pl-2 border-2 border-r-0 rounded-l-lg">
+                            <p class="text-xs">CHECK-IN</p>
+                            <p class="text-xs">{{ formatDate(range.start) }}</p>
+                        </div>
+                        <div class="py-1 pr-24 pl-2 border-2 rounded-r-lg">
+                            <p class="text-xs">CHECKOUT</p>
+                            <p class="text-xs">{{ formatDate(range.end) }}</p>
+                        </div>
+                    </div>
+                    <button class="py-2 px-28 rounded-lg gradient-button text-white mt-4">Message Host</button>
+                    <p class="text-sm text-[#6B7280]">You won't be charged yet</p>
+                    <div class="flex flex-col gap-2 w-9/12 mt-4">
+                        <div class="flex justify-between">
+                            <p>€ {{ api_store.single_accomodation?.price_per_night }} x {{ nights }} nights</p>
+
+
+                        </div>
+                        <!-- <div class="flex justify-between">
+                            <p>Weekly discount</p>
+                            <p>-$ price</p>
+                        </div>
+                        <div class="flex justify-between">
+                            <p>Cleaning fee</p>
+                            <p>$ price</p>
+                        </div>
+                        <div class="flex justify-between">
+                            <p>Service fee</p>
+                            <p>$ price</p>
+                        </div>
+                        <div class="flex justify-between">
+                            <p>Occupancy taxes and fees</p>
+                            <p>$ price</p>
+                        </div> -->
+                        <hr>
+                        <div class="flex justify-between">
+                            <p>Total</p>
+                            <p>{{ api_store.single_accomodation?.price_per_night * nights }}€</p>
+                        </div>
+                    </div>
+                </section>
             </div>
-        </section>
-        
-    <!-- PRICE SECTION -->
-        <section class="border-2 rounded-lg flex flex-col items-center gap-3 py-10 absolute right-16 price-section" style="width: 380px;">
-            <p>$price / night</p>
-            <div class="flex">
-                <div class="py-1 pr-24 pl-2 border-2 border-r-0 rounded-l-lg">
-                    <p class="text-xs">CHECK-IN</p>
-                    <p class="text-xs">xx/xx/xxxx</p>
-                </div>
-                <div class="py-1 pr-24 pl-2 border-2 rounded-r-lg">
-                    <p class="text-xs">CHECKOUT</p>
-                    <p class="text-xs">xx/xx/xxxx</p>
-                </div>
-            </div>
-            <button class="py-2 px-28 rounded-lg gradient-button text-white">Message Host</button>
-            <p>You won't be charged yet</p>
-            <div class="flex flex-col gap-2 w-9/12">
-                <div class="flex justify-between">
-                    <p>$ price x n nights</p>
-                    <p>$ price</p>
-                </div>
-                <div class="flex justify-between">
-                    <p>Weekly discount</p>
-                    <p>-$ price</p>
-                </div>
-                <div class="flex justify-between">
-                    <p>Cleaning fee</p>
-                    <p>$ price</p>
-                </div>
-                <div class="flex justify-between">
-                    <p>Service fee</p>
-                    <p>$ price</p>
-                </div>
-                <div class="flex justify-between">
-                    <p>Occupancy taxes and fees</p>
-                    <p>$ price</p>
-                </div>
-                <hr>
-                <div class="flex justify-between">
-                    <p>Total</p>
-                    <p>$ price</p>
-                </div>
-            </div>
-        </section>
+
+        </div>
+
     </main>
 </template>
 
 <style scoped>
-    .main-img{
-        width: calc(100% / 2);
-        height: 400px;
-    }
+.fa-star {
+    font-size: 12px;
+}
 
-    #side-img-container{
-        width: calc(100% / 2);
-    }
+.main-img {
+    object-fit: cover;
+}
 
-    .side-img img{
-        height: 198px;
-        width: calc((100% - 0.25rem) / 2 )
-    }
+#side-img-container {
+    width: calc(100% / 2);
+}
 
-    .gradient-button{
-        background: linear-gradient(135deg, #00CBD8, #B844FF);
-    }
+.side-pictures {
+    width: calc(100% / 2);
+}
 
-    .price-section{
-        top: 540px;
-    }
+.all-thumbs {
+    width: 100%;
+    height: 400px;
+    gap: 10px;
+}
+
+.left-thumbs {
+    width: calc(100% / 2 - (10px / 2) + 10px);
+}
+
+.right-thumbs {
+    width: calc(100% / 2 - (10px / 2) + 10px);
+    gap: 10px;
+}
+
+.right-pictures {
+    width: calc(100% / 2 - (10px / 2));
+    height: calc(100% / 2 - (10px / 2));
+}
+
+.all-thumbs img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.contact-host button:hover {
+    background-color: black;
+    color: white;
+}
+
+.gradient-button {
+    background: linear-gradient(135deg, #00CBD8, #B844FF);
+}
+
+.price-section {
+    box-shadow: 0 5px 20px #1f293720;
+    width: 380px;
+    height: 350px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 40px;
+}
 </style>

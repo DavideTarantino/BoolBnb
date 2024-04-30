@@ -2,16 +2,55 @@
 
 import { useUtilityStore } from '@/stores/utilityStore';
 import { useApiStore } from '@/stores/apiStore';
+import { useMapStore } from '@/stores/mapStore';
 
 export default {
     name: 'AdvancedSearch',
     data() {
         return {
             Data: ['Any', '1', '2', '3', '4', '5', '6', '7', '8+'],
-            Services: ['Television', 'WiFi', 'Air Conditioning', 'Kitchen', 'Free Parking On Premises', 'Pets Allowed', 'Gym', 'Hot Tub', 'Indoor Fireplace', 'Heating', 'Washer', 'Dryer', 'Smoke Alarm', 'First Aid Kit', 'Fire Extinguisher', 'Essentials 1: towels, bed sheets, soap, toilet paper', 'Shampoo', 'Hangers', 'Hair Dryer', 'Iron', 'Bathtub', 'Crib', 'Ethernet Connection', 'Microwave', 'Coffee Maker', 'Refrigerator', 'Dishwasher', 'Oven', 'BBQ Grill', 'Ptio / Balcony', 'Private Pool', 'Monster Cans', 'Ping Pong Table', 'Pool Table', 'BBQ Utensils'],
+            Services: [
+                { id: 1, label: "Television" },
+                { id: 4, label: "Wifi" },
+                { id: 5, label: "Air Conditioning" },
+                { id: 8, label: "Kitchen" },
+                { id: 9, label: "Free Parking On Premises" },
+                { id: 12, label: "Pets Allowed" },
+                { id: 15, label: "Gym" },
+                { id: 25, label: "Hot Tub" },
+                { id: 27, label: "Indoor Fireplace" },
+                { id: 30, label: "Heating" },
+                { id: 33, label: "Washer" },
+                { id: 34, label: "Dryer" },
+                { id: 35, label: "Smoke Alarm" },
+                { id: 37, label: "First Aid Kit" },
+                { id: 39, label: "Fire Extinguisher" },
+                { id: 40, label: "Essentials 1: towels, bed sheets, soap, toilet paper" },
+                { id: 41, label: "Shampoo" },
+                { id: 44, label: "Hangers" },
+                { id: 45, label: "Hair Dryer" },
+                { id: 46, label: "Iron" },
+                { id: 61, label: "Bathtub" },
+                { id: 72, label: "Crib" },
+                { id: 87, label: "Ethernet Connection" },
+                { id: 89, label: "Microwave" },
+                { id: 90, label: "Coffee Maker" },
+                { id: 91, label: "Refrigerator" },
+                { id: 92, label: "Dishwasher" },
+                { id: 95, label: "Oven" },
+                { id: 99, label: "BBQ Grill" },
+                { id: 100, label: "Patio / Balcony" },
+                { id: 258, label: "Private Pool" },
+                { id: 415, label: "Monster Cans" },
+                { id: 515, label: "Ping Pong Table" },
+                { id: 521, label: "Pool Table" },
+                { id: 626, label: "BBQ Utensils" }
+            ],
+
             displayedServices: [],
             utility_store: useUtilityStore(),
-            api_store: useApiStore()
+            api_store: useApiStore(),
+            map_store: useMapStore()
         }
     },
     mounted() {
@@ -39,6 +78,17 @@ export default {
         updateType(type) {
             this.api_store.filters.type = type;
         },
+        updateServiceFilter(service) {
+            const index = this.api_store.filters.services.indexOf(service.id);
+
+            if (index === -1) {
+                this.api_store.filters.services.push(service.id);
+            } else {
+                this.api_store.filters.services.splice(index, 1);
+            }
+
+            console.log(this.api_store.filters.services)
+        },
         updateNumber(value, field) {
             switch (field) {
                 case 'rooms':
@@ -63,13 +113,22 @@ export default {
             this.api_store.filters.max_distance = 20
             this.api_store.filters.min_price = undefined
             this.api_store.filters.max_price = undefined
+            this.api_store.filters.rooms = 'Any'
+            this.api_store.filters.beds = 'Any'
+            this.api_store.filters.bathrooms = 'Any'
+            this.api_store.filters.type = undefined
         },
-        applyFilters() {
+        async applyFilters() {
+            let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
             //TODO - fix possible fucked up filters
             console.log(this.api_store.filters)
             this.api_store.api_filtered_results = []
             this.utility_store.show_filters = false
-            this.api_store.getFilteredAccomodations()
+            this.$router.push({ name: 'home' })
+            await this.api_store.getFilteredAccomodations()
+            await this.api_store.getMarkersData();
+            this.map_store.flyTo(selected_position)
+            this.map_store.setMarkers(this.api_store.api_unpaginated_results);
         }
     },
     computed: {
@@ -160,10 +219,11 @@ export default {
                 <p class="text-2xl"><strong>Services</strong></p>
                 <div class="pt-4">
                     <div class="flex flex-wrap gap-4 align-text-bottom">
-                        <div v-for="(element, index) in displayedServices" :key="index"
+                        <div v-for="(element, index) in displayedServices" :key="element.id"
                             style="width: calc(100% / 2 - 20px);">
-                            <input type="checkbox" :id="'myCheckbox_' + index" class="custom-checkbox">
-                            <label :for="'myCheckbox_' + index" class="checkbox-label">{{ element }}</label>
+                            <input type="checkbox" :id="'myCheckbox_' + index" class="custom-checkbox"
+                                @input="updateServiceFilter(element)">
+                            <label :for="'myCheckbox_' + index" class="checkbox-label">{{ element.label }}</label>
                         </div>
                     </div>
 

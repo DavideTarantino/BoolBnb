@@ -6,9 +6,11 @@
   </header>
 
   <div class="card-list" v-if="!utility_store.show_map">
-    <p class="text-center mt-5 gradient-background w-max mx-auto p-2 rounded-lg text-white" v-if="api_store.found_results > 0 && api_store.user_query">
-      <strong class="text-black">{{ api_store.found_results }}</strong> results whitin <strong class="text-black">{{ api_store.filters.max_distance }}KM</strong> from "{{
-        api_store.user_query }}"
+    <p class="text-center mt-5 gradient-background w-max mx-auto p-2 rounded-lg text-white"
+      v-if="api_store.found_results > 0 && api_store.user_query">
+      <strong class="text-black">{{ api_store.found_results }}</strong> results whitin <strong class="text-black">{{
+        api_store.filters.max_distance }}KM</strong> from "{{
+          api_store.user_query }}"
     </p>
     <!-- <h1 class="text-5xl  text-rd-600" v-if="api_store.found_results == 0 && api_store.api_filtered_results">
       0 RESULTS
@@ -21,7 +23,7 @@
     <section class="cards p-16 pr-32 pl-32 flex flex-wrap">
 
       <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
-        :prop_accomodation="accomodation" />
+        :prop_accomodation="accomodation" @click="goToSingleAccomodation(accomodation)" />
     </section>
   </div>
   <!-- map is rendered with opacity-0 to avoid loadings and sizing bus -->
@@ -34,8 +36,6 @@
     </span>
     <i class="fa-solid" :class="utility_store.show_map ? 'fa-list' : 'fa-map'"></i>
   </div>
-
-
 
 
 </template>
@@ -67,6 +67,10 @@ export default {
     await this.api_store.getApiKey();
     await this.api_store.getFilteredAccomodations();
     await this.map_store.createMap()
+    if (this.api_store.selected_position) {
+      this.map_store.flyTo(this.api_store.selected_position)
+      this.map_store.setMarkers(this.api_store.api_unpaginated_results)
+    }
   },
   methods: {
     async openMap() {
@@ -75,10 +79,12 @@ export default {
       setTimeout(() => {
         this.map_store.map_istance.resize()
       }, 10)
+    },
 
-
-
-    }
+    goToSingleAccomodation(accomodation) {
+      this.$router.push({ name: 'SingleAccomodation', params: { id: accomodation?.id, slug: this.utility_store.createSlug(accomodation?.title) } })
+      this.api_store.single_accomodation = accomodation
+    },
   },
 }
 </script>
@@ -105,7 +111,7 @@ export default {
   transform: translateX(-50%);
 }
 
-.gradient-background{
-        background: linear-gradient(135deg, #00CBD8, #B844FF);
-    }
+.gradient-background {
+  background: linear-gradient(135deg, #00CBD8, #B844FF);
+}
 </style>
