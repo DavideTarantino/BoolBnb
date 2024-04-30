@@ -55,7 +55,7 @@
     // }
 
     import axios from 'axios'
-    // import { useApiStore } from '@/stores/apiStore'
+    import { useApiStore } from '@/stores/apiStore'
 
     export default{
         name: 'MessageHost',
@@ -64,33 +64,37 @@
         },
         data(){
             return{
-                name: '',
+                // name: '',
                 email: '',
                 message: '',
                 errors: { },
                 success: false,
-                // api_store: useApiStore(),
+                api_store: useApiStore(),
             }
         },
         methods:{
             sendForm(){
 
                 const data = {
-                    name: this.name,
+                    // name: this.name,
                     email: this.email,
                     message: this.message,
                 }
 
                 this.errors = {};
 
-                axios.post(`${this.api_store.backend_endpoint}/contacts`, data).then(res => {
+                axios.post(`${this.api_store.backend_endpoint}/contacts`,{
+                    params: {
+                        data
+                    }
+                }).then(res => {
                     
                     this.success = res.data.success
 
                     if(!this.success){ 
                         this.errors = res.data.errors
                     }else{
-                        this.name = ''
+                        // this.name = ''
                         this.email = ''
                         this.message = ''
                     }
