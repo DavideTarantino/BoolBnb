@@ -58,13 +58,13 @@
     // import { useApiStore } from '@/stores/apiStore'
 
     export default{
-        name: 'ContactForm',
+        name: 'MessageHost',
         components:{
 
         },
         data(){
             return{
-                // name: '',
+                name: '',
                 email: '',
                 message: '',
                 errors: { },
@@ -76,7 +76,7 @@
             sendForm(){
 
                 const data = {
-                    // name: this.name,
+                    name: this.name,
                     email: this.email,
                     message: this.message,
                 }
@@ -90,7 +90,7 @@
                     if(!this.success){ 
                         this.errors = res.data.errors
                     }else{
-                        // this.name = ''
+                        this.name = ''
                         this.email = ''
                         this.message = ''
                     }
