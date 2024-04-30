@@ -10,64 +10,6 @@
         </div>
     </main> -->
 
-                <!-- NOME -->
-                <!-- <div class="mb-3">
-                    <input type="text" class="form-control"
-                        :class="{'is-invalid': errors.name}"
-                        name="name"
-                        placeholder="..."
-                        v-model="name"
-                        >
-                    <p v-for="(error, index) in error?.name" :key='`message-errors-${index}`'
-                        class="invalid-feedback"
-                        >
-                        {{ error }}
-                    </p>
-                </div> -->
-
-
-                <!-- MESSAGGIO -->
-                <!-- <div class="">
-                    <input type="text" class="form-control"
-                        :class="{'is-invalid': errors.email}"
-                        name="email"
-                        placeholder="..."
-                        v-model="email"
-                        >
-                    <p v-for="(error, index) in error?.email" :key='`message-errors-${index}`'
-                        class="invalid-feedback"
-                        >
-                        {{ error }}
-                    </p>
-                </div>
-
-
-                <div class="mb-3">
-                    <textarea class="form-control"
-                        :class="{'is-invalid': errors.message}" 
-                        name="message"
-                        id="message"
-                        cols="30"
-                        rows="10"
-                        v-model="message"
-                    >
-                    </textarea>
-
-                    <p v-for="(error, index) in error?.message" :key='`message-errors-${index}`'
-                        class="invalid-feedback"
-                        >
-                        {{ error }}
-                    </p>
-                </div>
-
-                <button class="btn btn-primary" type="submit">Invia</button>
-
-
-                
-                
-            </form>
-        </div>
-    </div> -->
     <main>
         <form @submit.prevent="sendForm()">
             <div class="w-3/12 box flex border-2 ml-20 mb-20 rounded-lg flex-col gap-4 items-center justify-between p-6 relative">
@@ -108,7 +50,7 @@
     // }
 
     import axios from 'axios'
-    import {store} from '../stores/apiStore'
+    import { useApiStore } from '@/stores/apiStore'
 
     export default{
         name: 'ContactForm',
@@ -117,12 +59,12 @@
         },
         data(){
             return{
-                store,
                 name: '',
                 email: '',
                 massage: '',
                 errors: { },
                 success: false,
+                api_store: useApiStore(),
             }
         },
         methods:{
@@ -136,7 +78,7 @@
 
                 this.errors = {};
 
-                axios.post(`${this.apiStore.backend_endpoint}/contacts`, data).then(res => {
+                axios.post(`${this.api_store.backend_endpoint}/contacts`, data).then(res => {
                     
                     this.success = res.data.success
 
