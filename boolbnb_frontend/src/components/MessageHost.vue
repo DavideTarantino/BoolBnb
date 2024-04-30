@@ -10,16 +10,6 @@
         </div>
     </main> -->
 
-    <div>
-        <h1>Contact Form</h1>
-                                    <!-- viene mostrato l'alert di 'success' se il messaggio verrà inviato con successo-->
-        <div class="alert alert-success" role="alert" v-if="success" >
-            Messaggio inviato con successo
-        </div>
-
-        <div>
-            <form @submit.prevent="sendForm()">
-
                 <!-- NOME -->
                 <!-- <div class="mb-3">
                     <input type="text" class="form-control"
@@ -37,7 +27,7 @@
 
 
                 <!-- MESSAGGIO -->
-                <div class="">
+                <!-- <div class="">
                     <input type="text" class="form-control"
                         :class="{'is-invalid': errors.email}"
                         name="email"
@@ -52,7 +42,6 @@
                 </div>
 
 
-                <!-- TESTO -->
                 <div class="mb-3">
                     <textarea class="form-control"
                         :class="{'is-invalid': errors.message}" 
@@ -71,25 +60,40 @@
                     </p>
                 </div>
 
-                <!-- BTN -->
                 <button class="btn btn-primary" type="submit">Invia</button>
 
 
-                <main>
-                    <div class="w-3/12 box flex border-2 ml-20 mb-20 rounded-lg flex-col gap-4 items-center justify-between p-6 relative">
-                        <p class="absolute top-1 left-2">X</p>
-                        <p>Message Host</p>
-                        <hr class="w-full">
-                        <input class="pl-2 pr-40 border-2 rounded-lg" type="mail" placeholder="Your Email">
-                        <textarea name="" id="" cols="38" rows="6" placeholder="Your Message" class="border-2 rounded-lg"></textarea>
-                        <button class="py-2 px-20  rounded-lg gradient-button text-white">Send Message</button>
-                    </div>
-                </main>
-
-
+                
+                
             </form>
         </div>
-    </div>
+    </div> -->
+    <main>
+        <form @submit.prevent="sendForm()">
+            <div class="w-3/12 box flex border-2 ml-20 mb-20 rounded-lg flex-col gap-4 items-center justify-between p-6 relative">
+                <p class="absolute top-1 left-2">X</p>
+                <p>Message Host</p>
+                <hr class="w-full">
+                <div>
+                    <input :class="{'is-invalid': errors.email}" name="email" v-model="email" class="pl-2 pr-40 border-2 rounded-lg" type="mail" placeholder="Your Email">
+                    <p v-for="(error, index) in error?.email" :key='`message-errors-${index}`'
+                        class="invalid-feedback"
+                    >
+                        {{ error }}
+                    </p>
+                </div>
+                <div>
+                    <textarea :class="{'is-invalid': errors.message}" name="message" id="message" cols="38" rows="6" placeholder="Your Message" v-model="message" class="border-2 rounded-lg"></textarea>
+                    <p v-for="(error, index) in error?.message" :key='`message-errors-${index}`'
+                        class="invalid-feedback"
+                    >
+                        {{ error }}
+                    </p>
+                </div>
+                <button type="submit" class="py-2 px-20  rounded-lg gradient-button text-white">Send Message</button>
+            </div>
+        </form>
+    </main>
 
 </template>
 
