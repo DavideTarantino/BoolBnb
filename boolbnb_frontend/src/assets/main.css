@@ -1,3 +1,69 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+img {
+    display: block;
+    width: 100%;
+}
+
+* {
+    font-family: "Montserrat", sans-serif;
+    /* overflow-x: hidden; */
+}
+
+.fa-magnifying-glass {
+    background: linear-gradient(135deg, #00CBD8, #B844FF);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: circle();
+    cursor: pointer;
+}
+
+
+
+/* Width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #00CBD8, #B844FF);
+    /* Linear gradientadsad */
+    border-radius: 5px;
+    /* Example border radius */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #00CBD8, #B844FF);
+    /* Linear gradient */
+}
+
+.fa-circle-xmark {
+    color: #B844FF;
+}
+
+/* Custom marker icon */
+.tt-marker-label {
+    font-weight: bold;
+    color: black;
+    padding-block: 5px;
+    padding-inline: 10px;
+    border-radius: 50px;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid black;
+}
