@@ -83,11 +83,12 @@
 
                 this.errors = {};
 
-                axios.post(`${this.api_store.backend_endpoint}/contacts`,{
-                    params: {
-                        data
-                    }
-                }).then(res => {
+                axios.post(`${this.api_store.backend_endpoint}/contacts`,data
+                // {
+                //     params: {
+                //         data
+                //     }}
+                ).then(res => {
                     
                     this.success = res.data.success
 
