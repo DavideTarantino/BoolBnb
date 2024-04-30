@@ -124,6 +124,7 @@ export default {
             console.log(this.api_store.filters)
             this.api_store.api_filtered_results = []
             this.utility_store.show_filters = false
+            this.$router.push({ name: 'home' })
             await this.api_store.getFilteredAccomodations()
             await this.api_store.getMarkersData();
             this.map_store.flyTo(selected_position)

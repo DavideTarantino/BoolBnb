@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { useApiStore } from './apiStore';
+import { useUtilityStore } from './utilityStore';
 import { toRaw } from 'vue';
 import tt from '@tomtom-international/web-sdk-maps';
 
@@ -9,7 +10,9 @@ import tt from '@tomtom-international/web-sdk-maps';
 export const useMapStore = defineStore('map_store', {
     state: () => ({
         map_istance: undefined,
-        api_store: useApiStore()
+        singe_map_instance: undefined,
+        api_store: useApiStore(),
+        utility_store: useUtilityStore(),
     }),
     getters: {
 
@@ -45,6 +48,25 @@ export const useMapStore = defineStore('map_store', {
             })
 
         },
+        async createSingleMap(lng, lat) {
+            return new Promise((resolve) => {
+                this.singe_map_instance = tt.map({
+                    key: this.api_store.tom_api_key,
+                    container: 'single-map',
+                    zoom: 14,
+                    center: [lng, lat]
+                });
+
+
+                this.singe_map_instance.on('load', () => {
+                    let raw_map = toRaw(this.singe_map_instance);
+                    let new_marker = new tt.Marker()
+                        .setLngLat([lng, lat])
+                        .addTo(raw_map);
+                    resolve()
+                });
+            })
+        },
         setMarkers(accommodations) {
             console.log(accommodations)
             const popupOffsets = {
@@ -60,7 +82,7 @@ export const useMapStore = defineStore('map_store', {
             let mapInstance = toRaw(this.map_istance);
             accommodations.forEach((el) => {
                 const popupContent = `
-                <a href="/Single_Accomodation/${el.id}" class="popup-card cursor-pointer rounded-lg">
+                <a href="/Single_Accomodation/${el.id}/${this.utility_store.createSlug(el.title)}" class="popup-card cursor-pointer rounded-lg">
                     <img src="${el.thumb}" alt="Accommodation Thumbnail" class="popup_thumbnail w-full">
                     <div class="flex justify-between font-bold">
                         <div>${el.address}</div>

@@ -1,6 +1,7 @@
 import { ref, computed, toRaw } from 'vue'
 import { defineStore } from 'pinia'
 import { useUtilityStore } from './utilityStore'
+import { useMapStore } from './mapStore'
 
 import axios from 'axios'
 
@@ -19,6 +20,7 @@ export const useApiStore = defineStore('api_store', {
     selected_position: undefined,
     single_accomodation: undefined,
     utility_store: useUtilityStore(),
+    map_store: useMapStore(),
     user_query: '',
     page: 1,
     filters: {
@@ -156,7 +158,8 @@ export const useApiStore = defineStore('api_store', {
     getSingleAccomodation: async function (id) {
       axios.get(this.db_endpoint + "/" + id).then((res) => {
         this.single_accomodation = res.data.res
-        console.log(res.data.res)
+        this.map_store.createSingleMap(this.single_accomodation.longitude, this.single_accomodation.latitude)
+        // await this.map_store.createSingleMap(this.api_store.single_accomodation.longitude, this.api_store.single_accomodation.latitude)
       })
     }
   },
