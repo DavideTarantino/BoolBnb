@@ -10,7 +10,12 @@
         </div>
     </main> -->
 
-    <main>
+    <main class="bg-yellow-100">
+
+        <div class="bg-red-100" role="alert" v-if="success" >
+            Messaggio inviato con successo
+        </div>
+
         <form @submit.prevent="sendForm()">
             <div class="w-3/12 box flex border-2 ml-20 mb-20 rounded-lg flex-col gap-4 items-center justify-between p-6 relative">
                 <p class="absolute top-1 left-2">X</p>
@@ -18,7 +23,7 @@
                 <hr class="w-full">
                 <div>
                     <input :class="{'is-invalid': errors.email}" name="email" v-model="email" class="pl-2 pr-40 border-2 rounded-lg" type="mail" placeholder="Your Email">
-                    <p v-for="(error, index) in error?.email" :key='`message-errors-${index}`'
+                    <p v-for="(error, index) in errors?.email" :key='`email-errors-${index}`'
                         class="invalid-feedback"
                     >
                         {{ error }}
@@ -26,7 +31,7 @@
                 </div>
                 <div>
                     <textarea :class="{'is-invalid': errors.message}" name="message" id="message" cols="38" rows="6" placeholder="Your Message" v-model="message" class="border-2 rounded-lg"></textarea>
-                    <p v-for="(error, index) in error?.message" :key='`message-errors-${index}`'
+                    <p v-for="(error, index) in errors?.message" :key='`message-errors-${index}`'
                         class="invalid-feedback"
                     >
                         {{ error }}
@@ -50,7 +55,7 @@
     // }
 
     import axios from 'axios'
-    import { useApiStore } from '@/stores/apiStore'
+    // import { useApiStore } from '@/stores/apiStore'
 
     export default{
         name: 'ContactForm',
@@ -59,21 +64,21 @@
         },
         data(){
             return{
-                name: '',
+                // name: '',
                 email: '',
-                massage: '',
+                message: '',
                 errors: { },
                 success: false,
-                api_store: useApiStore(),
+                // api_store: useApiStore(),
             }
         },
         methods:{
             sendForm(){
 
                 const data = {
-                    name: this.name,
+                    // name: this.name,
                     email: this.email,
-                    massage: this.massage,
+                    message: this.message,
                 }
 
                 this.errors = {};
@@ -85,9 +90,9 @@
                     if(!this.success){ 
                         this.errors = res.data.errors
                     }else{
-                        this.name = ''
+                        // this.name = ''
                         this.email = ''
-                        this.massage = ''
+                        this.message = ''
                     }
                 })
 
