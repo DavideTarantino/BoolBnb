@@ -1,9 +1,9 @@
 <template>
     <main>
         <div
-            class="w-3/12 box flex border-2 ml-20 mb-20 rounded-lg flex-col gap-2 items-center py-32 justify-center text-center relative">
+            class="px-4 bg-white box flex border-2 ml-20 mb-20 rounded-lg flex-col gap-2 items-center py-32 justify-center text-center relative">
             <p class="text-3xl"><strong>Thank you</strong></p>
-            <p class="absolute top-1 left-2">X</p>
+            <button @click="closeMessageFeedback" class="absolute top-1 left-2">X</button>
             <div>
                 <p><strong>Your message has been sent successfully</strong></p>
                 <p class="text-sm">The Host we'll see your message shortly</p>
@@ -17,11 +17,18 @@
 </template>
 
 <script>
+import { useUtilityStore } from '@/stores/utilityStore';
+
 export default {
     name: 'MessageFeedback',
     data() {
         return {
-
+            utility_store: useUtilityStore(),
+        }
+    },
+    methods:{
+        closeMessageFeedback(){
+            this.utility_store.showMessageFeedback = false;
         }
     }
 }

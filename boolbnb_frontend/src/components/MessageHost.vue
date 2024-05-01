@@ -10,16 +10,15 @@
         </div>
     </main> -->
 
-    <main class="bg-yellow-100">
-
-        <div class="bg-red-100" role="alert" v-if="success">
+    <main>
+        <div v-if="success" role="alert">
             Messaggio inviato con successo
         </div>
-
+        
         <form @submit.prevent="sendForm()">
             <div
-                class="w-3/12 box flex border-2 ml-20 mb-20 rounded-lg flex-col gap-4 items-center justify-between p-6 relative">
-                <p class="absolute top-1 left-2">X</p>
+            class="bg-white box flex border-2 ml-20 mb-20 rounded-lg flex-col gap-4 items-center justify-between p-6 relative">
+                <button @click="closeMessageHost" class="absolute top-1 left-2">X</button>
                 <p>Message Host</p>
                 <hr class="w-full">
                 <div>
@@ -37,7 +36,7 @@
                         {{ error }}
                     </p>
                 </div>
-                <button type="submit" class="py-2 px-20  rounded-lg gradient-button text-white">Send Message</button>
+                <button @click="activateSuccessMessage" type="submit" class="py-2 px-20  rounded-lg gradient-button text-white">Send Message</button>
             </div>
         </form>
     </main>
@@ -56,6 +55,7 @@
 
 import axios from 'axios'
 import { useApiStore } from '@/stores/apiStore'
+import { useUtilityStore } from '@/stores/utilityStore';
 
 export default {
     name: 'MessageHost',
@@ -69,8 +69,10 @@ export default {
             email: '',
             message: '',
             errors: {},
-            success: false,
             api_store: useApiStore(),
+            utility_store: useUtilityStore(),
+            success: false, //Variabile per mostrare il messaggio di successo
+            isOpen: false, // Variabile per controllare la visibilità del componente
         }
     },
     mounted() {
@@ -100,13 +102,20 @@ export default {
                 if (!this.success) {
                     this.errors = res.data.errors
                 } else {
-                    // this.name = ''
                     this.email = ''
                     this.message = ''
                 }
             })
 
-        }
+        },
+        closeMessageHost(){
+            this.utility_store.showMessageHost = false;
+        },
+        // activateSuccessMessage(){
+        //     this.utility_store.success = true;
+        //     this.utility_store.showMessageHost = false;
+        //     this.utility_store.showMessageFeedback = true;
+        // }
     },
     mounted() {
     }
