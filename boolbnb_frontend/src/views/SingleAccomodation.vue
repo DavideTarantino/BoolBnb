@@ -262,7 +262,7 @@ export default {
 
     </main>
 
-    <MessageHost/>
+    <MessageHost :accomodation_id="route.params.id" />
 
 
 </template>
