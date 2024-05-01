@@ -13,6 +13,8 @@ import SingleMapVue from '@/components/SingleMapVue.vue'
 import { useMapStore } from '@/stores/mapStore'
 import { useUtilityStore } from '@/stores/utilityStore'
 
+import MessageHost from '@/components/MessageHost.vue'
+
 const { mapCurrent } = useScreens({ xs: '0px', sm: '640px', md: '768px', lg: '1024px' });
 const columns = mapCurrent({ lg: 2 }, 1);
 
@@ -82,7 +84,7 @@ export default {
         }
     },
 
-    components: { NavBar, DatePicker, Calendar, SingleMapVue, AdvancedSearch },
+    components: { NavBar, DatePicker, Calendar, SingleMapVue, AdvancedSearch, MessageHost },
 }
 </script>
 
@@ -259,6 +261,10 @@ export default {
         </div>
 
     </main>
+
+    <MessageHost :accomodation_id="route.params.id" />
+
+
 </template>
 
 <style scoped>
