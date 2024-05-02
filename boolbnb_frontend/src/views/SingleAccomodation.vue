@@ -110,7 +110,7 @@ export default {
         <!-- THUMB SECTION -->
         <section class="flex gap-1 all-thumbs mt-5 rounded-md overflow-hidden">
             <div class="left-thumbs">
-                <img class="main-img" :src="api_store.single_accomodation?.pictures[0].url" alt="">
+                <img class="main-img" :src="api_store.single_accomodation?.pictures[0]?.url" alt="">
             </div>
 
             <div class="flex flex-wrap right-thumbs">

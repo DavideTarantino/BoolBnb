@@ -11,10 +11,6 @@
     </main> -->
 
     <main>
-        <div v-if="success" role="alert">
-            Messaggio inviato con successo
-        </div>
-        
         <form @submit.prevent="sendForm()">
             <div
             class="bg-white box flex border-2 ml-20 mb-20 rounded-lg flex-col gap-4 items-center justify-between p-6 relative">
@@ -36,7 +32,8 @@
                         {{ error }}
                     </p>
                 </div>
-                <button @click="activateSuccessMessage" type="submit" class="py-2 px-20  rounded-lg gradient-button text-white">Send Message</button>
+                <div v-if="loading" class="loading-spinner"><p class="text-white">a</p></div>
+                <button v-if="!loading" @click="activateSuccessMessage" type="submit" class="py-2 px-20  rounded-lg gradient-button text-white">Send Message</button>
             </div>
         </form>
     </main>
@@ -69,6 +66,7 @@ export default {
             email: '',
             message: '',
             errors: {},
+            loading: false,
             api_store: useApiStore(),
             utility_store: useUtilityStore(),
             success: false, //Variabile per mostrare il messaggio di successo
@@ -92,6 +90,7 @@ export default {
             console.log(data)
 
             this.errors = {};
+            this.loading = true;
 
             axios.post(`http://127.0.0.1:8000/api/send-message`, data
             ).then(res => {
@@ -99,13 +98,18 @@ export default {
                 console.log(res)
                 this.success = res.data.success
 
-                if (!this.success) {
+                if (this.success = false) { 
                     this.errors = res.data.errors
                 } else {
                     this.email = ''
                     this.message = ''
+                    this.utility_store.showMessageFeedback = true;
+                    this.utility_store.showMessageHost = false;
                 }
             })
+            .finally(() => {
+                    this.loading = false; // Disattiva lo stato di caricamento alla fine della richiesta
+            });
 
         },
         closeMessageHost(){
@@ -131,5 +135,19 @@ export default {
 
 .gradient-button {
     background: linear-gradient(135deg, #00CBD8, #B844FF);
+}
+
+.loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 </style>

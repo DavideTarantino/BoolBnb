@@ -37,6 +37,7 @@ export default {
 <style scoped>
 .box {
     height: 370px;
+    width: 420px;
 }
 
 .gradient {
