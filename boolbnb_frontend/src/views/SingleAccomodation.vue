@@ -14,6 +14,7 @@ import { useMapStore } from '@/stores/mapStore'
 import { useUtilityStore } from '@/stores/utilityStore'
 
 import MessageHost from '@/components/MessageHost.vue'
+import MessageFeedback from '@/components/MessageFeedback.vue'
 
 const { mapCurrent } = useScreens({ xs: '0px', sm: '640px', md: '768px', lg: '1024px' });
 const columns = mapCurrent({ lg: 2 }, 1);
@@ -36,7 +37,7 @@ export default {
             range: {
                 start: today,
                 end: tomorrow,
-            }
+            },
         }
     },
     async mounted() {
@@ -64,6 +65,9 @@ export default {
             const year = dateObj.getFullYear();
             // Format the date string
             return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+        },
+        toggleMessageHost(){
+            this.showMessageHost = !this.MessageHost;
         }
 
     },
@@ -84,7 +88,7 @@ export default {
         }
     },
 
-    components: { NavBar, DatePicker, Calendar, SingleMapVue, AdvancedSearch, MessageHost },
+    components: { NavBar, DatePicker, Calendar, SingleMapVue, AdvancedSearch, MessageHost, MessageFeedback },
 }
 </script>
 
@@ -106,7 +110,7 @@ export default {
         <!-- THUMB SECTION -->
         <section class="flex gap-1 all-thumbs mt-5 rounded-md overflow-hidden">
             <div class="left-thumbs">
-                <img class="main-img" :src="api_store.single_accomodation?.pictures[0].url" alt="">
+                <img class="main-img" :src="api_store.single_accomodation?.pictures[0]?.url" alt="">
             </div>
 
             <div class="flex flex-wrap right-thumbs">
@@ -205,7 +209,7 @@ export default {
                             <p>Joined {{ api_store.single_accomodation?.host_registration_date }}</p>
                         </div>
                     </div>
-                    <button class="py-4 px-6 border-2 rounded-md border-black mt-5">Contact Host</button>
+                    <button @click="() => {utility_store.showMessageHost = true}" class="py-4 px-6 border-2 rounded-md border-black mt-5">Contact Host</button>
 
                 </section>
             </div>
@@ -225,7 +229,7 @@ export default {
                             <p class="text-xs">{{ formatDate(range.end) }}</p>
                         </div>
                     </div>
-                    <button class="py-2 px-28 rounded-lg gradient-button text-white mt-4">Message Host</button>
+                    <button @click="() => {utility_store.showMessageHost = true}" class="py-2 px-28 rounded-lg gradient-button text-white mt-4">Message Host</button>
                     <p class="text-sm text-[#6B7280]">You won't be charged yet</p>
                     <div class="flex flex-col gap-2 w-9/12 mt-4">
                         <div class="flex justify-between">
@@ -262,7 +266,10 @@ export default {
 
     </main>
 
-    <MessageHost :accomodation_id="route.params.id" />
+    <!-- <MessageHost :accomodation_id="route.params.id" /> -->
+    <MessageHost v-show="utility_store.showMessageHost" :accomodation_id="route.params.id" class="message-host-overlay" />
+    <MessageFeedback v-show="utility_store.showMessageFeedback" class="message-host-overlay" />
+
 
 
 </template>
@@ -327,4 +334,13 @@ export default {
     position: sticky;
     top: 40px;
 }
+
+.message-host-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; 
+}
+
 </style>
