@@ -4,14 +4,53 @@
   <header>
     <NavBar />
   </header>
-
+  
+  
   <div class="card-list" v-if="!utility_store.show_map">
-    <p class="text-center mt-5 gradient-background w-max mx-auto p-2 rounded-lg text-white"
-      v-if="api_store.found_results > 0 && api_store.user_query">
-      <strong class="text-black">{{ api_store.found_results }}</strong> results whitin <strong class="text-black">{{
-        api_store.filters.max_distance }}KM</strong> from "{{
-          api_store.user_query }}"
-    </p>
+
+    <div class="flex justify-between mt-8 pr-32 pl-32 items-center">
+
+      <div class="flex gap-10 items-center">
+  
+        <div>
+          <p class="font-medium"> 
+            <!-- v-if="api_store.found_results > 0 && api_store.user_query" -->
+            {{ api_store.found_results }} accommodations near {{ api_store.user_query }}
+          </p>
+        </div>
+  
+        <div>
+          <div class="filters p-3 border-2 rounded-full cursor-pointer flex gap-4 items-center" @click="() => {
+                utility_store.show_filters = true
+              }">
+              <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path
+                    d="M0 416c0 17.7 14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384c-17.7 0-32 14.3-32 32zm128 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM320 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm32-80c-32.8 0-61 19.7-73.3 48L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48zM192 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm73.3-64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64z" />
+                </svg>
+  
+              <span>Filters</span>
+  
+              <div class="filters-counter text-white bg-black h-7 w-7 flex items-center justify-center rounded-full">
+                <span>3</span>
+              </div>
+          </div>
+        </div>
+  
+      </div>
+
+      <div class="flex underline">
+        <div>
+          Ordered by: 
+        </div>
+        <select name="order" id="order">
+          <option value="1">top sponsored</option>
+          <option value="2">property rating</option>
+        </select>
+      </div>
+
+    </div>
+
+
     <!-- <h1 class="text-5xl  text-rd-600" v-if="api_store.found_results == 0 && api_store.api_filtered_results">
       0 RESULTS
     </h1> -->
@@ -23,7 +62,7 @@
     <section class="cards p-16 pr-32 pl-32 flex flex-wrap">
 
       <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
-        :prop_accomodation="accomodation" @click="goToSingleAccomodation(accomodation)" />
+        :prop_accomodation="accomodation" @goToSingleAccomodation="goToSingleAccomodation(accomodation)" />
     </section>
   </div>
   <!-- map is rendered with opacity-0 to avoid loadings and sizing bus -->
@@ -90,6 +129,22 @@ export default {
 </script>
 
 <style scoped>
+
+.filters:hover {
+  background-color: black;
+  border-color: black;
+  color: white;
+}
+
+.filters:hover svg {
+  fill: white;
+}
+
+.filters:hover .filters-counter {
+  background-color: white;
+  color: black;
+}
+
 .cards {
   gap: 15px;
 }
@@ -102,8 +157,6 @@ export default {
   width: 100vw;
   height: 100vh;
 }
-
-
 
 .show-map {
   bottom: 5%;
