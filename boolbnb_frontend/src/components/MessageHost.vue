@@ -18,6 +18,13 @@
                 <p>Message Host</p>
                 <hr class="w-full">
                 <div>
+                    <input name="name" v-model="name" class="pl-2 pr-40 border-2 rounded-lg" type="text"
+                        placeholder="Your Name">
+                    <p v-for="(error, index) in errors?.name" :key='`name-errors-${index}`' class="invalid-feedback">
+                        {{ error }}
+                    </p>
+                </div>
+                <div>
                     <input name="email" v-model="email" class="pl-2 pr-40 border-2 rounded-lg" type="mail"
                         placeholder="Your Email">
                     <p v-for="(error, index) in errors?.email" :key='`email-errors-${index}`' class="invalid-feedback">
@@ -62,7 +69,7 @@ export default {
     props: ['accomodation_id'],
     data() {
         return {
-            // name: '',
+            name: '',
             email: '',
             message: '',
             errors: {},
@@ -81,7 +88,7 @@ export default {
         sendForm() {
 
             const data = {
-                // name: this.name,
+                name: this.name,
                 email: this.email,
                 content: this.message,
                 accomodation_id: this.accomodation_id
@@ -98,9 +105,10 @@ export default {
                 console.log(res)
                 this.success = res.data.success
 
-                if (this.success = false) { 
+                if (this.success = !true) { 
                     this.errors = res.data.errors
                 } else {
+                    this.name = ''
                     this.email = ''
                     this.message = ''
                     this.utility_store.showMessageFeedback = true;
@@ -130,7 +138,7 @@ export default {
 
 <style scoped>
 .box {
-    height: 370px;
+    height: 400px;
 }
 
 .gradient-button {

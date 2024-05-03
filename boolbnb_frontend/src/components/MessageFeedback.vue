@@ -36,7 +36,7 @@ export default {
 
 <style scoped>
 .box {
-    height: 370px;
+    height: 400px;
     width: 420px;
 }
 
