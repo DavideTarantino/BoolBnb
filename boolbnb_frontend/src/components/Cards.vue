@@ -52,9 +52,9 @@ export default defineComponent({
             <p class="font-semibold text-sm mt-2">€ {{ prop_accomodation?.price_per_night }} <span class="font-normal">night</span></p>
         </div>
 
-        <!-- <div class="w-7 absolute top-4 left-4 p-1 bg-white/70 rounded-full">
+        <div class="w-7 absolute top-4 left-4 p-1 bg-white/70 rounded-full">
             <img src="/other-icons/sponsored-accommodation.svg" alt="">
-        </div> -->
+        </div>
     </div>
 
 </template>

@@ -89,7 +89,6 @@
   }
   
   
-  
   .show-map {
     bottom: 5%;
     left: 50%;
