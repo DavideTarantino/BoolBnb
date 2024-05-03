@@ -23,7 +23,7 @@
     <section class="cards p-16 pr-32 pl-32 flex flex-wrap">
 
       <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
-        :prop_accomodation="accomodation" @click="goToSingleAccomodation(accomodation)" />
+        :prop_accomodation="accomodation" @goToSingleAccomodation="goToSingleAccomodation(accomodation)" />
     </section>
   </div>
   <!-- map is rendered with opacity-0 to avoid loadings and sizing bus -->

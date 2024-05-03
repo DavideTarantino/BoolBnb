@@ -26,17 +26,17 @@ export default defineComponent({
     <div class="card pb-6">
         <!-- <RouterLink to="/Single_Accomodation"  class="mt-5 flex flex-col"> -->
             <Carousel class="w-full aspect-square" :wrap-around="true">
-                <Slide v-for="slide in prop_accomodation?.pictures" :key="slide" class="w-full aspect-square">
+                <Slide @click="$emit('goToSingleAccomodation')" v-for="slide in prop_accomodation?.pictures" :key="slide" class="w-full aspect-square cursor-pointer">
                     <img class="rounded-md w-full h-full" :src="slide.url" :alt="slide.name">
                 </Slide>
     
                 <template #addons>
-                    <Navigation />
+                    <Navigation class="z-[10000]" />
                     <!-- <Pagination /> -->
                 </template>
             </Carousel>
         
-            <div class="flex items-center justify-between mt-4">
+            <div @click="$emit('goToSingleAccomodation')" class="flex items-center justify-between mt-4 cursor-pointer">
                 <h2 class="font-semibold text-sm">{{ prop_accomodation?.address }}</h2>
                 <div class="rating flex items-center text-sm gap-1">
                     <i class="fa-solid fa-star"></i>
