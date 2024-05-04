@@ -4,47 +4,49 @@
   <header>
     <NavBar />
   </header>
-  
-  
+
+
   <div class="card-list" v-if="!utility_store.show_map">
 
     <div class="flex justify-between mt-8 pr-32 pl-32 items-center">
 
       <div class="flex gap-10 items-center">
-  
+
         <div>
-          <p class="font-medium"> 
+          <p class="font-medium">
             <!-- v-if="api_store.found_results > 0 && api_store.user_query" -->
             {{ api_store.found_results }} accommodations near {{ api_store.user_query }}
           </p>
         </div>
-  
+
         <div>
           <div class="filters p-3 border-2 rounded-full cursor-pointer flex gap-4 items-center" @click="() => {
-                utility_store.show_filters = true
-              }">
-              <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <path
-                    d="M0 416c0 17.7 14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384c-17.7 0-32 14.3-32 32zm128 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM320 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm32-80c-32.8 0-61 19.7-73.3 48L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48zM192 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm73.3-64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64z" />
-                </svg>
-  
-              <span>Filters</span>
-  
-              <div class="filters-counter text-white bg-black h-7 w-7 flex items-center justify-center rounded-full">
-                <span>3</span>
-              </div>
+            utility_store.show_filters = true
+          }">
+            <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <path
+                d="M0 416c0 17.7 14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384c-17.7 0-32 14.3-32 32zm128 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM320 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm32-80c-32.8 0-61 19.7-73.3 48L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48zM192 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm73.3-64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64z" />
+            </svg>
+
+            <span>Filters</span>
+
+            <div class="filters-counter text-white bg-black h-7 w-7 flex items-center justify-center rounded-full">
+              <span>{{ filtersCount }}</span>
+            </div>
           </div>
         </div>
-  
+
       </div>
 
       <div class="flex underline">
         <div>
-          Ordered by: 
+          Ordered by:
         </div>
-        <select name="order" id="order">
-          <option value="1">top sponsored</option>
+        <select name="order" id="order" @change="handleSelectChange($event)">
+          <option value="1">distance from your research</option>
           <option value="2">property rating</option>
+          <option value="3">price (lower first)</option>
+
         </select>
       </div>
 
@@ -124,12 +126,55 @@ export default {
       this.$router.push({ name: 'SingleAccomodation', params: { id: accomodation?.id, slug: this.utility_store.createSlug(accomodation?.title) } })
       this.api_store.single_accomodation = accomodation
     },
+    handleSelectChange(e) {
+      console.log(e.target.value)
+      if (e.target.value == 1) {
+        this.api_store.order_by = 'distance'
+      } else if (e.target.value == 2) {
+        this.api_store.order_by = 'rating'
+      } else if (e.target.value == 3) {
+        this.api_store.order_by = 'price'
+      }
+
+      this.api_store.api_filtered_results = [];
+
+      this.api_store.getFilteredAccomodations()
+    }
   },
+  computed: {
+    filtersCount() {
+      const originalFilters = {
+        max_distance: 20,
+        min_price: undefined,
+        max_price: undefined,
+        rooms: 'Any',
+        beds: 'Any',
+        bathrooms: 'Any',
+        type: undefined,
+        services: []
+      };
+
+      let count = 0;
+      for (const key in this.api_store.filters) {
+        if (this.api_store.filters.hasOwnProperty(key)) {
+          if (Array.isArray(this.api_store.filters[key])) {
+            // Treat services array differently: count as a filter if it's not empty
+            if (this.api_store.filters[key].length > 0) {
+              count++;
+            }
+          } else if (this.api_store.filters[key] !== originalFilters[key]) {
+            // Compare other filters directly
+            count++;
+          }
+        }
+      }
+      return count;
+    }
+  }
 }
 </script>
 
 <style scoped>
-
 .filters:hover {
   background-color: black;
   border-color: black;

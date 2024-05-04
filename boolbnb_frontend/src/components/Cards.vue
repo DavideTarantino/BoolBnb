@@ -27,10 +27,12 @@ export default defineComponent({
 <template>
 
     <div class="card pb-6 relative">
-        <Carousel class="w-full aspect-square" :wrap-around="true">
+        <Carousel class="w-full aspect-square" :wrap-around="true" v-show="this.image_loaded">
             <Slide @click="$emit('goToSingleAccomodation')" v-for="slide in prop_accomodation?.pictures" :key="slide"
                 class="w-full aspect-square cursor-pointer">
-                <img class="rounded-md w-full h-full" :src="slide.url" :alt="slide.name">
+                <img class="rounded-md w-full h-full" :src="slide.url" :alt="slide.name" @load="() => {
+                    this.image_loaded = true
+                }">
             </Slide>
 
             <template #addons>
@@ -38,6 +40,7 @@ export default defineComponent({
                 <!-- <Pagination /> -->
             </template>
         </Carousel>
+        <div class="w-full aspect-square bg-gray-200" v-show="!this.image_loaded"></div>
 
         <div @click="$emit('goToSingleAccomodation')" class="flex items-center justify-between mt-4 cursor-pointer">
             <h2 class="font-semibold text-sm">{{ prop_accomodation?.address }}</h2>
@@ -57,7 +60,7 @@ export default defineComponent({
                     class="font-normal">night</span></p>
         </div>
 
-        <div class="w-7 absolute top-4 left-4 p-1 bg-white/70 rounded-full">
+        <div class="w-7 absolute top-4 left-4 p-1 bg-white/70 rounded-full" v-show="prop_accomodation?.has_ad">
             <img src="/other-icons/sponsored-accommodation.svg" alt="">
         </div>
     </div>

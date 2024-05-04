@@ -10,10 +10,18 @@ const router = createRouter({
       name: 'home',
       component: HomeLanding
     },
+
     {
       path: '/search',
       name: 'search',
-      component: HomeView
+      component: HomeView,
+      beforeEnter: (to, from, next) => {
+        if (from.name !== 'home') {
+          next({ name: 'home' });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: '/Single_Accomodation/:id/:slug',

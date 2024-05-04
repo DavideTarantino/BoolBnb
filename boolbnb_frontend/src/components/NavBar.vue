@@ -24,7 +24,7 @@
 
                 </div>
 
-                
+
 
             </div>
 
@@ -104,7 +104,7 @@ export default {
                 let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
                 await this.api_store.getFilteredAccomodations();
                 await this.api_store.getMarkersData();
-                this.$router.push({ name: 'home' })
+                this.$router.push({ name: 'search', params: { internalNavigation: true } });
                 this.map_store.flyTo(selected_position)
                 this.map_store.setMarkers(this.api_store.api_unpaginated_results);
                 this.search_string = '';
