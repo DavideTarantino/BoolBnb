@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import HomeLanding from '../views/HomeLanding.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,7 +8,20 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeLanding
+    },
+
+    {
+      path: '/search',
+      name: 'search',
+      component: HomeView,
+      beforeEnter: (to, from, next) => {
+        if (from.name !== 'home') {
+          next({ name: 'home' });
+        } else {
+          next();
+        }
+      },
     },
     {
       path: '/Single_Accomodation/:id/:slug',

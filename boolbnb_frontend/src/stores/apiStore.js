@@ -4,6 +4,7 @@ import { useUtilityStore } from './utilityStore'
 import { useMapStore } from './mapStore'
 
 import axios from 'axios'
+import { orderBy } from 'lodash'
 
 export const useApiStore = defineStore('api_store', {
   state: () => ({
@@ -23,6 +24,7 @@ export const useApiStore = defineStore('api_store', {
     map_store: useMapStore(),
     user_query: '',
     page: 1,
+    order_by: 'distance',
     filters: {
       max_distance: 20,
       min_price: undefined,
@@ -62,14 +64,17 @@ export const useApiStore = defineStore('api_store', {
           rooms: this.filters.rooms == 'Any' ? null : Number(this.filters.rooms),
           beds: this.filters.beds == 'Any' ? null : Number(this.filters.beds),
           bathrooms: this.filters.bathrooms == 'Any' ? null : Number(this.filters.bathrooms),
-          services: this.filters.services || null
+          services: this.filters.services || null,
+          order_by: this.order_by || 'distance'
         };
+
+        console.log(params)
 
         const res = await axios.get(this.db_endpoint, { params });
 
         if (res.data) {
           let returned_accomodations = res.data.res.data;
-
+          console.log(returned_accomodations)
           // returned_accomodations.forEach(element => {
           //   element.pictures = element.pictures.slice(0, 5);
           // });

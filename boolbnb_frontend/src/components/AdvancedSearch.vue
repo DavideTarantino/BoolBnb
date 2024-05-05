@@ -117,6 +117,7 @@ export default {
             this.api_store.filters.beds = 'Any'
             this.api_store.filters.bathrooms = 'Any'
             this.api_store.filters.type = undefined
+            this.api_store.filters.services = []
         },
         async applyFilters() {
             let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
@@ -124,7 +125,7 @@ export default {
             console.log(this.api_store.filters)
             this.api_store.api_filtered_results = []
             this.utility_store.show_filters = false
-            this.$router.push({ name: 'home' })
+            this.$router.push({ name: 'search', params: { internalNavigation: true } })
             await this.api_store.getFilteredAccomodations()
             await this.api_store.getMarkersData();
             this.map_store.flyTo(selected_position)
@@ -222,7 +223,8 @@ export default {
                         <div v-for="(element, index) in displayedServices" :key="element.id"
                             style="width: calc(100% / 2 - 20px);">
                             <input type="checkbox" :id="'myCheckbox_' + index" class="custom-checkbox"
-                                @input="updateServiceFilter(element)">
+                                @input="updateServiceFilter(element)"
+                                :checked="api_store.filters.services.includes(element.id)">
                             <label :for="'myCheckbox_' + index" class="checkbox-label">{{ element.label }}</label>
                         </div>
                     </div>

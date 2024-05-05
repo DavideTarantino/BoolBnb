@@ -3,6 +3,7 @@ import 'vue3-carousel/dist/carousel.css'
 import { defineComponent } from 'vue'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 import { RouterLink, RouterView } from 'vue-router'
+import { useUtilityStore } from '@/stores/utilityStore'
 
 export default defineComponent({
     name: 'Cards',
@@ -15,46 +16,52 @@ export default defineComponent({
     props: ['prop_accomodation'],
     data() {
         return {
-            image_loaded: false
+            image_loaded: false,
+            utility_store: useUtilityStore()
         }
-    }
+    },
+
 })
 </script>
 
 <template>
 
-    <div class="card pb-6">
-        <!-- <RouterLink to="/Single_Accomodation"  class="mt-5 flex flex-col"> -->
-            <Carousel class="w-full aspect-square" :wrap-around="true">
-                <Slide v-for="slide in prop_accomodation?.pictures" :key="slide" class="w-full aspect-square">
-                    <img class="rounded-md w-full h-full" :src="slide.url" :alt="slide.name">
-                </Slide>
-    
-                <template #addons>
-                    <Navigation />
-                    <!-- <Pagination /> -->
-                </template>
-            </Carousel>
-        
-            <div class="flex items-center justify-between mt-4">
-                <h2 class="font-semibold text-sm">{{ prop_accomodation?.address }}</h2>
-                <div class="rating flex items-center text-sm gap-1">
-                    <i class="fa-solid fa-star"></i>
-                    <span class="text-sm">
-                        {{ prop_accomodation?.rating }}
-                    </span>
-                </div>
+    <div class="card pb-6 relative">
+        <Carousel class="w-full aspect-square" :wrap-around="true" v-show="this.image_loaded">
+            <Slide @click="$emit('goToSingleAccomodation')" v-for="slide in prop_accomodation?.pictures" :key="slide"
+                class="w-full aspect-square cursor-pointer">
+                <img class="rounded-md w-full h-full" :src="slide.url" :alt="slide.name" @load="() => {
+                    this.image_loaded = true
+                }">
+            </Slide>
+
+            <template #addons>
+                <Navigation class="z-[10000]" />
+                <!-- <Pagination /> -->
+            </template>
+        </Carousel>
+        <div class="w-full aspect-square bg-gray-200" v-show="!this.image_loaded"></div>
+
+        <div @click="$emit('goToSingleAccomodation')" class="flex items-center justify-between mt-4 cursor-pointer">
+            <h2 class="font-semibold text-sm">{{ prop_accomodation?.address }}</h2>
+            <div class="rating flex items-center text-sm gap-1">
+                <i class="fa-solid fa-star"></i>
+                <span class="text-sm">
+                    {{ prop_accomodation?.rating }}
+                </span>
             </div>
+        </div>
 
-
-
-        
         <div>
             <div v-if="prop_accomodation.distance_from_point"> {{ prop_accomodation.distance_from_point.toFixed(1) }} km
             </div>
             <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.type }}</p>
-            <p class="font-semibold text-sm mt-2">€ {{ prop_accomodation?.price_per_night }} <span class="font-normal">night</span></p>
-        <!-- </RouterLink> -->
+            <p class="font-semibold text-sm mt-2">€ {{ prop_accomodation?.price_per_night }} <span
+                    class="font-normal">night</span></p>
+        </div>
+
+        <div class="w-7 absolute top-4 left-4 p-1 bg-white/70 rounded-full" v-show="prop_accomodation?.has_ad">
+            <img src="/other-icons/sponsored-accommodation.svg" alt="">
         </div>
     </div>
 
