@@ -74,7 +74,7 @@ export const useApiStore = defineStore('api_store', {
 
         if (res.data) {
           let returned_accomodations = res.data.res.data;
-          console.log(returned_accomodations)
+          console.log(res.data)
           // returned_accomodations.forEach(element => {
           //   element.pictures = element.pictures.slice(0, 5);
           // });
