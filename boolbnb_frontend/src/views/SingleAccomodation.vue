@@ -44,7 +44,12 @@ export default {
         if (!this.api_store.tom_api_key) {
             await this.api_store.getApiKey()
         }
+        if (!this.api_store.user_ip_address) {
+            await this.api_store.getIpAddress()
+        }
         await this.api_store.getSingleAccomodation(this.route.params.id)
+        console.log(this.api_store.user_ip_address)
+        await this.api_store.storeVisual(this.route.params.id, this.api_store.user_ip_address)
 
 
     },
