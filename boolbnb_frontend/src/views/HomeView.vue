@@ -66,6 +66,20 @@
       <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
         :prop_accomodation="accomodation" @goToSingleAccomodation="goToSingleAccomodation(accomodation)" />
     </section>
+
+    <div class="mb-[150px] flex justify-center">
+      <ul class="flex gap-2">
+        <li class="cursor-pointer" @click="prevPage(api_store.page)">
+          <i class="fa-solid fa-chevron-left"></i>
+        </li>
+        <li class="cursor-pointer page-number" :class="{ 'active': link === api_store.page }" v-for="link in api_store.last_page" :key="link" @click="changePage(link)">
+          {{ link }}
+        </li>
+        <li class="cursor-pointer" @click="nextPage(api_store.page)">
+          <i class="fa-solid fa-chevron-right"></i>
+        </li>
+      </ul>
+    </div>
   </div>
   <!-- map is rendered with opacity-0 to avoid loadings and sizing bus -->
   <MapVue></MapVue>
@@ -89,6 +103,10 @@ import MapVue from '@/components/MapVue.vue'
 import { useApiStore } from '@/stores/apiStore'
 import { useUtilityStore } from '@/stores/utilityStore'
 import { useMapStore } from '@/stores/mapStore'
+import { FwbPagination } from 'flowbite-vue'
+import { ref } from 'vue'
+
+const currentPage = ref(1)
 
 export default {
   data() {
@@ -96,11 +114,11 @@ export default {
       title: 'hello',
       api_store: useApiStore(),
       utility_store: useUtilityStore(),
-      map_store: useMapStore()
-
+      map_store: useMapStore(),
+      api_filtered_results: [],
     }
   },
-  components: { NavBar, Cards, AdvancedSearch, MapVue },
+  components: { NavBar, Cards, AdvancedSearch, MapVue, FwbPagination },
 
   async mounted() {
 
@@ -126,6 +144,7 @@ export default {
       this.$router.push({ name: 'SingleAccomodation', params: { id: accomodation?.id, slug: this.utility_store.createSlug(accomodation?.title) } })
       this.api_store.single_accomodation = accomodation
     },
+
     handleSelectChange(e) {
       console.log(e.target.value)
       if (e.target.value == 1) {
@@ -139,7 +158,23 @@ export default {
       this.api_store.api_filtered_results = [];
 
       this.api_store.getFilteredAccomodations()
+    },
+
+    async changePage(number){
+      this.api_store.page = number
+      await this.api_store.getFilteredAccomodations()
+    },
+
+    async prevPage(number){
+      this.api_store.page = number - 1
+      await this.api_store.getFilteredAccomodations()
+    },
+
+    async nextPage(number){
+      this.api_store.page = number + 1
+      await this.api_store.getFilteredAccomodations()
     }
+    
   },
   computed: {
     filtersCount() {
@@ -211,5 +246,23 @@ export default {
 
 .gradient-background {
   background: linear-gradient(135deg, #00CBD8, #B844FF);
+}
+
+.active{
+  background-color: black;
+  color: white;
+  padding-inline: 10px;
+  border-radius: 5px;
+}
+
+.page-number {
+  padding-inline: 10px;
+}
+
+.page-number:hover {
+  background-color: black;
+  color: white;
+  padding-inline: 10px;
+  border-radius: 5px;
 }
 </style>
