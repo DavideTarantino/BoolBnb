@@ -97,7 +97,7 @@ export default {
         <NavBar />
     </header>
     <AdvancedSearch v-show="utility_store.show_filters"></AdvancedSearch>
-    <main class="py-12 px-16 pr-32 pl-32 relative">
+    <main class="py-12 px-6 lg:pl-32 lg:pr-32 lg:px-16 relative">
         <RouterLink to="/" class="flex items-center gap-3">
             <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10 3.16666L4.66667 8.5L10 13.8333" stroke="#222222" stroke-width="1.77778"
@@ -155,7 +155,7 @@ export default {
                     <!-- SERVICES -->
                     <h2 class="text-2xl font-medium">What this place offers</h2>
 
-                    <div class="columns-2 mt-4">
+                    <div class="sm:columns-2 mt-4">
                         <div v-for="(service, index) in api_store.single_accomodation?.services" :key="index"
                             class="flex gap-4 mb-4">
                             <div>
@@ -334,6 +334,7 @@ export default {
     position: sticky;
     top: 40px;
 }
+
 
 .message-host-overlay {
     position: fixed;
