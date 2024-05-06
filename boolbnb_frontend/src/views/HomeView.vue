@@ -10,10 +10,10 @@
 
     <div class="flex justify-between mt-8 pr-32 pl-32 items-center">
 
-      <div class="flex gap-10 items-center">
+      <div class="flex flex-col justify-center gap-10 items-center mx-auto xl:mx-0 md:flex-row">
 
         <div>
-          <p class="font-medium">
+          <p class="font-medium text-center">
             <!-- v-if="api_store.found_results > 0 && api_store.user_query" -->
             {{ api_store.found_results }} accommodations near {{ api_store.user_query }}
           </p>
@@ -38,7 +38,7 @@
 
       </div>
 
-      <div class="flex underline">
+      <div class="flex underline hidden xl:block">
         <div>
           Ordered by:
         </div>
@@ -61,7 +61,8 @@
       <p class="text-xl">Try searching for specific place or address</p>
     </div>
 
-    <section class="cards p-16 pr-32 pl-32 flex flex-wrap">
+    <!-- <section class="cards p-16 px-32 flex flex-wrap"> -->
+    <section class="cards p-16 sm:p-20 xl:px-32 flex flex-wrap">
 
       <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
         :prop_accomodation="accomodation" @goToSingleAccomodation="goToSingleAccomodation(accomodation)" />
