@@ -1,17 +1,16 @@
 <template>
     <main>
-        <header class="flex md:justify-between justify-center py-5 border-b-2 border-black items-center md:px-10 lg:px-20 xl:px-36">
-                <div  class="hidden xl:block">
+        <header class="flex justify-center flex-col pt-3 border-b-2 border-black items-center md:py-6 md:justify-between md:flex-row md:gap-0 md:px-10 lg:px-20 xl:px-36">
+                <div  class="block md:hidden xl:block">
                     <RouterLink to="/"><img class="w-36" src="/monsterbnb-logo.svg" alt="logo"></RouterLink>
                 </div>
                 <div  class="hidden md:block xl:hidden">
                     <RouterLink to="/"><img class="w-12" src="/Vector.ico" alt="logo"></RouterLink>
                 </div>
 
-                <div class="flex items-cente gap-2">
-                    <div class="flex items-center gap-2  dropdown">
+                    <div class="flex items-center gap-2 dropdown py-2 md:py-0">
                         <div
-                            class="search-group flex items-center justify-between border-2 rounded-full w-[500px] px-3 pl-6 py-2">
+                            class="search-group flex items-center justify-between border-2 rounded-full w-11/12 sm:w-[500px] px-3 pl-6 py-2">
                             <input class="w-4/5" type="search" placeholder="Search accomodation..." v-model="search_string"
                                 @input="getAddressReccomandations">
                             <i class="fa-solid fa-magnifying-glass" style="color: #bdc6d6;"
@@ -28,7 +27,6 @@
                         </div>
     
                     </div>
-                </div>
 
             <div>
                 <div class="flex items-center gap-4">
