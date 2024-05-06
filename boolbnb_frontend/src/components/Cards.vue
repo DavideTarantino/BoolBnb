@@ -86,22 +86,22 @@ img {
 
 @media (min-width: 550px) {
     .card {
-        width: calc(100% / 2 - (15px / 2 + 15px));
+        width: calc(100% / 2 - 8px);
     }
 }
 @media (min-width: 745px) {
     .card {
-        width: calc(100% / 3 - (15px / 3 + 15px));
+        width: calc(100% / 3 - 10px);
     }
 }
 @media (min-width: 950px) {
     .card {
-        width: calc(100% / 4 - (15px / 4 + 15px));
+        width: calc(100% / 4 - 12px);
     }
 }
 @media (min-width: 1127px) {
     .card {
-        width: calc(100% / 5 - (15px / 5 + 15px));
+        width: calc(100% / 5 - 12px);
     }
 }
 </style>
