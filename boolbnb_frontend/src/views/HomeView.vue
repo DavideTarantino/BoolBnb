@@ -61,7 +61,7 @@
       <p class="text-xl">Try searching for specific place or address</p>
     </div>
 
-    <section class="cards p-16 pr-32 pl-32 flex flex-wrap">
+    <section class="cards p-16 px-32 flex flex-wrap">
 
       <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
         :prop_accomodation="accomodation" @goToSingleAccomodation="goToSingleAccomodation(accomodation)" />
