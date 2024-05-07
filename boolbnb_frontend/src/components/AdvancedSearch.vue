@@ -245,7 +245,7 @@ export default {
 
 </template>
 
-<style>
+<style scoped>
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -321,7 +321,6 @@ div.container {
     max-height: 90vh;
     overflow: scroll;
     border-radius: 20px;
-
 }
 
 .active {

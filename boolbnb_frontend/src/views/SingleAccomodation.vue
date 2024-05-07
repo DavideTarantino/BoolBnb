@@ -277,8 +277,8 @@ export default {
 
     <!-- <MessageHost :accomodation_id="route.params.id" /> -->
     <MessageHost v-show="utility_store.showMessageHost" :accomodation_id="route.params.id"
-        class="message-host-overlay" />
-    <MessageFeedback v-show="utility_store.showMessageFeedback" class="message-host-overlay" />
+        class="message-host-overlay overlay-mask w-full h-full" />
+    <MessageFeedback v-show="utility_store.showMessageFeedback" class="message-host-overlay overlay-mask w-full h-full" />
 
 
 
@@ -343,6 +343,7 @@ export default {
     position: -webkit-sticky;
     position: sticky;
     top: 40px;
+    display: none;
 }
 
 
@@ -352,5 +353,15 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
+}
+
+.overlay-mask {
+  background-color: rgba(30, 30, 30, 0.5);
+}
+
+@media (min-width: 950px) {
+    .price-section{
+        display: flex;
+    }
 }
 </style>
