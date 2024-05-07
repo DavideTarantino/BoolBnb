@@ -37,7 +37,8 @@ export const useApiStore = defineStore('api_store', {
       type: undefined,
       services: []
     },
-    found_results: 0
+    found_results: 0,
+    user_ip_address: undefined,
 
   }),
   getters: {
@@ -173,6 +174,31 @@ export const useApiStore = defineStore('api_store', {
         this.map_store.createSingleMap(this.single_accomodation.longitude, this.single_accomodation.latitude)
         // await this.map_store.createSingleMap(this.api_store.single_accomodation.longitude, this.api_store.single_accomodation.latitude)
       })
+    },
+    storeVisual: async function (id, ip) {
+      const params = {
+        accomodation_id: id,
+        ip_address: ip
+      }
+
+      try {
+        axios.post('http://127.0.0.1:8000/api/store-visual', params).then((res) => {
+          console.log(res)
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async getIpAddress() {
+      try {
+        const res = await axios.get('https://api.ipify.org');
+        this.user_ip_address = res.data;
+        return res.data; // Return the IP address
+      } catch (err) {
+        console.log(err);
+        throw err; // Rethrow the error to be caught by the caller
+      }
     }
+
   },
 })

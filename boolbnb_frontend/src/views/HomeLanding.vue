@@ -56,6 +56,7 @@ export default {
   async mounted() {
     this.api_store.api_filtered_results = []
     this.api_store.selected_position = undefined
+    await this.api_store.getIpAddress();
     console.warn = function () { };
     await this.api_store.getApiKey();
     await this.api_store.getFilteredAccomodations();
