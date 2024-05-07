@@ -17,6 +17,8 @@ export const useApiStore = defineStore('api_store', {
     tom_search_endpoint: 'search/2/search/123%20main%20st.json?',
     home_api_response: [],
     api_filtered_results: undefined,
+    pagination_links: undefined,
+    last_page: undefined,
     api_unpaginated_results: undefined,
     selected_position: undefined,
     single_accomodation: undefined,
@@ -35,7 +37,8 @@ export const useApiStore = defineStore('api_store', {
       type: undefined,
       services: []
     },
-    found_results: 0
+    found_results: 0,
+    user_ip_address: undefined,
 
   }),
   getters: {
@@ -46,7 +49,7 @@ export const useApiStore = defineStore('api_store', {
       try {
         const res = await axios.get(this.backend_endpoint + '/get-api-key')
         this.tom_api_key = res.data.key
-        console.log(this.tom_api_key)
+        // console.log(this.tom_api_key)
       } catch (err) {
         console.log(err)
       }
@@ -68,18 +71,23 @@ export const useApiStore = defineStore('api_store', {
           order_by: this.order_by || 'distance'
         };
 
-        console.log(params)
+        // console.log(params)
 
         const res = await axios.get(this.db_endpoint, { params });
 
         if (res.data) {
-          let returned_accomodations = res.data.res.data;
-          console.log(returned_accomodations)
+          let returned_accomodations = res.data.res;
+          console.log(res.data)
+          this.pagination_links = returned_accomodations.links;
+          console.log(returned_accomodations.links)
+          this.last_page = returned_accomodations.last_page;
           // returned_accomodations.forEach(element => {
           //   element.pictures = element.pictures.slice(0, 5);
           // });
-          this.api_filtered_results = returned_accomodations;
+          this.api_filtered_results = returned_accomodations.data;
+          console.log(this.api_filtered_results)
           this.found_results = res.data.res.total || 0;
+          
         }
 
         if (!this.api_filtered_results) {
@@ -166,6 +174,31 @@ export const useApiStore = defineStore('api_store', {
         this.map_store.createSingleMap(this.single_accomodation.longitude, this.single_accomodation.latitude)
         // await this.map_store.createSingleMap(this.api_store.single_accomodation.longitude, this.api_store.single_accomodation.latitude)
       })
+    },
+    storeVisual: async function (id, ip) {
+      const params = {
+        accomodation_id: id,
+        ip_address: ip
+      }
+
+      try {
+        axios.post('http://127.0.0.1:8000/api/store-visual', params).then((res) => {
+          console.log(res)
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async getIpAddress() {
+      try {
+        const res = await axios.get('https://api.ipify.org');
+        this.user_ip_address = res.data;
+        return res.data; // Return the IP address
+      } catch (err) {
+        console.log(err);
+        throw err; // Rethrow the error to be caught by the caller
+      }
     }
+
   },
 })

@@ -18,7 +18,7 @@
                 <p>Message Host</p>
                 <hr class="w-full">
                 <div>
-                    <input name="name" v-model="name" class="pl-2 pr-40 border-2 rounded-lg" type="text"
+                    <input name="name" v-model="name" class="pl-2 border-2 pr-40 rounded-lg" type="text"
                         placeholder="Your Name">
                     <p v-for="(error, index) in errors?.name" :key='`name-errors-${index}`' class="invalid-feedback">
                         {{ error }}
@@ -32,7 +32,7 @@
                     </p>
                 </div>
                 <div>
-                    <textarea :class="{ 'is-invalid': errors.message }" name="message" id="message" cols="38" rows="6"
+                    <textarea :class="{ 'is-invalid': errors.message }" name="message" id="message" cols="35" rows="6"
                         placeholder="Your Message" v-model="message" class="border-2 rounded-lg"></textarea>
                     <p v-for="(error, index) in errors?.message" :key='`message-errors-${index}`'
                         class="invalid-feedback">
@@ -138,7 +138,7 @@ export default {
 
 <style scoped>
 .box {
-    height: 400px;
+    height: 450px;
 }
 
 .gradient-button {

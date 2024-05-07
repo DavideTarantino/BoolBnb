@@ -44,7 +44,12 @@ export default {
         if (!this.api_store.tom_api_key) {
             await this.api_store.getApiKey()
         }
+        if (!this.api_store.user_ip_address) {
+            await this.api_store.getIpAddress()
+        }
         await this.api_store.getSingleAccomodation(this.route.params.id)
+        console.log(this.api_store.user_ip_address)
+        await this.api_store.storeVisual(this.route.params.id, this.api_store.user_ip_address)
 
 
     },
@@ -66,7 +71,7 @@ export default {
             // Format the date string
             return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
         },
-        toggleMessageHost(){
+        toggleMessageHost() {
             this.showMessageHost = !this.MessageHost;
         }
 
@@ -129,7 +134,9 @@ export default {
                     <div class="flex justify-between items-center">
                         <h2 class="text-2xl font-medium">{{ api_store.single_accomodation?.title }}</h2>
                         <figure class="w-16">
-                            <img class="h-16 rounded-full" :src="api_store.single_accomodation?.host_thumb" alt="">
+                            <img class="h-16 rounded-full"
+                                :src="api_store.single_accomodation?.host_thumb || '/other-icons/fallback_avatar.png'"
+                                alt="">
                         </figure>
                     </div>
                     <div>
@@ -209,7 +216,8 @@ export default {
                             <p>Joined {{ api_store.single_accomodation?.host_registration_date }}</p>
                         </div>
                     </div>
-                    <button @click="() => {utility_store.showMessageHost = true}" class="py-4 px-6 border-2 rounded-md border-black mt-5">Contact Host</button>
+                    <button @click="() => { utility_store.showMessageHost = true }"
+                        class="py-4 px-6 border-2 rounded-md border-black mt-5">Contact Host</button>
 
                 </section>
             </div>
@@ -229,7 +237,8 @@ export default {
                             <p class="text-xs">{{ formatDate(range.end) }}</p>
                         </div>
                     </div>
-                    <button @click="() => {utility_store.showMessageHost = true}" class="py-2 px-28 rounded-lg gradient-button text-white mt-4">Message Host</button>
+                    <button @click="() => { utility_store.showMessageHost = true }"
+                        class="py-2 px-28 rounded-lg gradient-button text-white mt-4">Message Host</button>
                     <p class="text-sm text-[#6B7280]">You won't be charged yet</p>
                     <div class="flex flex-col gap-2 w-9/12 mt-4">
                         <div class="flex justify-between">
@@ -267,7 +276,8 @@ export default {
     </main>
 
     <!-- <MessageHost :accomodation_id="route.params.id" /> -->
-    <MessageHost v-show="utility_store.showMessageHost" :accomodation_id="route.params.id" class="message-host-overlay" />
+    <MessageHost v-show="utility_store.showMessageHost" :accomodation_id="route.params.id"
+        class="message-host-overlay" />
     <MessageFeedback v-show="utility_store.showMessageFeedback" class="message-host-overlay" />
 
 
@@ -341,7 +351,6 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1000; 
+    z-index: 1000;
 }
-
 </style>
