@@ -19,21 +19,21 @@
                 <hr class="w-full">
                 <div>
                     <input name="name" v-model="name" class="pl-2 border-2 pr-40 rounded-lg" type="text"
-                        placeholder="Your Name">
+                        placeholder="Your Name" required>
                     <p v-for="(error, index) in errors?.name" :key='`name-errors-${index}`' class="invalid-feedback">
                         {{ error }}
                     </p>
                 </div>
                 <div>
-                    <input name="email" v-model="email" class="pl-2 pr-40 border-2 rounded-lg" type="mail"
-                        placeholder="Your Email">
+                    <input name="email" v-model="email" class="pl-2 pr-40 border-2 rounded-lg" type="email"
+                        placeholder="Your Email" required>
                     <p v-for="(error, index) in errors?.email" :key='`email-errors-${index}`' class="invalid-feedback">
                         {{ error }}
                     </p>
                 </div>
                 <div>
                     <textarea :class="{ 'is-invalid': errors.message }" name="message" id="message" cols="35" rows="6"
-                        placeholder="Your Message" v-model="message" class="border-2 rounded-lg"></textarea>
+                        placeholder="Your Message" v-model="message" class="border-2 rounded-lg" required></textarea>
                     <p v-for="(error, index) in errors?.message" :key='`message-errors-${index}`'
                         class="invalid-feedback">
                         {{ error }}
@@ -105,7 +105,7 @@ export default {
                 console.log(res)
                 this.success = res.data.success
 
-                if (this.success = !true) { 
+                if (this.success === false) { 
                     this.errors = res.data.errors
                 } else {
                     this.name = ''
