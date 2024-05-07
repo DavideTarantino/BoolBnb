@@ -1,7 +1,7 @@
 <template>
     <main>
         <div
-            class="px-4 bg-white box flex border-2 ml-20 mb-20 rounded-lg flex-col gap-2 items-center py-32 justify-center text-center relative">
+            class="px-4 bg-white box flex border-2 ml-20 mb-20 flex-col gap-2 items-center py-32 justify-center text-center relative container">
             <p class="text-3xl"><strong>Thank you</strong></p>
             <button @click="closeMessageFeedback" class="absolute top-1 left-2">X</button>
             <div>
@@ -42,5 +42,66 @@ export default {
 
 .gradient {
     background: linear-gradient(135deg, #00CBD8, #B844FF);
+}
+
+.container{
+    width: 350px;
+    position: fixed;
+    z-index: 12;
+    left: 30%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    max-height: 90vh;
+    overflow: scroll;
+    border-radius: 20px;
+}
+
+@media (min-width: 550px) {
+    .container{
+    width: 450px;
+    overflow: hidden;
+    position: fixed;
+    z-index: 12;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    max-height: 90vh;
+    overflow: scroll;
+    border-radius: 20px;
+}
+}
+
+@media (min-width: 745px) {
+    .container{
+    width: 450px;
+    overflow: hidden;
+    position: fixed;
+    z-index: 12;
+    left: 42%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    max-height: 90vh;
+    overflow: scroll;
+    border-radius: 20px;
+}
+}
+
+@media (min-width: 950px) {
+    .container{
+    width: 450px;
+    overflow: hidden;
+    position: fixed;
+    z-index: 12;
+    left: 44%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    max-height: 90vh;
+    overflow: scroll;
+    border-radius: 20px;
+}
 }
 </style>
