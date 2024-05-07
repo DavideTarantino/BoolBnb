@@ -8,6 +8,8 @@ import router from './router'
 
 import { setupCalendar } from 'v-calendar';
 
+import '../node_modules/flowbite-vue/dist/index.css'
+
 const app = createApp(App)
 
 app.use(createPinia())

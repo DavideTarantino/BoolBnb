@@ -140,7 +140,7 @@ export default {
 </script>
 
 <template>
-    <div class="py-24 w-6/12 container" style="margin: 0 auto;">
+    <div class="py-24 xl:w-6/12 container" style="margin: 0 auto;">
         <div class="border-2 relative">
             <p class="py-8 text-center"><strong>Filters</strong></p>
             <i class="fa-solid fa-circle-xmark absolute top-1 left-2 text-4xl cursor-pointer" @click="closeFilters"></i>
@@ -157,16 +157,16 @@ export default {
                 <p class="text-2xl"><strong>Price range</strong></p>
                 <p>Nightly prices including fees and taxes</p>
                 <div class="flex items-center justify-center gap-8 pt-6">
-                    <input type="number" class="border-2 border-black py-4 pr-56 pl-2 rounded" placeholder="Minimum"
+                    <input type="number" class="border-2 border-black py-4 xl:pr-56 w-11/12 pl-2 rounded" placeholder="Minimum"
                         :value="api_store.filters.min_price" @input="updateMinPrice">
-                    <input type="number" class="border-2 border-black py-4 pr-56 pl-2 rounded" placeholder="Maximum"
+                    <input type="number" class="border-2 border-black py-4 xl:pr-56 w-11/12 pl-2 rounded" placeholder="Maximum"
                         :value="api_store.filters.max_price" @input="updateMaxPrice">
                 </div>
                 <hr class="my-8">
                 <p class="text-2xl"><strong>Rooms and beds</strong></p>
                 <div>
                     <p class="pt-4">Bedrooms</p>
-                    <div class="flex">
+                    <div class="flex flex-wrap lg:flex-nowrap">
                         <div class="p-2" v-for="(element, index) in Data" :key="index"
                             @click="updateNumber(element, 'rooms')">
                             <p class="check-button px-8 py-2 border-2 rounded-full"
@@ -174,7 +174,7 @@ export default {
                         </div>
                     </div>
                     <p class="pt-4">Beds</p>
-                    <div class="flex">
+                    <div class="flex flex-wrap lg:flex-nowrap">
                         <div class="p-2" v-for="(element, index) in Data" :key="index"
                             @click="updateNumber(element, 'beds')">
                             <p class="check-button px-8 py-2 border-2 rounded-full"
@@ -182,7 +182,7 @@ export default {
                         </div>
                     </div>
                     <p class="pt-4">Bathrooms</p>
-                    <div class="flex">
+                    <div class="flex flex-wrap lg:flex-nowrap">
                         <div class="p-2" v-for="(element, index) in Data" :key="index"
                             @click="updateNumber(element, 'bathrooms')">
                             <p class="check-button px-8 py-2 border-2 rounded-full"
@@ -192,7 +192,7 @@ export default {
                 </div>
                 <hr class="my-8">
                 <p class="text-2xl"><strong>Property type</strong></p>
-                <div class="flex justify-between mt-6">
+                <div class="flex flex-wrap md:flex-nowrap justify-center md:justify-between mt-6">
                     <div class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline"
                         :class="api_store.filters.type == 'House' ? 'border-black' : ''" @click="updateType('House')">
                         <img class="w-8 mt-3 ml-3" src="/other-icons/Home.svg" alt="house">
@@ -220,8 +220,7 @@ export default {
                 <p class="text-2xl"><strong>Services</strong></p>
                 <div class="pt-4">
                     <div class="flex flex-wrap gap-4 align-text-bottom">
-                        <div v-for="(element, index) in displayedServices" :key="element.id"
-                            style="width: calc(100% / 2 - 20px);">
+                        <div class="services-input" v-for="(element, index) in displayedServices" :key="element.id">
                             <input type="checkbox" :id="'myCheckbox_' + index" class="custom-checkbox"
                                 @input="updateServiceFilter(element)"
                                 :checked="api_store.filters.services.includes(element.id)">
@@ -328,5 +327,15 @@ div.container {
 .active {
     color: white;
     background-color: black;
+}
+
+.services-input{
+    width: calc(100% / 1 - 20px);
+}
+
+@media (min-width: 550px) {
+    .services-input {
+        width: calc(100% / 2 - 20px);
+    }
 }
 </style>

@@ -14,6 +14,8 @@
     "@tomtom-international/web-sdk-maps": "^6.25.0",
     "@tomtom-international/web-sdk-services": "^6.25.0",
     "axios": "^1.6.8",
+    "flowbite": "^2.3.0",
+    "flowbite-vue": "^0.1.4",
     "lodash": "^4.17.21",
     "pinia": "^2.1.7",
     "v-calendar": "^3.1.2",
