@@ -153,7 +153,7 @@ export default {
                         <div>
                             <span v-if="api_store.single_accomodation?.rooms === 1">{{
                                 api_store.single_accomodation?.rooms
-                                }} bedroom</span>
+                            }} bedroom</span>
                             <span v-else>{{ api_store.single_accomodation?.rooms }} bedrooms</span>
                             -
                             <span v-if="api_store.single_accomodation?.beds === 1">{{
@@ -227,7 +227,7 @@ export default {
                             <div>
                                 <h1 class="text-2xl font-medium">Hosted by {{
                                     api_store.single_accomodation?.host_fullname
-                                    }}</h1>
+                                }}</h1>
                                 <p>Joined {{ api_store.single_accomodation?.host_registration_date }}</p>
                             </div>
                         </div>
@@ -296,7 +296,7 @@ export default {
     </div>
     <!-- <MessageHost :accomodation_id="route.params.id" /> -->
     <MessageHost v-show="utility_store.showMessageHost" :accomodation_id="route.params.id"
-        class="message-host-overlay overlay-mask w-full h-full" />
+        class="message-host-overlay overlay-mask w-full h-full" :prop_dates="range" />
     <MessageFeedback v-show="utility_store.showMessageFeedback"
         class="message-host-overlay overlay-mask w-full h-full" />
 

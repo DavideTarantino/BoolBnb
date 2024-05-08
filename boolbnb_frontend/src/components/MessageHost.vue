@@ -14,12 +14,23 @@
         <form @submit.prevent="sendForm()">
             <div
                 class="bg-white box flex ml-20 mb-20 rounded-lg flex-col gap-4 items-center justify-between w-3/12 px-6 py-10 relative container">
-                <img @click="closeMessageHost" src="../../other-icons/close-icon.svg" class="top-3 left-3 text-4xl cursor-pointer w-10 absolute"alt="">
+                <img @click="closeMessageHost" src="../../other-icons/close-icon.svg"
+                    class="top-3 left-3 text-4xl cursor-pointer w-10 absolute" alt="">
                 <p class="font-medium">Message Host</p>
 
                 <hr class="w-full mb-5">
 
                 <div class="flex flex-col text-sm w-full">
+                    <div class="flex mb-3 w-full">
+                        <div class="py-1 pr-24 pl-2 border-2 border-r-0 rounded-l-lg w-1/2">
+                            <p class="text-xs">CHECK-IN</p>
+                            <p class="text-xs"> {{ formatDate(prop_dates?.start) }}</p>
+                        </div>
+                        <div class="py-1 pr-24 pl-2 border-2 rounded-r-lg w-1/2">
+                            <p class="text-xs">CHECKOUT</p>
+                            <p class="text-xs">{{ formatDate(prop_dates?.end) }}</p>
+                        </div>
+                    </div>
                     <label class="mb-2" for="name">Name*</label>
                     <input name="name" v-model="name" class="border-1 md:pr-40 rounded-lg" type="text"
                         placeholder="Your Name" required>
@@ -75,7 +86,7 @@ export default {
     components: {
 
     },
-    props: ['accomodation_id'],
+    props: ['accomodation_id', 'prop_dates'],
     data() {
         return {
             name: '',
@@ -100,10 +111,9 @@ export default {
                 name: this.name,
                 email: this.email,
                 content: this.message,
-                accomodation_id: this.accomodation_id
-
+                accomodation_id: this.accomodation_id,
+                date: this.prop_dates
             }
-            console.log(data)
 
             this.errors = {};
             this.loading = true;
@@ -132,6 +142,23 @@ export default {
         closeMessageHost() {
             this.utility_store.showMessageHost = false;
         },
+        formatDate(date) {
+            if (!date || isNaN(date)) {
+                return '';
+            }
+            // Convert milliseconds to a Date object
+            const dateObj = new Date(date);
+            // Check if the conversion was successful
+            if (isNaN(dateObj.getTime())) {
+                return '';
+            }
+            // Extract year, month, and day from the Date object
+            const day = dateObj.getDate();
+            const month = dateObj.getMonth() + 1; // Months are zero-based
+            const year = dateObj.getFullYear();
+            // Format the date string
+            return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+        },
         // activateSuccessMessage(){
         //     this.utility_store.success = true;
         //     this.utility_store.showMessageHost = false;
@@ -147,7 +174,7 @@ export default {
 
 <style scoped>
 .box {
-    height: 600px;
+    height: 700px;
 }
 
 
