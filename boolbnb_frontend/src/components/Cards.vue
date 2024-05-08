@@ -69,8 +69,6 @@ export default defineComponent({
                 <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.rooms }} bedrooms</p>
                     -
                 <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.beds }} beds</p>
-                    -
-                <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.bathrooms }} bathrooms</p>
             </div>
             <p class="font-semibold text-sm mt-1">€ {{ prop_accomodation?.price_per_night }} <span
                     class="font-normal">night</span></p>
