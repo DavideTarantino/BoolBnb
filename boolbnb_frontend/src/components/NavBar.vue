@@ -3,8 +3,8 @@
         <header
             class="flex justify-center flex-col pt-3 border-b-2 border-black items-center md:py-6 md:justify-between md:flex-row md:gap-0 md:px-10 lg:px-20 xl:px-36">
             <div class="block md:hidden xl:block">
-                <RouterLink to="/" @click="() => { utility_store.show_map = false }"><img class="w-36"
-                        src="/monsterbnb-logo.svg" alt="logo"></RouterLink>
+                <RouterLink to="/" @click="reset()"><img class="w-36" src="/monsterbnb-logo.svg" alt="logo">
+                </RouterLink>
             </div>
             <div class="hidden md:block xl:hidden">
                 <RouterLink to="/"><img class="w-12" src="/Vector.ico" alt="logo"></RouterLink>
@@ -110,6 +110,7 @@ export default {
                 this.api_store.api_filtered_results = [];
                 this.api_store.user_query = this.search_string;
                 let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
+                console.log(selected_position)
                 await this.api_store.getFilteredAccomodations();
                 await this.api_store.getMarkersData();
                 this.$router.push({ name: 'search', params: { internalNavigation: true } });
@@ -123,6 +124,10 @@ export default {
                 // Handle errors that occur during the operation
                 console.error('Error in searchAccomodations:', err);
             }
+        },
+        reset() {
+            this.utility_store.show_map = false
+            this.api_store.resetFilters()
         }
 
     }

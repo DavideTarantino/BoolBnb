@@ -207,10 +207,6 @@ export default {
       return this.api_store.page < (this.api_store.last_page - (this.maxVisiblePages - 4)) && this.api_store.last_page > this.maxVisiblePages;
     }
 
-
-
-
-
   },
   computed: {
     filtersCount() {
