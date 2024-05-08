@@ -36,7 +36,7 @@
                 <div class="flex flex-col text-sm">
                     <label for="message">Message*</label>
                     <textarea :class="{ 'is-invalid': errors.message }" name="message" id="message" rows="6"
-                        placeholder="Your Message" v-model="message" class="border-1 rounded-lg w-50 md:w-96"
+                        placeholder="Your Message" v-model="message" class="border-1 rounded-lg w-50 md:w-[360px]"
                         required></textarea>
                     <p v-for="(error, index) in errors?.message" :key='`message-errors-${index}`'
                         class="invalid-feedback">
@@ -196,7 +196,6 @@ textarea {
     transform: translate(-50%, -50%);
     background-color: white;
     max-height: 90vh;
-    overflow: scroll;
     border-radius: 20px;
 }
 
@@ -211,7 +210,6 @@ textarea {
         transform: translate(-50%, -50%);
         background-color: white;
         max-height: 90vh;
-        overflow: scroll;
         border-radius: 20px;
     }
 }
@@ -227,7 +225,6 @@ textarea {
         transform: translate(-50%, -50%);
         background-color: white;
         max-height: 90vh;
-        overflow: scroll;
         border-radius: 20px;
     }
 }
@@ -243,7 +240,6 @@ textarea {
         transform: translate(-50%, -50%);
         background-color: white;
         max-height: 90vh;
-        overflow: scroll;
         border-radius: 20px;
     }
 }
