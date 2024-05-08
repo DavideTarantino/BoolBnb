@@ -21,7 +21,8 @@ export const useUtilityStore = defineStore('utility_store', {
                 .replace(/\-\-+/g, '-')
                 .replace(/^-+/, '')
                 .replace(/-+$/, '');
-        }
+        },
+
 
     },
 })

@@ -53,7 +53,6 @@ export default {
     transform: translate(-50%, -50%);
     background-color: white;
     max-height: 90vh;
-    overflow: scroll;
     border-radius: 20px;
 }
 
@@ -68,7 +67,6 @@ export default {
     transform: translate(-50%, -50%);
     background-color: white;
     max-height: 90vh;
-    overflow: scroll;
     border-radius: 20px;
 }
 }
@@ -84,7 +82,6 @@ export default {
     transform: translate(-50%, -50%);
     background-color: white;
     max-height: 90vh;
-    overflow: scroll;
     border-radius: 20px;
 }
 }
@@ -100,7 +97,6 @@ export default {
     transform: translate(-50%, -50%);
     background-color: white;
     max-height: 90vh;
-    overflow: scroll;
     border-radius: 20px;
 }
 }

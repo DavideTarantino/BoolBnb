@@ -111,14 +111,7 @@ export default {
             this.utility_store.show_filters = false
         },
         resetFilters() {
-            this.api_store.filters.max_distance = 20
-            this.api_store.filters.min_price = undefined
-            this.api_store.filters.max_price = undefined
-            this.api_store.filters.rooms = 'Any'
-            this.api_store.filters.beds = 'Any'
-            this.api_store.filters.bathrooms = 'Any'
-            this.api_store.filters.type = undefined
-            this.api_store.filters.services = []
+            this.api_store.resetFilters()
         },
         async applyFilters() {
             let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
@@ -426,7 +419,7 @@ div.container {
     background-color: black;
 }
 
-.services-input{
+.services-input {
     width: calc(100% / 1 - 20px);
 }
 

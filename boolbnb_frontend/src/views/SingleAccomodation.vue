@@ -73,6 +73,13 @@ export default {
         },
         toggleMessageHost() {
             this.showMessageHost = !this.MessageHost;
+        },
+        backToSearch() {
+            if (this.api_store.selected_position) {
+                this.$router.push('/search')
+            } else {
+                this.$router.push('/')
+            }
         }
 
     },
@@ -103,13 +110,13 @@ export default {
     </header>
     <AdvancedSearch v-show="utility_store.show_filters"></AdvancedSearch>
     <main class="py-12 px-6 lg:pl-32 lg:pr-32 lg:px-16 relative">
-        <RouterLink to="/" class="flex items-center gap-3">
+        <div class="flex items-center gap-3" @click="backToSearch()">
             <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10 3.16666L4.66667 8.5L10 13.8333" stroke="#222222" stroke-width="1.77778"
                     stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <h1 class="text-2xl font-medium">{{ api_store.single_accomodation?.title }}</h1>
-        </RouterLink>
+        </div>
 
 
         <!-- THUMB SECTION -->
@@ -129,25 +136,25 @@ export default {
 
         <!-- INFO SECTION -->
         <div class="bottom-section flex mt-8">
-            <div class="bottom-left w-3/5">
+            <div class="bottom-left w-11/12 md:w-3/5">
                 <section class="">
                     <div class="flex justify-between items-center">
                         <h2 class="text-2xl font-medium">{{ api_store.single_accomodation?.title }}</h2>
                         <figure class="w-16">
-                            <img class="h-16 rounded-full"
+                            <img class="sm:h-16 rounded-full"
                                 :src="api_store.single_accomodation?.host_thumb || '/other-icons/fallback_avatar.png'"
                                 alt="">
                         </figure>
                     </div>
                     <div>
                         <span v-if="api_store.single_accomodation?.rooms === 1">{{ api_store.single_accomodation?.rooms
-                            }} bedroom</span>
+                             }} bedroom</span>
                         <span v-else>{{ api_store.single_accomodation?.rooms }} bedrooms</span>
-                        -
+                            -
                         <span v-if="api_store.single_accomodation?.beds === 1">{{ api_store.single_accomodation?.beds }}
                             bed</span>
                         <span v-else>{{ api_store.single_accomodation?.beds }} beds</span>
-                        -
+                            -
                         <span v-if="api_store.single_accomodation?.bathrooms === 1">{{
                             api_store.single_accomodation?.bathrooms }} bathroom</span>
                         <span v-else>{{ api_store.single_accomodation?.bathrooms }} bathrooms</span>
@@ -208,7 +215,7 @@ export default {
                 <section class="contact-host">
                     <div class="flex items-center gap-10">
                         <figure class="w-16">
-                            <img class="h-16 rounded-full" :src="api_store.single_accomodation?.host_thumb" alt="">
+                            <img class="sm:h-16 rounded-full" :src="api_store.single_accomodation?.host_thumb" alt="">
                         </figure>
                         <div>
                             <h1 class="text-2xl font-medium">Hosted by {{ api_store.single_accomodation?.host_fullname
@@ -278,7 +285,8 @@ export default {
     <!-- <MessageHost :accomodation_id="route.params.id" /> -->
     <MessageHost v-show="utility_store.showMessageHost" :accomodation_id="route.params.id"
         class="message-host-overlay overlay-mask w-full h-full" />
-    <MessageFeedback v-show="utility_store.showMessageFeedback" class="message-host-overlay overlay-mask w-full h-full" />
+    <MessageFeedback v-show="utility_store.showMessageFeedback"
+        class="message-host-overlay overlay-mask w-full h-full" />
 
 
 
@@ -356,11 +364,11 @@ export default {
 }
 
 .overlay-mask {
-  background-color: rgba(30, 30, 30, 0.5);
+    background-color: rgba(30, 30, 30, 0.5);
 }
 
 @media (min-width: 950px) {
-    .price-section{
+    .price-section {
         display: flex;
     }
 }

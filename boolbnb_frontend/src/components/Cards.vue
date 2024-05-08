@@ -4,6 +4,7 @@ import { defineComponent } from 'vue'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 import { RouterLink, RouterView } from 'vue-router'
 import { useUtilityStore } from '@/stores/utilityStore'
+import { useApiStore } from '@/stores/apiStore'
 
 export default defineComponent({
     name: 'Cards',
@@ -17,7 +18,8 @@ export default defineComponent({
     data() {
         return {
             image_loaded: false,
-            utility_store: useUtilityStore()
+            utility_store: useUtilityStore(),
+            api_store: useApiStore(),
         }
     },
     methods: {
@@ -63,7 +65,14 @@ export default defineComponent({
             <div v-if="prop_accomodation.distance_from_point"> {{ prop_accomodation.distance_from_point.toFixed(1) }} km
             </div>
             <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.type }}</p>
-            <p class="font-semibold text-sm mt-2">€ {{ prop_accomodation?.price_per_night }} <span
+            <div class="flex gap-2 items-center">
+                <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.rooms }} bedrooms</p>
+                    -
+                <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.beds }} beds</p>
+                    -
+                <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.bathrooms }} bathrooms</p>
+            </div>
+            <p class="font-semibold text-sm mt-1">€ {{ prop_accomodation?.price_per_night }} <span
                     class="font-normal">night</span></p>
         </div>
 
