@@ -230,6 +230,16 @@ export const useApiStore = defineStore('api_store', {
 
       // Concatenate the sorted sponsoredAccommodations with regularAccommodations
       this.api_filtered_results = sponsoredAccommodations.concat(regularAccommodations);
+    },
+    resetFilters() {
+      this.filters.max_distance = 20
+      this.filters.min_price = undefined
+      this.filters.max_price = undefined
+      this.filters.rooms = 'Any'
+      this.filters.beds = 'Any'
+      this.filters.bathrooms = 'Any'
+      this.filters.type = undefined
+      this.filters.services = []
     }
 
   },

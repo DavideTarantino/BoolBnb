@@ -106,6 +106,7 @@ export default {
         },
         async searchAccomodations() {
             try {
+                this.api_store.page = 1
                 this.api_store.api_filtered_results = [];
                 this.api_store.user_query = this.search_string;
                 let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]

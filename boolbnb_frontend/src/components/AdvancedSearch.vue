@@ -110,14 +110,7 @@ export default {
             this.utility_store.show_filters = false
         },
         resetFilters() {
-            this.api_store.filters.max_distance = 20
-            this.api_store.filters.min_price = undefined
-            this.api_store.filters.max_price = undefined
-            this.api_store.filters.rooms = 'Any'
-            this.api_store.filters.beds = 'Any'
-            this.api_store.filters.bathrooms = 'Any'
-            this.api_store.filters.type = undefined
-            this.api_store.filters.services = []
+            this.api_store.resetFilters()
         },
         async applyFilters() {
             let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
@@ -144,7 +137,8 @@ export default {
         <div class="border-2 relative">
             <div>
                 <h3 class="py-8 text-center font-medium text-lg">Filters</h3>
-                <i class="fa-solid fa-circle-xmark absolute top-1 left-2 text-4xl cursor-pointer" @click="closeFilters"></i>
+                <i class="fa-solid fa-circle-xmark absolute top-1 left-2 text-4xl cursor-pointer"
+                    @click="closeFilters"></i>
                 <hr>
             </div>
             <div class="px-10 py-10">
@@ -159,10 +153,10 @@ export default {
                 <p class="text-2xl"><strong>Price range</strong></p>
                 <p>Nightly prices including fees and taxes</p>
                 <div class="flex items-center justify-center gap-8 pt-6">
-                    <input type="number" class="border-2 border-black py-4 xl:pr-56 w-11/12 pl-2 rounded" placeholder="Minimum"
-                        :value="api_store.filters.min_price" @input="updateMinPrice">
-                    <input type="number" class="border-2 border-black py-4 xl:pr-56 w-11/12 pl-2 rounded" placeholder="Maximum"
-                        :value="api_store.filters.max_price" @input="updateMaxPrice">
+                    <input type="number" class="border-2 border-black py-4 xl:pr-56 w-11/12 pl-2 rounded"
+                        placeholder="Minimum" :value="api_store.filters.min_price" @input="updateMinPrice">
+                    <input type="number" class="border-2 border-black py-4 xl:pr-56 w-11/12 pl-2 rounded"
+                        placeholder="Maximum" :value="api_store.filters.max_price" @input="updateMaxPrice">
                 </div>
                 <hr class="my-8">
                 <p class="text-2xl"><strong>Rooms and beds</strong></p>
@@ -330,7 +324,7 @@ div.container {
     background-color: black;
 }
 
-.services-input{
+.services-input {
     width: calc(100% / 1 - 20px);
 }
 
