@@ -1,15 +1,15 @@
 <template>
 
-    <header>
-      <NavBar />
-    </header>
-  
-    <div class="card-list" v-if="!utility_store.show_map">
-        <section class="cards p-16 sm:p-20 xl:px-32 flex flex-wrap">
-            <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
-            :prop_accomodation="accomodation" @goToSingleAccomodation="goToSingleAccomodation(accomodation)" />
-        </section>
-    </div>
+  <header>
+    <NavBar />
+  </header>
+
+  <div class="card-list" v-if="!utility_store.show_map">
+    <section class="cards p-16 sm:p-20 xl:px-32 flex flex-wrap">
+      <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
+        :prop_accomodation="accomodation" @goToSingleAccomodation="goToSingleAccomodation(accomodation)" />
+    </section>
+  </div>
 
   <!-- <div class="card-list" v-if="!utility_store.show_map">
     <section class="cards p-16 pr-32 pl-32 flex flex-wrap">
@@ -21,14 +21,14 @@
   <!-- map is rendered with opacity-0 to avoid loadings and sizing bus -->
   <MapVue></MapVue>
 
-  <div
+  <!-- <div
     class="show-map flex items-center gap-2 text-white bg-[#222222] fixed py-3 px-4 rounded-2xl  text-sm font-bold  cursor-pointer"
     @click="openMap">
     <span>
       {{ utility_store.show_map ? 'Show List' : 'Show Map' }}
     </span>
     <i class="fa-solid" :class="utility_store.show_map ? 'fa-list' : 'fa-map'"></i>
-  </div>
+  </div>  -->
 
 
 </template>
@@ -65,14 +65,14 @@ export default {
       this.map_store.flyTo(this.api_store.selected_position)
       this.map_store.setMarkers(this.api_store.api_unpaginated_results)
     }
+
+    console.log(this.api_store.api_filtered_results)
   },
   methods: {
     async openMap() {
 
       this.utility_store.show_map = !this.utility_store.show_map
-      setTimeout(() => {
-        this.map_store.map_istance.resize()
-      }, 10)
+
     },
 
     goToSingleAccomodation(accomodation) {

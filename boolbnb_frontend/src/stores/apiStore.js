@@ -81,13 +81,12 @@ export const useApiStore = defineStore('api_store', {
           this.pagination_links = returned_accomodations.links;
           console.log(returned_accomodations.links)
           this.last_page = returned_accomodations.last_page;
-          // returned_accomodations.forEach(element => {
-          //   element.pictures = element.pictures.slice(0, 5);
-          // });
+
           this.api_filtered_results = returned_accomodations.data;
-          console.log(this.api_filtered_results)
+
           this.found_results = res.data.res.total || 0;
-          
+          this.orderArray()
+
         }
 
         if (!this.api_filtered_results) {
@@ -198,6 +197,39 @@ export const useApiStore = defineStore('api_store', {
         console.log(err);
         throw err; // Rethrow the error to be caught by the caller
       }
+    },
+    orderArray() {
+      if (!this.api_filtered_results || this.api_filtered_results.length == 0) {
+        return
+      }
+      const sponsoredAccommodations = [];
+      const regularAccommodations = [];
+      this.api_filtered_results.forEach(accommodation => {
+        if (accommodation.has_ad) {
+          sponsoredAccommodations.push(accommodation);
+        } else {
+          regularAccommodations.push(accommodation);
+        }
+      });
+
+      // Sort sponsoredAccommodations based on order_by criteria
+      switch (this.order_by) {
+        case 'rating':
+          sponsoredAccommodations.sort((a, b) => b.rating - a.rating); // Higher rating first
+          break;
+        case 'price':
+          sponsoredAccommodations.sort((a, b) => a.price_per_night - b.price_per_night); // Cheaper first
+          break;
+        case 'distance':
+          sponsoredAccommodations.sort((a, b) => a.distance_from_user - b.distance_from_user); // Closest first
+          break;
+        default:
+          // No sorting needed
+          break;
+      }
+
+      // Concatenate the sorted sponsoredAccommodations with regularAccommodations
+      this.api_filtered_results = sponsoredAccommodations.concat(regularAccommodations);
     }
 
   },
