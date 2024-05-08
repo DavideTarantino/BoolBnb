@@ -32,8 +32,9 @@
 
             <div>
                 <div class="flex items-center gap-4">
-                    <p class="hidden xl:block"><strong>Monsterbnb your home</strong></p>
-                    <div class="hidden md:block">
+                    <a href="http://127.0.0.1:8000/" class="hidden xl:block" target="_blank"><strong>Monsterbnb your
+                            home</strong></a>
+                    <!-- <div class="hidden md:block">
                         <div class="dropdown">
                             <button class="flex items-center gap-4 border-2 p-2 rounded-full">
                                 <svg class="w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -53,7 +54,7 @@
                                 <a href="#">Log In</a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </header>
