@@ -20,6 +20,13 @@ export default defineComponent({
             utility_store: useUtilityStore()
         }
     },
+    methods: {
+        capitalize(word) {
+            let arr_from_word = word.split("")
+            arr_from_word[0] = arr_from_word[0].toUpperCase();
+            return arr_from_word.join("")
+        }
+    }
 
 })
 </script>
@@ -42,8 +49,8 @@ export default defineComponent({
         </Carousel>
         <div class="w-full aspect-square bg-gray-200" v-show="!this.image_loaded"></div>
 
-        <div @click="$emit('goToSingleAccomodation')" class="flex items-center justify-between mt-4 cursor-pointer">
-            <h2 class="font-semibold text-sm">{{ prop_accomodation?.address }}</h2>
+        <div @click="$emit('goToSingleAccomodation')" class="flex items-start justify-between mt-4 cursor-pointer">
+            <h2 class="font-semibold text-sm">{{ capitalize(prop_accomodation?.title) }}</h2>
             <div class="rating flex items-center text-sm gap-1">
                 <i class="fa-solid fa-star"></i>
                 <span class="text-sm">
@@ -89,16 +96,19 @@ img {
         width: calc(100% / 2 - 8px);
     }
 }
+
 @media (min-width: 745px) {
     .card {
         width: calc(100% / 3 - 10px);
     }
 }
+
 @media (min-width: 950px) {
     .card {
         width: calc(100% / 4 - 12px);
     }
 }
+
 @media (min-width: 1127px) {
     .card {
         width: calc(100% / 5 - 12px);

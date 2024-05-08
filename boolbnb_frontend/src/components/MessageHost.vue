@@ -13,13 +13,13 @@
     <main>
         <form @submit.prevent="sendForm()">
             <div
-            class="bg-white box flex border-2 ml-20 mb-20 rounded-lg flex-col gap-4 items-center justify-between w-3/12 p-6 relative container">
+                class="bg-white box flex border-2 ml-20 mb-20 rounded-lg flex-col gap-4 items-center justify-between w-3/12 p-6 relative container">
                 <button @click="closeMessageHost" class="absolute top-1 left-2">X</button>
                 <p>Message Host</p>
                 <hr class="w-full">
                 <div class="flex flex-col text-sm">
                     <label for="name">Name*</label>
-                    <input name="name" v-model="name" class="pl-2 border-2 md:pr-40 rounded-lg" type="text"
+                    <input name="name" v-model="name" class="pl-2 border-1 md:pr-40 rounded-lg" type="text"
                         placeholder="Your Name" required>
                     <p v-for="(error, index) in errors?.name" :key='`name-errors-${index}`' class="invalid-feedback">
                         {{ error }}
@@ -27,7 +27,7 @@
                 </div>
                 <div class="flex flex-col text-sm">
                     <label for="email">Email*</label>
-                    <input name="email" v-model="email" class="pl-2 md:pr-40 border-2 rounded-lg" type="email"
+                    <input name="email" v-model="email" class="pl-2 md:pr-40 border-1 rounded-lg" type="email"
                         placeholder="Your Email" required>
                     <p v-for="(error, index) in errors?.email" :key='`email-errors-${index}`' class="invalid-feedback">
                         {{ error }}
@@ -36,14 +36,18 @@
                 <div class="flex flex-col text-sm">
                     <label for="message">Message*</label>
                     <textarea :class="{ 'is-invalid': errors.message }" name="message" id="message" rows="6"
-                        placeholder="Your Message" v-model="message" class="border-2 rounded-lg w-50 md:w-96" required></textarea>
+                        placeholder="Your Message" v-model="message" class="border-1 rounded-lg w-50 md:w-96"
+                        required></textarea>
                     <p v-for="(error, index) in errors?.message" :key='`message-errors-${index}`'
                         class="invalid-feedback">
                         {{ error }}
                     </p>
                 </div>
-                <div v-if="loading" class="loading-spinner"><p class="text-white">a</p></div>
-                <button v-if="!loading" @click="activateSuccessMessage" type="submit" class="py-2 px-20  rounded-lg gradient-button text-white">Send Message</button>
+                <div v-if="loading" class="loading-spinner">
+                    <p class="text-white">a</p>
+                </div>
+                <button v-if="!loading" @click="activateSuccessMessage" type="submit"
+                    class="py-2 px-20  rounded-lg gradient-button text-white">Send Message</button>
             </div>
         </form>
     </main>
@@ -108,7 +112,7 @@ export default {
                 console.log(res)
                 this.success = res.data.success
 
-                if (this.success === false) { 
+                if (this.success === false) {
                     this.errors = res.data.errors
                 } else {
                     this.name = ''
@@ -118,12 +122,12 @@ export default {
                     this.utility_store.showMessageHost = false;
                 }
             })
-            .finally(() => {
+                .finally(() => {
                     this.loading = false; // Disattiva lo stato di caricamento alla fine della richiesta
-            });
+                });
 
         },
-        closeMessageHost(){
+        closeMessageHost() {
             this.utility_store.showMessageHost = false;
         },
         // activateSuccessMessage(){
@@ -144,6 +148,21 @@ export default {
     height: 510px;
 }
 
+
+input:focus,
+textarea:focus {
+    outline: none;
+    color: black;
+    border: 1px solid #121212;
+    box-shadow: 0 1px 6px 0 rgb(255, 255, 255);
+    border-radius: 0.5rem;
+}
+
+input,
+textarea {
+    border-color: #B0B0B0;
+}
+
 .gradient-button {
     background: linear-gradient(135deg, #00CBD8, #B844FF);
 }
@@ -158,11 +177,16 @@ export default {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-.container{
+.container {
     width: 350px;
     overflow: hidden;
     position: fixed;
@@ -177,50 +201,50 @@ export default {
 }
 
 @media (min-width: 550px) {
-    .container{
-    width: 450px;
-    overflow: hidden;
-    position: fixed;
-    z-index: 12;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    max-height: 90vh;
-    overflow: scroll;
-    border-radius: 20px;
-}
+    .container {
+        width: 450px;
+        overflow: hidden;
+        position: fixed;
+        z-index: 12;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        max-height: 90vh;
+        overflow: scroll;
+        border-radius: 20px;
+    }
 }
 
 @media (min-width: 745px) {
-    .container{
-    width: 450px;
-    overflow: hidden;
-    position: fixed;
-    z-index: 12;
-    left: 42%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    max-height: 90vh;
-    overflow: scroll;
-    border-radius: 20px;
-}
+    .container {
+        width: 450px;
+        overflow: hidden;
+        position: fixed;
+        z-index: 12;
+        left: 42%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        max-height: 90vh;
+        overflow: scroll;
+        border-radius: 20px;
+    }
 }
 
 @media (min-width: 950px) {
-    .container{
-    width: 450px;
-    overflow: hidden;
-    position: fixed;
-    z-index: 12;
-    left: 44%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    max-height: 90vh;
-    overflow: scroll;
-    border-radius: 20px;
-}
+    .container {
+        width: 450px;
+        overflow: hidden;
+        position: fixed;
+        z-index: 12;
+        left: 44%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        max-height: 90vh;
+        overflow: scroll;
+        border-radius: 20px;
+    }
 }
 </style>

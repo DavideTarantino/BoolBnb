@@ -1,15 +1,15 @@
 <template>
 
-    <header>
-      <NavBar />
-    </header>
-  
-    <div class="card-list" v-if="!utility_store.show_map">
-        <section class="cards p-16 sm:p-20 xl:px-32 flex flex-wrap">
-            <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
-            :prop_accomodation="accomodation" @goToSingleAccomodation="goToSingleAccomodation(accomodation)" />
-        </section>
-    </div>
+  <header>
+    <NavBar />
+  </header>
+
+  <div class="card-list" v-if="!utility_store.show_map">
+    <section class="cards p-16 sm:p-20 xl:px-32 flex flex-wrap">
+      <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
+        :prop_accomodation="accomodation" @goToSingleAccomodation="goToSingleAccomodation(accomodation)" />
+    </section>
+  </div>
 
   <!-- <div class="card-list" v-if="!utility_store.show_map">
     <section class="cards p-16 pr-32 pl-32 flex flex-wrap">
@@ -65,6 +65,8 @@ export default {
       this.map_store.flyTo(this.api_store.selected_position)
       this.map_store.setMarkers(this.api_store.api_unpaginated_results)
     }
+
+    console.log(this.api_store.api_filtered_results)
   },
   methods: {
     async openMap() {

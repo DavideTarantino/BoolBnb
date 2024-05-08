@@ -1,32 +1,33 @@
 <template>
     <main>
-        <header class="flex justify-center flex-col pt-3 border-b-2 border-black items-center md:py-6 md:justify-between md:flex-row md:gap-0 md:px-10 lg:px-20 xl:px-36">
-                <div  class="block md:hidden xl:block">
-                    <RouterLink to="/"><img class="w-36" src="/monsterbnb-logo.svg" alt="logo"></RouterLink>
-                </div>
-                <div  class="hidden md:block xl:hidden">
-                    <RouterLink to="/"><img class="w-12" src="/Vector.ico" alt="logo"></RouterLink>
+        <header
+            class="flex justify-center flex-col pt-3 border-b-2 border-black items-center md:py-6 md:justify-between md:flex-row md:gap-0 md:px-10 lg:px-20 xl:px-36">
+            <div class="block md:hidden xl:block">
+                <RouterLink to="/"><img class="w-36" src="/monsterbnb-logo.svg" alt="logo"></RouterLink>
+            </div>
+            <div class="hidden md:block xl:hidden">
+                <RouterLink to="/"><img class="w-12" src="/Vector.ico" alt="logo"></RouterLink>
+            </div>
+
+            <div class="flex items-center gap-2 dropdown py-2 md:py-0">
+                <div
+                    class="search-group flex items-center justify-between border-2 rounded-full w-11/12 sm:w-[500px] px-3 pl-6 py-2">
+                    <input class="w-4/5 border-0 focus:border-0 focus:border-transparent outline-0 focus:outline-0"
+                        type="search" placeholder="Search accomodation..." v-model="search_string"
+                        @input="getAddressReccomandations" @keydown.enter="searchAccomodations">
+                    <i class="fa-solid fa-magnifying-glass" style="color: #bdc6d6;" @click="searchAccomodations"></i>
                 </div>
 
-                    <div class="flex items-center gap-2 dropdown py-2 md:py-0">
-                        <div
-                            class="search-group flex items-center justify-between border-2 rounded-full w-11/12 sm:w-[500px] px-3 pl-6 py-2">
-                            <input class="w-4/5" type="search" placeholder="Search accomodation..." v-model="search_string"
-                                @input="getAddressReccomandations">
-                            <i class="fa-solid fa-magnifying-glass" style="color: #bdc6d6;"
-                                @click="searchAccomodations"></i>
-                        </div>
-    
-                        <!-- <a href="#" class="p-2 border-2 rounded-full"></a> -->
-                        <div class="dropdown-content" style="display: block;"
-                            v-show="search_string && address_suggestions.length > 0">
-                            <span v-for="(suggestion, index) in address_suggestions" :key="index"
-                                @click="setReaserch(suggestion)">
-                                {{ suggestion?.address }}
-                            </span>
-                        </div>
-    
-                    </div>
+                <!-- <a href="#" class="p-2 border-2 rounded-full"></a> -->
+                <div class="dropdown-content" style="display: block;"
+                    v-show="search_string && address_suggestions.length > 0">
+                    <span v-for="(suggestion, index) in address_suggestions" :key="index"
+                        @click="setReaserch(suggestion)">
+                        {{ suggestion?.address }}
+                    </span>
+                </div>
+
+            </div>
 
             <div>
                 <div class="flex items-center gap-4">
@@ -40,7 +41,7 @@
                                 </svg>
                                 <div class="bg-gray-500	p-1.5 rounded-full">
                                     <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-        
+
                                         <path fill="#ffffff"
                                             d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
                                     </svg>
@@ -98,8 +99,9 @@ export default {
         },
         setReaserch(suggestion) {
             this.api_store.selected_position = suggestion.position
-            this.search_string = suggestion.address
+            this.search_string = ""
             this.address_suggestions = []
+            this.searchAccomodations()
         },
         async searchAccomodations() {
             try {
@@ -128,8 +130,19 @@ header {
     border-bottom: 2px solid #DDDDDD;
 }
 
+[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+
+
+input:focus,
 input {
     outline: none;
+    color: black;
+    border: 1px solid white;
+    box-shadow: 0 1px 6px 0 rgb(255, 255, 255);
+    border-radius: 0.5rem;
 }
 
 .dropdown {
