@@ -3,7 +3,7 @@
         <div
             class="px-4 bg-white box flex ml-20 mb-20 flex-col gap-2 items-center py-32 justify-center text-center relative container">
             <p class="text-3xl"><strong>Thank you</strong></p>
-            <img @click="closeMessageHost" src="../../other-icons/close-icon.svg" class="top-3 left-3 text-4xl cursor-pointer w-10 absolute"alt="">
+            <img @click="closeMessageFeedback" src="../../other-icons/close-icon.svg" class="top-3 left-3 text-4xl cursor-pointer w-10 absolute"alt="">
             <div>
                 <p><strong>Your message has been sent successfully</strong></p>
                 <p class="text-sm">The Host we'll see your message shortly</p>
