@@ -140,11 +140,13 @@ export default {
 </script>
 
 <template>
-    <div class="py-24 xl:w-6/12 container" style="margin: 0 auto;">
+    <div class=" xl:w-6/12 container" style="margin: 0 auto;">
         <div class="border-2 relative">
-            <p class="py-8 text-center"><strong>Filters</strong></p>
-            <i class="fa-solid fa-circle-xmark absolute top-1 left-2 text-4xl cursor-pointer" @click="closeFilters"></i>
-            <hr>
+            <div>
+                <h3 class="py-8 text-center font-medium text-lg">Filters</h3>
+                <i class="fa-solid fa-circle-xmark absolute top-1 left-2 text-4xl cursor-pointer" @click="closeFilters"></i>
+                <hr>
+            </div>
             <div class="px-10 py-10">
                 <p class="text-2xl"><strong>Distance from your search</strong></p>
                 <p>Extend your search</p>
