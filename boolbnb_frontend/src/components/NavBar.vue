@@ -101,15 +101,20 @@ export default {
         },
         setReaserch(suggestion) {
             this.api_store.selected_position = suggestion.position
-            this.search_string = ""
+
             this.address_suggestions = []
             this.searchAccomodations()
         },
         async searchAccomodations() {
+            if (!this.api_store.selected_position.lon || !this.api_store.selected_position.lat) {
+                return
+            }
+
             try {
                 this.api_store.page = 1
                 this.api_store.api_filtered_results = [];
                 this.api_store.user_query = this.search_string;
+                this.search_string = ""
                 let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
                 console.log(selected_position)
                 await this.api_store.getFilteredAccomodations();
