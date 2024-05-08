@@ -112,7 +112,7 @@ export default {
             <NavBar />
         </header>
         <AdvancedSearch v-show="utility_store.show_filters"></AdvancedSearch>
-    
+
         <main class="py-12 px-6 lg:pl-32 lg:pr-32 lg:px-16 relative">
             <div class="flex items-center gap-3" @click="backToSearch()">
                 <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -121,45 +121,46 @@ export default {
                 </svg>
                 <h1 class="text-2xl font-medium">{{ api_store.single_accomodation?.title }}</h1>
             </div>
-    
-    
+
+
             <!-- THUMB SECTION -->
             <section class="flex gap-1 all-thumbs mt-5 rounded-md overflow-hidden">
                 <div class="left-thumbs">
                     <img class="main-img" :src="api_store.single_accomodation?.pictures[0]?.url" alt="">
                 </div>
-    
+
                 <div class="flex flex-wrap right-thumbs">
                     <div v-for="(image, index) in api_store.single_accomodation?.pictures.slice(1, 5)" :key="index"
                         class="right-pictures">
                         <img :src="image.url" alt="">
                     </div>
                 </div>
-    
+
             </section>
-    
+
             <!-- INFO SECTION -->
             <div class="bottom-section flex mt-8">
-    
+
                 <div class="bottom-left w-11/12 md:w-3/5">
                     <section>
                         <div class="flex justify-between items-center">
                             <h2 class="text-2xl font-medium">{{ api_store.single_accomodation?.title }}</h2>
                             <figure class="w-16">
-                                <img class="sm:h-16 rounded-full"
-                                    :src="api_store.single_accomodation?.host_thumb || '/other-icons/fallback_avatar.png'"
+                                <img class="sm:h-16 rounded-full" :src="api_store.single_accomodation?.host_thumb"
                                     alt="">
                             </figure>
                         </div>
                         <div>
-                            <span v-if="api_store.single_accomodation?.rooms === 1">{{ api_store.single_accomodation?.rooms
-                                 }} bedroom</span>
+                            <span v-if="api_store.single_accomodation?.rooms === 1">{{
+                                api_store.single_accomodation?.rooms
+                                }} bedroom</span>
                             <span v-else>{{ api_store.single_accomodation?.rooms }} bedrooms</span>
-                                -
-                            <span v-if="api_store.single_accomodation?.beds === 1">{{ api_store.single_accomodation?.beds }}
+                            -
+                            <span v-if="api_store.single_accomodation?.beds === 1">{{
+                                api_store.single_accomodation?.beds }}
                                 bed</span>
                             <span v-else>{{ api_store.single_accomodation?.beds }} beds</span>
-                                -
+                            -
                             <span v-if="api_store.single_accomodation?.bathrooms === 1">{{
                                 api_store.single_accomodation?.bathrooms }} bathroom</span>
                             <span v-else>{{ api_store.single_accomodation?.bathrooms }} bathrooms</span>
@@ -168,12 +169,12 @@ export default {
                             <i class="fa-solid fa-star"></i>
                             <span>{{ api_store.single_accomodation?.rating }}</span>
                         </div>
-    
+
                         <hr class="my-8">
-    
+
                         <!-- SERVICES -->
                         <h2 class="text-2xl font-medium">What this place offers</h2>
-    
+
                         <div class="sm:columns-2 mt-4">
                             <div v-for="(service, index) in api_store.single_accomodation?.services" :key="index"
                                 class="flex gap-4 mb-4">
@@ -183,47 +184,49 @@ export default {
                                 <p class="text-base">{{ service.name }}</p>
                             </div>
                         </div>
-    
-    
+
+
                         <!-- BOTTONI DA COMPLETARE CON IL TRIGGER PER IL FUNZIONAMENTO  -->
                         <!-- <button class="text-blue-500 mt-4">See more</button>
                             <button class="text-blue-500 mt-4">See less</button> -->
-    
+
                         <!-- <hr class="my-8"> -->
-    
+
                         <!-- <p id="description">descrizione</p> -->
                         <!-- BOTTONI DA COMPLETARE CON IL TRIGGER PER IL FUNZIONAMENTO  -->
                         <!-- <button class="text-blue-500 mt-4">See more</button>
                             <button class="text-blue-500 mt-4">See less</button> -->
-    
+
                         <hr class="my-8">
                     </section>
-    
+
                     <!-- CALENDAR SECTION -->
                     <section>
                         <h2 class="text-2xl font-medium">How many nights you'll stay</h2>
-    
+
                         <DatePicker class="mt-4" v-model.range.number="range" :columns="2" />
-    
-    
+
+
                         <hr class="my-8">
                     </section>
-    
+
                     <!-- POSITION SECTION -->
                     <section>
                         <h1 class="text-2xl font-medium">Where you'll be</h1>
                         <SingleMapVue></SingleMapVue>
                         <hr class="my-8">
                     </section>
-    
+
                     <!-- CONTACT HOST SECTION -->
                     <section class="contact-host flex justify-between">
                         <div class="flex items-center gap-10">
                             <figure class="w-16">
-                                <img class="sm:h-16 rounded-full" :src="api_store.single_accomodation?.host_thumb" alt="">
+                                <img class="sm:h-16 rounded-full" :src="api_store.single_accomodation?.host_thumb"
+                                    alt="">
                             </figure>
                             <div>
-                                <h1 class="text-2xl font-medium">Hosted by {{ api_store.single_accomodation?.host_fullname
+                                <h1 class="text-2xl font-medium">Hosted by {{
+                                    api_store.single_accomodation?.host_fullname
                                     }}</h1>
                                 <p>Joined {{ api_store.single_accomodation?.host_registration_date }}</p>
                             </div>
@@ -232,12 +235,12 @@ export default {
                             <button @click="() => { utility_store.showMessageHost = true }"
                                 class="py-4 px-6 border-2 rounded-md border-black mt-5">Contact Host</button>
                         </div>
-    
+
                     </section>
                 </div>
-    
+
                 <!-- PRICE SECTION -->
-                
+
                 <div class="flex justify-end w-2/5">
                     <div class="rounded-lg flex flex-col items-center gap-3 py-10 price-section">
                         <p>€ {{ api_store.single_accomodation?.price_per_night }} / night</p>
@@ -257,8 +260,8 @@ export default {
                         <div class="flex flex-col gap-2 w-9/12 mt-4">
                             <div class="flex justify-between">
                                 <p>€ {{ api_store.single_accomodation?.price_per_night }} x {{ nights }} nights</p>
-    
-    
+
+
                             </div>
                             <!-- <div class="flex justify-between">
                                 <p>Weekly discount</p>
@@ -284,12 +287,12 @@ export default {
                         </div>
                     </div>
                 </div>
-    
+
             </div>
-    
+
         </main>
-    
-        
+
+
     </div>
     <!-- <MessageHost :accomodation_id="route.params.id" /> -->
     <MessageHost v-show="utility_store.showMessageHost" :accomodation_id="route.params.id"
@@ -302,7 +305,6 @@ export default {
 </template>
 
 <style scoped>
-
 .fa-star {
     font-size: 12px;
 }
