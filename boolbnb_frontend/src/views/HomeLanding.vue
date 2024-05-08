@@ -21,14 +21,14 @@
   <!-- map is rendered with opacity-0 to avoid loadings and sizing bus -->
   <MapVue></MapVue>
 
-  <div
+  <!-- <div
     class="show-map flex items-center gap-2 text-white bg-[#222222] fixed py-3 px-4 rounded-2xl  text-sm font-bold  cursor-pointer"
     @click="openMap">
     <span>
       {{ utility_store.show_map ? 'Show List' : 'Show Map' }}
     </span>
     <i class="fa-solid" :class="utility_store.show_map ? 'fa-list' : 'fa-map'"></i>
-  </div>
+  </div>  -->
 
 
 </template>
@@ -72,9 +72,7 @@ export default {
     async openMap() {
 
       this.utility_store.show_map = !this.utility_store.show_map
-      setTimeout(() => {
-        this.map_store.map_istance.resize()
-      }, 10)
+
     },
 
     goToSingleAccomodation(accomodation) {

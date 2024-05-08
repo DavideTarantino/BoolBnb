@@ -81,9 +81,7 @@ export const useApiStore = defineStore('api_store', {
           this.pagination_links = returned_accomodations.links;
           console.log(returned_accomodations.links)
           this.last_page = returned_accomodations.last_page;
-          // returned_accomodations.forEach(element => {
-          //   element.pictures = element.pictures.slice(0, 5);
-          // });
+
           this.api_filtered_results = returned_accomodations.data;
 
           this.found_results = res.data.res.total || 0;
@@ -201,6 +199,9 @@ export const useApiStore = defineStore('api_store', {
       }
     },
     orderArray() {
+      if (!this.api_filtered_results || this.api_filtered_results.length == 0) {
+        return
+      }
       const sponsoredAccommodations = [];
       const regularAccommodations = [];
       this.api_filtered_results.forEach(accommodation => {

@@ -73,7 +73,8 @@
         <li class="cursor-pointer" @click="prevPage(api_store.page)">
           <i class="fa-solid fa-chevron-left"></i>
         </li>
-        <li class="cursor-pointer page-number" :class="{ 'active': link === api_store.page }" v-for="link in api_store.last_page" :key="link" @click="changePage(link)">
+        <li class="cursor-pointer page-number" :class="{ 'active': link === api_store.page }"
+          v-for="link in api_store.last_page" :key="link" @click="changePage(link)">
           {{ link }}
         </li>
         <li class="cursor-pointer" @click="nextPage(api_store.page)">
@@ -137,7 +138,9 @@ export default {
 
       this.utility_store.show_map = !this.utility_store.show_map
       setTimeout(() => {
+        let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
         this.map_store.map_istance.resize()
+        this.map_store.flyTo(selected_position)
       }, 10)
     },
 
@@ -161,21 +164,22 @@ export default {
       this.api_store.getFilteredAccomodations()
     },
 
-    async changePage(number){
+    async changePage(number) {
       this.api_store.page = number
       await this.api_store.getFilteredAccomodations()
     },
 
-    async prevPage(number){
+    async prevPage(number) {
       this.api_store.page = number - 1
       await this.api_store.getFilteredAccomodations()
-    },
+    }
+    ,
 
-    async nextPage(number){
+    async nextPage(number) {
       this.api_store.page = number + 1
       await this.api_store.getFilteredAccomodations()
     }
-    
+
   },
   computed: {
     filtersCount() {
@@ -249,7 +253,7 @@ export default {
   background: linear-gradient(135deg, #00CBD8, #B844FF);
 }
 
-.active{
+.active {
   background-color: black;
   color: white;
   padding-inline: 10px;

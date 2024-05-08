@@ -3,7 +3,8 @@
         <header
             class="flex justify-center flex-col pt-3 border-b-2 border-black items-center md:py-6 md:justify-between md:flex-row md:gap-0 md:px-10 lg:px-20 xl:px-36">
             <div class="block md:hidden xl:block">
-                <RouterLink to="/"><img class="w-36" src="/monsterbnb-logo.svg" alt="logo"></RouterLink>
+                <RouterLink to="/" @click="() => { utility_store.show_map = false }"><img class="w-36"
+                        src="/monsterbnb-logo.svg" alt="logo"></RouterLink>
             </div>
             <div class="hidden md:block xl:hidden">
                 <RouterLink to="/"><img class="w-12" src="/Vector.ico" alt="logo"></RouterLink>
@@ -111,7 +112,10 @@ export default {
                 await this.api_store.getFilteredAccomodations();
                 await this.api_store.getMarkersData();
                 this.$router.push({ name: 'search', params: { internalNavigation: true } });
-                this.map_store.flyTo(selected_position)
+                if (this.utility_store.show_map) {
+                    this.map_store.flyTo(selected_position)
+                }
+
                 this.map_store.setMarkers(this.api_store.api_unpaginated_results);
                 this.search_string = '';
             } catch (err) {
