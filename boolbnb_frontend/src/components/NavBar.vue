@@ -106,6 +106,10 @@ export default {
             this.searchAccomodations()
         },
         async searchAccomodations() {
+            if (!this.api_store.selected_position.lon || !this.api_store.selected_position.lat) {
+                return
+            }
+
             try {
                 this.api_store.page = 1
                 this.api_store.api_filtered_results = [];
