@@ -4,6 +4,7 @@ import { useUtilityStore } from '@/stores/utilityStore';
 import { useApiStore } from '@/stores/apiStore';
 import { useMapStore } from '@/stores/mapStore';
 
+
 export default {
     name: 'AdvancedSearch',
     data() {
@@ -110,14 +111,7 @@ export default {
             this.utility_store.show_filters = false
         },
         resetFilters() {
-            this.api_store.filters.max_distance = 20
-            this.api_store.filters.min_price = undefined
-            this.api_store.filters.max_price = undefined
-            this.api_store.filters.rooms = 'Any'
-            this.api_store.filters.beds = 'Any'
-            this.api_store.filters.bathrooms = 'Any'
-            this.api_store.filters.type = undefined
-            this.api_store.filters.services = []
+            this.api_store.resetFilters()
         },
         async applyFilters() {
             let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
@@ -140,38 +134,53 @@ export default {
 </script>
 
 <template>
-    <div class=" xl:w-6/12 container" style="margin: 0 auto;">
-        <div class="border-2 relative">
+    <div class="xl:w-6/12 container" style="margin: 0 auto;">
+        <div class="relative">
+
+            <!-- Poup header -->
             <div>
                 <h3 class="py-8 text-center font-medium text-lg">Filters</h3>
-                <i class="fa-solid fa-circle-xmark absolute top-1 left-2 text-4xl cursor-pointer" @click="closeFilters"></i>
+                <img src="../../other-icons/close-icon.svg" class="top-3 left-3 text-4xl cursor-pointer w-10 absolute" @click="closeFilters" alt="">
                 <hr>
             </div>
-            <div class="px-10 py-10">
-                <p class="text-2xl"><strong>Distance from your search</strong></p>
+
+
+            <!-- Popup body -->
+            <div class="popup-body px-20 py-10">
+
+                <!-- Distance -->
+                <p class="text-xl font-semibold">Distance from your search</p>
                 <p>Extend your search</p>
                 <div class="slidecontainer flex gap-10 mt-6">
-                    <p class="w-1/12 border-2">{{ api_store.filters.max_distance }} km</p>
-                    <input class="w-10/12" type="range" min="1" max="400" :value="api_store.filters.max_distance"
-                        @input="updateDistanceFilter">
+                    <p class="w-32 border border-[#B0B0B0] p-2 rounded-lg">{{ api_store.filters.max_distance }} km</p>
+                        <div class="range">
+                            <input class="" type="range" min="1" max="400" :value="api_store.filters.max_distance"
+                                @input="updateDistanceFilter">
+                        </div>
                 </div>
-                <hr class="my-8">
-                <p class="text-2xl"><strong>Price range</strong></p>
+
+                <hr class="my-14">
+
+                <!-- Price -->
+                <p class="text-xl font-semibold">Price range</p>
                 <p>Nightly prices including fees and taxes</p>
                 <div class="flex items-center justify-center gap-8 pt-6">
-                    <input type="number" class="border-2 border-black py-4 xl:pr-56 w-11/12 pl-2 rounded" placeholder="Minimum"
+                    <input type="number" class="border border-[#B0B0B0] py-4 xl:pr-56 w-11/12 pl-2 rounded-lg" placeholder="Minimum"
                         :value="api_store.filters.min_price" @input="updateMinPrice">
-                    <input type="number" class="border-2 border-black py-4 xl:pr-56 w-11/12 pl-2 rounded" placeholder="Maximum"
+                    <input type="number" class="border border-[#B0B0B0] py-4 xl:pr-56 w-11/12 pl-2 rounded-lg" placeholder="Maximum"
                         :value="api_store.filters.max_price" @input="updateMaxPrice">
                 </div>
-                <hr class="my-8">
-                <p class="text-2xl"><strong>Rooms and beds</strong></p>
+
+                <hr class="my-14">
+
+                <!-- Rooms, Beds, Bathrooms -->
+                <p class="text-xl font-semibold">Rooms and beds</p>
                 <div>
                     <p class="pt-4">Bedrooms</p>
                     <div class="flex flex-wrap lg:flex-nowrap">
                         <div class="p-2" v-for="(element, index) in Data" :key="index"
                             @click="updateNumber(element, 'rooms')">
-                            <p class="check-button px-8 py-2 border-2 rounded-full"
+                            <p class="check-button px-8 py-2 border rounded-full"
                                 :class="element == api_store.filters.rooms ? 'active' : ''">{{ element }}</p>
                         </div>
                     </div>
@@ -179,7 +188,7 @@ export default {
                     <div class="flex flex-wrap lg:flex-nowrap">
                         <div class="p-2" v-for="(element, index) in Data" :key="index"
                             @click="updateNumber(element, 'beds')">
-                            <p class="check-button px-8 py-2 border-2 rounded-full"
+                            <p class="check-button px-8 py-2 border rounded-full"
                                 :class="element == api_store.filters.beds ? 'active' : ''">{{ element }}</p>
                         </div>
                     </div>
@@ -187,13 +196,17 @@ export default {
                     <div class="flex flex-wrap lg:flex-nowrap">
                         <div class="p-2" v-for="(element, index) in Data" :key="index"
                             @click="updateNumber(element, 'bathrooms')">
-                            <p class="check-button px-8 py-2 border-2 rounded-full"
+                            <p class="check-button px-8 py-2 border rounded-full"
                                 :class="element == api_store.filters.bathrooms ? 'active' : ''">{{ element }}</p>
                         </div>
                     </div>
                 </div>
-                <hr class="my-8">
-                <p class="text-2xl"><strong>Property type</strong></p>
+
+                <hr class="my-14">
+
+                <!-- Property type -->
+                <p class="text-xl font-semibold">Property type</p>
+
                 <div class="flex flex-wrap md:flex-nowrap justify-center md:justify-between mt-6">
                     <div class="cursor-pointer border-2 w-48 min-h-32 rounded-xl flex flex-col justify-between align-baseline"
                         :class="api_store.filters.type == 'House' ? 'border-black' : ''" @click="updateType('House')">
@@ -217,30 +230,41 @@ export default {
                         <img class="w-8 mt-3 ml-3" src="/other-icons/hotelbnb.svg" alt="hotelbnb">
                         <p class="mb-3 ml-3 text-xl">Hotel / B&B</p>
                     </div>
+
                 </div>
-                <hr class="my-8">
-                <p class="text-2xl"><strong>Services</strong></p>
+
+                <hr class="my-14">
+
+                <!-- Services -->
+                <p class="text-xl font-semibold">Services</p>
                 <div class="pt-4">
                     <div class="flex flex-wrap gap-4 align-text-bottom">
+
                         <div class="services-input" v-for="(element, index) in displayedServices" :key="element.id">
                             <input type="checkbox" :id="'myCheckbox_' + index" class="custom-checkbox"
                                 @input="updateServiceFilter(element)"
                                 :checked="api_store.filters.services.includes(element.id)">
                             <label :for="'myCheckbox_' + index" class="checkbox-label">{{ element.label }}</label>
                         </div>
+
                     </div>
 
                     <button v-if="displayedServices.length < Services.length" @click="showMore"
-                        class="text-blue-500 mt-4">See more</button>
+                        class="font-medium mt-6 underline">Show more</button>
                     <button v-if="displayedServices.length >= Services.length" @click="showLess"
-                        class="text-blue-500 mt-4">See less</button>
+                        class="font-medium mt-6 underline">Show less</button>
                 </div>
+
             </div>
-            <hr>
-            <div class="px-10 py-4 flex justify-between" style="align-items: center;">
-                <div class="font-bold cursor-pointer" @click="resetFilters">Clear All</div>
-                <button class="bg-black text-white p-2 rounded-lg cursor-pointer" @click="applyFilters">Show
-                    Results</button>
+
+
+            <!-- Popup footer -->
+            <div>
+                <hr>
+                <div class="px-20 py-6 flex justify-between" style="align-items: center;">
+                    <div class="font-medium cursor-pointer" @click="resetFilters">Clear All</div>
+                    <button class="bg-black text-white p-2 rounded-lg cursor-pointer" @click="applyFilters">Show Results</button>
+                </div>
             </div>
         </div>
     </div>
@@ -254,6 +278,65 @@ input[type="number"]::-webkit-outer-spin-button {
     appearance: none;
     margin: 0;
 }
+
+input[type="range"] {
+  /* removing default appearance */
+  -webkit-appearance: none;
+  appearance: none; 
+  /* creating a custom design */
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  /*  slider progress trick  */
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+/* Track: webkit browsers */
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 10px;
+  background: #ccc;
+  border-radius: 16px;
+}
+
+/* Track: Mozilla Firefox */
+input[type="range"]::-moz-range-track {
+  height: 10px;
+  background: #ccc;
+  border-radius: 16px;
+}
+
+/* Thumb: webkit */
+input[type="range"]::-webkit-slider-thumb {
+  /* removing default appearance */
+  -webkit-appearance: none;
+  appearance: none; 
+  /* creating a custom design */
+  height: 10px;
+  width: 10px;
+  background-color: black;
+  border-radius: 50%;
+  /*  slider progress trick  */
+  box-shadow: -50rem 0 5rem 20rem hsl(184, 100%, 42%),
+                -40rem 0 5rem 30rem hsl(202, 76%, 55%),
+                -30rem 0 2rem 25rem hsl(251, 86%, 69%),
+                -25.5rem 0 0 25rem  hsl(277, 100%, 63%);
+}
+
+
+
+/*=============
+Aesthetics 
+=========================*/
+
+
+.range {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0px 10px;
+}
+
 
 .check-button:hover {
     color: white;
@@ -272,6 +355,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .checkbox-label {
     position: relative;
     padding-left: 35px;
+    padding-top: 5px;
     /* Aggiungi spazio per il segno di spunta personalizzato */
     cursor: pointer;
 }
@@ -284,7 +368,8 @@ input[type="number"]::-webkit-outer-spin-button {
     left: 0;
     width: 30px;
     height: 30px;
-    border: 2px solid #ccc;
+    border: 1px solid #ccc;
+    border-radius: 6px;
     background-color: white;
 }
 
@@ -321,8 +406,12 @@ div.container {
     transform: translate(-50%, -50%);
     background-color: white;
     max-height: 90vh;
-    overflow: scroll;
     border-radius: 20px;
+}
+
+.popup-body {
+    overflow-y: scroll;
+    height: calc(90vh - 200px);
 }
 
 .active {
@@ -330,7 +419,7 @@ div.container {
     background-color: black;
 }
 
-.services-input{
+.services-input {
     width: calc(100% / 1 - 20px);
 }
 

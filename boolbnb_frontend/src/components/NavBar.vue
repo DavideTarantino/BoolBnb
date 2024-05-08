@@ -3,8 +3,8 @@
         <header
             class="flex justify-center flex-col pt-3 border-b-2 border-black items-center md:py-6 md:justify-between md:flex-row md:gap-0 md:px-10 lg:px-20 xl:px-36">
             <div class="block md:hidden xl:block">
-                <RouterLink to="/" @click="() => { utility_store.show_map = false }"><img class="w-36"
-                        src="/monsterbnb-logo.svg" alt="logo"></RouterLink>
+                <RouterLink to="/" @click="reset()"><img class="w-36" src="/monsterbnb-logo.svg" alt="logo">
+                </RouterLink>
             </div>
             <div class="hidden md:block xl:hidden">
                 <RouterLink to="/"><img class="w-12" src="/Vector.ico" alt="logo"></RouterLink>
@@ -32,8 +32,9 @@
 
             <div>
                 <div class="flex items-center gap-4">
-                    <p class="hidden xl:block"><strong>Monsterbnb your home</strong></p>
-                    <div class="hidden md:block">
+                    <a href="http://127.0.0.1:8000/" class="hidden xl:block" target="_blank"><strong>Monsterbnb your
+                            home</strong></a>
+                    <!-- <div class="hidden md:block">
                         <div class="dropdown">
                             <button class="flex items-center gap-4 border-2 p-2 rounded-full">
                                 <svg class="w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -53,7 +54,7 @@
                                 <a href="#">Log In</a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </header>
@@ -106,9 +107,11 @@ export default {
         },
         async searchAccomodations() {
             try {
+                this.api_store.page = 1
                 this.api_store.api_filtered_results = [];
                 this.api_store.user_query = this.search_string;
                 let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
+                console.log(selected_position)
                 await this.api_store.getFilteredAccomodations();
                 await this.api_store.getMarkersData();
                 this.$router.push({ name: 'search', params: { internalNavigation: true } });
@@ -122,6 +125,10 @@ export default {
                 // Handle errors that occur during the operation
                 console.error('Error in searchAccomodations:', err);
             }
+        },
+        reset() {
+            this.utility_store.show_map = false
+            this.api_store.resetFilters()
         }
 
     }

@@ -73,14 +73,24 @@
         <li class="cursor-pointer" @click="prevPage(api_store.page)">
           <i class="fa-solid fa-chevron-left"></i>
         </li>
+        <!-- Display ellipsis before first page if there are hidden pages before -->
+        <li v-show="shouldShowEllipsisBefore()">
+          ...
+        </li>
+        <!-- Render page links based on the condition provided by shouldShowButton method -->
         <li class="cursor-pointer page-number" :class="{ 'active': link === api_store.page }"
-          v-for="link in api_store.last_page" :key="link" @click="changePage(link)">
+          v-for="link in visiblePageLinks" :key="link" @click="changePage(link)">
           {{ link }}
+        </li>
+        <!-- Display ellipsis after last page if there are hidden pages after -->
+        <li v-show="shouldShowEllipsisAfter()">
+          ...
         </li>
         <li class="cursor-pointer" @click="nextPage(api_store.page)">
           <i class="fa-solid fa-chevron-right"></i>
         </li>
       </ul>
+
     </div>
   </div>
   <!-- map is rendered with opacity-0 to avoid loadings and sizing bus -->
@@ -118,6 +128,7 @@ export default {
       utility_store: useUtilityStore(),
       map_store: useMapStore(),
       api_filtered_results: [],
+      maxVisiblePages: 6
     }
   },
   components: { NavBar, Cards, AdvancedSearch, MapVue, FwbPagination },
@@ -170,14 +181,30 @@ export default {
     },
 
     async prevPage(number) {
+      if (number - 1 <= 0) {
+        return
+      }
       this.api_store.page = number - 1
       await this.api_store.getFilteredAccomodations()
     }
     ,
 
     async nextPage(number) {
+      if (number + 1 > this.api_store.last_page) {
+        return
+      }
       this.api_store.page = number + 1
       await this.api_store.getFilteredAccomodations()
+    },
+    shouldShowButton(num) {
+      if (num < this.page) { }
+    },
+    shouldShowEllipsisBefore() {
+      return this.api_store.page > Math.ceil(this.maxVisiblePages / 2) + 1 && this.api_store.last_page > this.maxVisiblePages;
+    },
+
+    shouldShowEllipsisAfter() {
+      return this.api_store.page < (this.api_store.last_page - (this.maxVisiblePages - 4)) && this.api_store.last_page > this.maxVisiblePages;
     }
 
   },
@@ -209,6 +236,17 @@ export default {
         }
       }
       return count;
+    },
+    visiblePageLinks() {
+      // Calculate start and end index for visible page links
+      let startIndex = Math.max(1, this.api_store.page - Math.floor(this.maxVisiblePages / 2));
+      let endIndex = Math.min(this.api_store.last_page, startIndex + this.maxVisiblePages - 1);
+
+      // Adjust start index if endIndex is at the last page
+      startIndex = Math.max(1, endIndex - this.maxVisiblePages + 1);
+
+      // Generate an array of visible page links
+      return Array.from({ length: endIndex - startIndex + 1 }, (_, index) => startIndex + index);
     }
   }
 }

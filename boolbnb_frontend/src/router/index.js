@@ -16,7 +16,7 @@ const router = createRouter({
       name: 'search',
       component: HomeView,
       beforeEnter: (to, from, next) => {
-        if (from.name !== 'home') {
+        if (from.name !== 'home' && from.name !== 'SingleAccomodation') {
           next({ name: 'home' });
         } else {
           next();
