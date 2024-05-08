@@ -148,13 +148,13 @@ export default {
                     </div>
                     <div>
                         <span v-if="api_store.single_accomodation?.rooms === 1">{{ api_store.single_accomodation?.rooms
-                            }} bedroom</span>
+                             }} bedroom</span>
                         <span v-else>{{ api_store.single_accomodation?.rooms }} bedrooms</span>
-                        -
+                            -
                         <span v-if="api_store.single_accomodation?.beds === 1">{{ api_store.single_accomodation?.beds }}
                             bed</span>
                         <span v-else>{{ api_store.single_accomodation?.beds }} beds</span>
-                        -
+                            -
                         <span v-if="api_store.single_accomodation?.bathrooms === 1">{{
                             api_store.single_accomodation?.bathrooms }} bathroom</span>
                         <span v-else>{{ api_store.single_accomodation?.bathrooms }} bathrooms</span>
