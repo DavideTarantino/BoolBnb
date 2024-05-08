@@ -129,12 +129,12 @@ export default {
 
         <!-- INFO SECTION -->
         <div class="bottom-section flex mt-8">
-            <div class="bottom-left w-3/5">
+            <div class="bottom-left w-11/12 md:w-3/5">
                 <section class="">
                     <div class="flex justify-between items-center">
                         <h2 class="text-2xl font-medium">{{ api_store.single_accomodation?.title }}</h2>
                         <figure class="w-16">
-                            <img class="h-16 rounded-full"
+                            <img class="sm:h-16 rounded-full"
                                 :src="api_store.single_accomodation?.host_thumb || '/other-icons/fallback_avatar.png'"
                                 alt="">
                         </figure>
@@ -208,7 +208,7 @@ export default {
                 <section class="contact-host">
                     <div class="flex items-center gap-10">
                         <figure class="w-16">
-                            <img class="h-16 rounded-full" :src="api_store.single_accomodation?.host_thumb" alt="">
+                            <img class="sm:h-16 rounded-full" :src="api_store.single_accomodation?.host_thumb" alt="">
                         </figure>
                         <div>
                             <h1 class="text-2xl font-medium">Hosted by {{ api_store.single_accomodation?.host_fullname
