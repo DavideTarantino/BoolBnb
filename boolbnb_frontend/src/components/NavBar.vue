@@ -12,7 +12,7 @@
 
             <div class="flex items-center gap-2 dropdown py-2 md:py-0">
                 <div
-                    class="search-group flex items-center justify-between border-2 rounded-full w-11/12 sm:w-[500px] px-3 pl-6 py-2">
+                    class="search-group flex items-center justify-between border-2 rounded-full w-12/12 sm:w-[500px] px-3 pl-6 py-2">
                     <input class="w-4/5 border-0 focus:border-0 focus:border-transparent outline-0 focus:outline-0"
                         type="search" placeholder="Search accomodation..." v-model="search_string"
                         @input="getAddressReccomandations" @keydown.enter="searchAccomodations">
