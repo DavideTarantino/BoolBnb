@@ -21,16 +21,6 @@
                 <hr class="w-full mb-5">
 
                 <div class="flex flex-col text-sm w-full">
-                    <div class="flex mb-3 w-full">
-                        <div class="py-1 pr-24 pl-2 border-2 border-r-0 rounded-l-lg w-1/2">
-                            <p class="text-xs">CHECK-IN</p>
-                            <p class="text-xs"> {{ formatDate(prop_dates?.start) }}</p>
-                        </div>
-                        <div class="py-1 pr-24 pl-2 border-2 rounded-r-lg w-1/2">
-                            <p class="text-xs">CHECKOUT</p>
-                            <p class="text-xs">{{ formatDate(prop_dates?.end) }}</p>
-                        </div>
-                    </div>
                     <label class="mb-2" for="name">Name*</label>
                     <input name="name" v-model="name" class="border-1 md:pr-40 rounded-lg" type="text"
                         placeholder="Your Name" required>
@@ -101,8 +91,7 @@ export default {
         }
     },
     mounted() {
-        console.log(this.accomodation_id)
-        console.log('ciao')
+
     },
     methods: {
         sendForm() {
@@ -112,7 +101,8 @@ export default {
                 email: this.email,
                 content: this.message,
                 accomodation_id: this.accomodation_id,
-                date: this.prop_dates
+                start_date: this.prop_dates.start,
+                end_date: this.prop_dates.end,
             }
 
             this.errors = {};
@@ -121,7 +111,6 @@ export default {
             axios.post(`http://127.0.0.1:8000/api/send-message`, data
             ).then(res => {
 
-                console.log(res)
                 this.success = res.data.success
 
                 if (this.success === false) {
@@ -174,7 +163,7 @@ export default {
 
 <style scoped>
 .box {
-    height: 700px;
+    height: 600px;
 }
 
 
