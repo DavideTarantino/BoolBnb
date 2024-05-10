@@ -82,7 +82,32 @@ export const useApiStore = defineStore('api_store', {
           console.log(returned_accomodations.links)
           this.last_page = returned_accomodations.last_page;
 
+
+
           this.api_filtered_results = returned_accomodations.data;
+
+          let uniqueAccommodations = [];
+
+          // Set to keep track of seen IDs
+          let seenIds = new Set();
+
+          if (this.api_filtered_results && this.api_filtered_results.length > 0) {
+            this.api_filtered_results.forEach(accommodation => {
+              // Check if the ID has been seen before
+              if (!seenIds.has(accommodation.id)) {
+                // If not, add the accommodation to the uniqueAccommodations array
+                uniqueAccommodations.push(accommodation);
+                // Mark the ID as seen
+                seenIds.add(accommodation.id);
+              }
+            });
+          }
+
+          // Iterate  through the array
+
+
+          // Now uniqueAccommodations array will contain only unique accommodations based on ID
+          this.api_filtered_results = uniqueAccommodations;
 
           this.found_results = res.data.res.total || 0;
           this.orderArray()

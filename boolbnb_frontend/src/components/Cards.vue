@@ -53,7 +53,7 @@ export default defineComponent({
 
         <div @click="$emit('goToSingleAccomodation')" class="flex items-start justify-between mt-4 cursor-pointer">
             <h2 class="font-semibold text-sm">{{ capitalize(prop_accomodation?.title) }}</h2>
-            <div class="rating flex items-center text-sm gap-1">
+            <div class="rating flex items-center text-sm gap-1" v-if="prop_accomodation?.rating">
                 <i class="fa-solid fa-star"></i>
                 <span class="text-sm">
                     {{ prop_accomodation?.rating }}
@@ -67,7 +67,7 @@ export default defineComponent({
             <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.type }}</p>
             <div class="flex gap-2 items-center">
                 <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.rooms }} bedrooms</p>
-                    -
+                -
                 <p class="text-[#5E5E5E] text-sm">{{ prop_accomodation?.beds }} beds</p>
             </div>
             <p class="font-semibold text-sm mt-1">€ {{ prop_accomodation?.price_per_night }} <span
