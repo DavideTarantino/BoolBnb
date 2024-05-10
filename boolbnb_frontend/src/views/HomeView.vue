@@ -38,16 +38,17 @@
 
       </div>
 
-      <div class="flex underline hidden xl:block">
+      <div class="flex items-center">
         <div>
           Ordered by:
         </div>
-        <select name="order" id="order" @change="handleSelectChange($event)">
-          <option value="1">distance from your research</option>
-          <option value="2">property rating</option>
-          <option value="3">price (lower first)</option>
-
-        </select>
+        <div>
+          <select class="ordered-by" name="order" id="order" @change="handleSelectChange($event)">
+            <option value="1">distance from your research</option>
+            <option value="2">property rating</option>
+            <option value="3">price (lower first)</option>
+          </select>
+        </div>
       </div>
 
     </div>
@@ -308,4 +309,9 @@ export default {
   padding-inline: 10px;
   border-radius: 5px;
 }
+
+.ordered-by {
+  border: 0;
+}
+
 </style>
