@@ -296,6 +296,7 @@ export const useApiStore = defineStore('api_store', {
         if (response.status === 200 || response.status === 204) {
           // Clear user data or perform any other necessary actions
           this.user = undefined;
+          localStorage.removeItem('user');
         }
       } catch (error) {
         console.error(error); // Handle logout error

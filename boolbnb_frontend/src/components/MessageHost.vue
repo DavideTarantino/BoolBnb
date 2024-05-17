@@ -20,7 +20,7 @@
 
                 <hr class="w-full mb-5">
 
-                <div class="flex flex-col text-sm w-full">
+                <div class="flex flex-col text-sm w-full" v-if="!api_store.user">
                     <label class="mb-2" for="name">Name*</label>
                     <input name="name" v-model="name" class="border-1 md:pr-40 rounded-lg" type="text"
                         placeholder="Your Name" required>
@@ -28,7 +28,7 @@
                         {{ error }}
                     </p>
                 </div>
-                <div class="flex flex-col text-sm w-full">
+                <div class="flex flex-col text-sm w-full" v-if="!api_store.user">
                     <label class="mb-2" for="email">Email*</label>
                     <input name="email" v-model="email" class="pl-2 md:pr-40 border-1 rounded-lg" type="email"
                         placeholder="Your Email" required>
@@ -97,12 +97,12 @@ export default {
         sendForm() {
 
             const data = {
-                name: this.name,
-                email: this.email,
+                name: this.name || this.api_store.user.name + ' ' + this.api_store.user.surname,
+                email: this.email || this.api_store.user.email,
                 content: this.message,
                 accomodation_id: this.accomodation_id,
-                start_date: this.prop_dates.start,
-                end_date: this.prop_dates.end,
+                // start_date: this.prop_dates.start,
+                // end_date: this.prop_dates.end,
             }
 
             this.errors = {};
@@ -162,9 +162,9 @@ export default {
 </script>
 
 <style scoped>
-.box {
+/* .box {
     height: 600px;
-}
+} */
 
 
 input:focus,
