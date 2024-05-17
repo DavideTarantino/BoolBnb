@@ -48,7 +48,7 @@ export default {
             await this.api_store.getIpAddress()
         }
         await this.api_store.getSingleAccomodation(this.route.params.id)
-        console.log(this.api_store.user_ip_address)
+
         await this.api_store.storeVisual(this.route.params.id, this.api_store.user_ip_address)
 
 
@@ -153,7 +153,7 @@ export default {
                         <div>
                             <span v-if="api_store.single_accomodation?.rooms === 1">{{
                                 api_store.single_accomodation?.rooms
-                            }} bedroom</span>
+                                }} bedroom</span>
                             <span v-else>{{ api_store.single_accomodation?.rooms }} bedrooms</span>
                             -
                             <span v-if="api_store.single_accomodation?.beds === 1">{{
@@ -227,7 +227,7 @@ export default {
                             <div>
                                 <h1 class="text-2xl font-medium">Hosted by {{
                                     api_store.single_accomodation?.host_fullname
-                                }}</h1>
+                                    }}</h1>
                                 <p>Joined {{ api_store.single_accomodation?.host_registration_date }}</p>
                             </div>
                         </div>

@@ -34,27 +34,31 @@
                 <div class="flex items-center gap-4">
                     <a href="http://127.0.0.1:8000/" class="hidden xl:block" target="_blank"><strong>Monsterbnb your
                             home</strong></a>
-                    <!-- <div class="hidden md:block">
+                    <div class="hidden md:block">
                         <div class="dropdown">
                             <button class="flex items-center gap-4 border-2 p-2 rounded-full">
                                 <svg class="w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                     <path
                                         d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
                                 </svg>
-                                <div class="bg-gray-500	p-1.5 rounded-full">
-                                    <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <div class="bg-gray-500	p-1.5 rounded-full" v-if="!api_store.user?.user_propic">
+                                    <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+                                        v-if="!api_store.user?.user_propic">
 
                                         <path fill="#ffffff"
                                             d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
                                     </svg>
+
                                 </div>
+                                <img :src="api_store.user.user_propic" alt="profile-picture"
+                                    class="rounded-full w-[50px]" v-else>
                             </button>
-                            <div class="dropdown-content">
-                                <a href="#">Sign Up</a>
-                                <a href="#">Log In</a>
+                            <div class="dropdown-content cursor-pointer">
+                                <a @click="openPopup('register')">Sign Up</a>
+                                <a @click="openPopup('login')">Log In</a>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </header>
@@ -84,6 +88,9 @@ export default {
         }
     },
     methods: {
+        openPopup(popup) {
+            popup == 'register' ? this.utility_store.show_register = true : this.utility_store.show_login = true
+        },
         async getAddressReccomandations() {
             const debouncedGetAddressReccomandations = debounce(async (search_string) => {
                 try {
@@ -116,7 +123,7 @@ export default {
                 this.api_store.user_query = this.search_string;
                 this.search_string = ""
                 let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
-                console.log(selected_position)
+
                 await this.api_store.getFilteredAccomodations();
                 await this.api_store.getMarkersData();
                 this.$router.push({ name: 'search', params: { internalNavigation: true } });

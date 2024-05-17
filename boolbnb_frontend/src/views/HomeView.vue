@@ -161,7 +161,7 @@ export default {
     },
 
     handleSelectChange(e) {
-      console.log(e.target.value)
+
       if (e.target.value == 1) {
         this.api_store.order_by = 'distance'
       } else if (e.target.value == 2) {

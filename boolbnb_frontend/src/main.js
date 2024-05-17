@@ -5,6 +5,7 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+import axios from 'axios'
 
 import { setupCalendar } from 'v-calendar';
 
@@ -17,5 +18,12 @@ app.use(router)
 app.use(setupCalendar, {})
 
 app.mount('#app')
+
+
+axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
+axios.defaults.headers.common["Content-Type"] = "application/json";
+axios.defaults.headers.common["Accept"] = "application/json";
+
 
 

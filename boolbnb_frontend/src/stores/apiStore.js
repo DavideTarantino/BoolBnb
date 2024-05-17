@@ -9,6 +9,7 @@ import { orderBy } from 'lodash'
 export const useApiStore = defineStore('api_store', {
   state: () => ({
     //this could be different for some of us
+    csrfToken: '',
     backend_endpoint: 'http://127.0.0.1:8000/api',
     db_endpoint: 'http://127.0.0.1:8000/api/accommodations',
     filtered_endpoint: 'http://127.0.0.1:8000/api/filtered-accommodations',
@@ -39,6 +40,7 @@ export const useApiStore = defineStore('api_store', {
     },
     found_results: 0,
     user_ip_address: undefined,
+    user: undefined
 
   }),
   getters: {
@@ -77,9 +79,9 @@ export const useApiStore = defineStore('api_store', {
 
         if (res.data) {
           let returned_accomodations = res.data.res;
-          console.log(res.data)
+
           this.pagination_links = returned_accomodations.links;
-          console.log(returned_accomodations.links)
+
           this.last_page = returned_accomodations.last_page;
 
 
@@ -207,20 +209,21 @@ export const useApiStore = defineStore('api_store', {
 
       try {
         axios.post('http://127.0.0.1:8000/api/store-visual', params).then((res) => {
-          console.log(res)
+
         })
       } catch (err) {
         console.log(err)
       }
     },
     async getIpAddress() {
+      axios.defaults.withCredentials = false;
       try {
         const res = await axios.get('https://api.ipify.org');
         this.user_ip_address = res.data;
-        return res.data; // Return the IP address
+        return res.data;
       } catch (err) {
         console.log(err);
-        throw err; // Rethrow the error to be caught by the caller
+        throw err;
       }
     },
     orderArray() {
@@ -265,7 +268,69 @@ export const useApiStore = defineStore('api_store', {
       this.filters.bathrooms = 'Any'
       this.filters.type = undefined
       this.filters.services = []
+    },
+    async getCsrfToken() {
+
+      // try {
+      //   const response = await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
+      //   console.log(response)
+      // } catch (error) {
+      //   console.error(error);
+      // }
+    },
+
+    async getToken() {
+
+    },
+    async sendLoginRequest(email, password) {
+      // axios.defaults.withCredentials = true;
+      // axios.defaults.withXSRFToken = true;
+      axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie').then(async () => {
+        const params = { email, password };
+        try {
+          const response = await axios.post('http://127.0.0.1:8000/api/login', params);
+          console.log(response.data);
+          if (response.data.user) {
+            this.user = response.data.user
+            this.utility_store.show_login = false
+          }
+        } catch (error) {
+          console.error(error); // Handle login error
+        }
+      })
+
+    },
+    async sendRegisterRequest(data) {
+
+
+      try {
+        await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
+        let formData = new FormData();
+        formData.append('name', data.name);
+        formData.append('surname', data.surname);
+        formData.append('email', data.email);
+        formData.append('password', data.password);
+        formData.append('password_confirmation', data.password_confirmation);
+        formData.append('birth_date', data.birth_date);
+        formData.append('phone_number', data.phone_number || '');
+        if (data.user_propic) {
+          formData.append('user_propic', data.user_propic);
+        }
+        const response = await axios.post('http://127.0.0.1:8000/api/register', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        if (response.data.user) {
+          this.user = response.data.user
+          this.utility_store.show_register = false
+        }
+      } catch (error) {
+        console.error(error.response.data);
+      }
     }
+
+
 
   },
 })

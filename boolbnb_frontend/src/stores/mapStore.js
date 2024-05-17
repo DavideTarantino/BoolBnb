@@ -68,7 +68,7 @@ export const useMapStore = defineStore('map_store', {
             })
         },
         setMarkers(accommodations) {
-            console.log(accommodations)
+
             const popupOffsets = {
                 top: [0, 0],
                 bottom: [0, -50],
@@ -125,7 +125,7 @@ export const useMapStore = defineStore('map_store', {
                 maxDuration: 1
             };
 
-            console.log(this.map_istance)
+
             this.map_istance.flyTo({
                 center: position,
                 zoom: 13

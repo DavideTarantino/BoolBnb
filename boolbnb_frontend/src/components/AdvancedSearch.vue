@@ -88,7 +88,7 @@ export default {
                 this.api_store.filters.services.splice(index, 1);
             }
 
-            console.log(this.api_store.filters.services)
+
         },
         updateNumber(value, field) {
             switch (field) {
@@ -116,7 +116,7 @@ export default {
         async applyFilters() {
             let selected_position = [this.api_store.selected_position.lon, this.api_store.selected_position.lat]
             //TODO - fix possible fucked up filters
-            console.log(this.api_store.filters)
+
             this.api_store.api_filtered_results = []
             this.utility_store.show_filters = false
             this.$router.push({ name: 'search', params: { internalNavigation: true } })
@@ -140,7 +140,8 @@ export default {
             <!-- Poup header -->
             <div>
                 <h3 class="py-8 text-center font-medium text-lg">Filters</h3>
-                <img src="../../other-icons/close-icon.svg" class="top-3 left-3 text-4xl cursor-pointer w-10 absolute" @click="closeFilters" alt="">
+                <img src="../../other-icons/close-icon.svg" class="top-3 left-3 text-4xl cursor-pointer w-10 absolute"
+                    @click="closeFilters" alt="">
                 <hr>
             </div>
 
@@ -153,10 +154,10 @@ export default {
                 <p>Extend your search</p>
                 <div class="slidecontainer flex gap-10 mt-6">
                     <p class="w-32 border border-[#B0B0B0] p-2 rounded-lg">{{ api_store.filters.max_distance }} km</p>
-                        <div class="range">
-                            <input class="" type="range" min="1" max="400" :value="api_store.filters.max_distance"
-                                @input="updateDistanceFilter">
-                        </div>
+                    <div class="range">
+                        <input class="" type="range" min="1" max="400" :value="api_store.filters.max_distance"
+                            @input="updateDistanceFilter">
+                    </div>
                 </div>
 
                 <hr class="my-14">
@@ -165,10 +166,10 @@ export default {
                 <p class="text-xl font-semibold">Price range</p>
                 <p>Nightly prices including fees and taxes</p>
                 <div class="flex items-center justify-center gap-8 pt-6">
-                    <input type="number" class="border border-[#B0B0B0] py-4 xl:pr-56 w-11/12 pl-2 rounded-lg" placeholder="Minimum"
-                        :value="api_store.filters.min_price" @input="updateMinPrice">
-                    <input type="number" class="border border-[#B0B0B0] py-4 xl:pr-56 w-11/12 pl-2 rounded-lg" placeholder="Maximum"
-                        :value="api_store.filters.max_price" @input="updateMaxPrice">
+                    <input type="number" class="border border-[#B0B0B0] py-4 xl:pr-56 w-11/12 pl-2 rounded-lg"
+                        placeholder="Minimum" :value="api_store.filters.min_price" @input="updateMinPrice">
+                    <input type="number" class="border border-[#B0B0B0] py-4 xl:pr-56 w-11/12 pl-2 rounded-lg"
+                        placeholder="Maximum" :value="api_store.filters.max_price" @input="updateMaxPrice">
                 </div>
 
                 <hr class="my-14">
@@ -263,7 +264,8 @@ export default {
                 <hr>
                 <div class="px-20 py-6 flex justify-between" style="align-items: center;">
                     <div class="font-medium cursor-pointer" @click="resetFilters">Clear All</div>
-                    <button class="bg-black text-white p-2 rounded-lg cursor-pointer" @click="applyFilters">Show Results</button>
+                    <button class="bg-black text-white p-2 rounded-lg cursor-pointer" @click="applyFilters">Show
+                        Results</button>
                 </div>
             </div>
         </div>
@@ -280,47 +282,47 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 input[type="range"] {
-  /* removing default appearance */
-  -webkit-appearance: none;
-  appearance: none; 
-  /* creating a custom design */
-  width: 100%;
-  cursor: pointer;
-  outline: none;
-  /*  slider progress trick  */
-  overflow: hidden;
-  border-radius: 16px;
+    /* removing default appearance */
+    -webkit-appearance: none;
+    appearance: none;
+    /* creating a custom design */
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    /*  slider progress trick  */
+    overflow: hidden;
+    border-radius: 16px;
 }
 
 /* Track: webkit browsers */
 input[type="range"]::-webkit-slider-runnable-track {
-  height: 10px;
-  background: #ccc;
-  border-radius: 16px;
+    height: 10px;
+    background: #ccc;
+    border-radius: 16px;
 }
 
 /* Track: Mozilla Firefox */
 input[type="range"]::-moz-range-track {
-  height: 10px;
-  background: #ccc;
-  border-radius: 16px;
+    height: 10px;
+    background: #ccc;
+    border-radius: 16px;
 }
 
 /* Thumb: webkit */
 input[type="range"]::-webkit-slider-thumb {
-  /* removing default appearance */
-  -webkit-appearance: none;
-  appearance: none; 
-  /* creating a custom design */
-  height: 10px;
-  width: 10px;
-  background-color: black;
-  border-radius: 50%;
-  /*  slider progress trick  */
-  box-shadow: -50rem 0 5rem 20rem hsl(184, 100%, 42%),
-                -40rem 0 5rem 30rem hsl(202, 76%, 55%),
-                -30rem 0 2rem 25rem hsl(251, 86%, 69%),
-                -25.5rem 0 0 25rem  hsl(277, 100%, 63%);
+    /* removing default appearance */
+    -webkit-appearance: none;
+    appearance: none;
+    /* creating a custom design */
+    height: 10px;
+    width: 10px;
+    background-color: black;
+    border-radius: 50%;
+    /*  slider progress trick  */
+    box-shadow: -50rem 0 5rem 20rem hsl(184, 100%, 42%),
+        -40rem 0 5rem 30rem hsl(202, 76%, 55%),
+        -30rem 0 2rem 25rem hsl(251, 86%, 69%),
+        -25.5rem 0 0 25rem hsl(277, 100%, 63%);
 }
 
 
@@ -331,10 +333,10 @@ Aesthetics
 
 
 .range {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 0px 10px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0px 10px;
 }
 
 

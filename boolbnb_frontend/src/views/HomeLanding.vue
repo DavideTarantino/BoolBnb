@@ -11,6 +11,9 @@
     </section>
   </div>
 
+  <LoginVue v-if="utility_store.show_login"></LoginVue>
+  <RegisterVue v-if="utility_store.show_register"></RegisterVue>
+
   <!-- <div class="card-list" v-if="!utility_store.show_map">
     <section class="cards p-16 pr-32 pl-32 flex flex-wrap">
       <Cards v-for="accomodation in api_store.api_filtered_results" :key="accomodation.id"
@@ -37,9 +40,13 @@
 import NavBar from '../components/NavBar.vue'
 import Cards from '../components/Cards.vue'
 import MapVue from '@/components/MapVue.vue'
+import LoginVue from '../components/LoginVue.vue'
 import { useApiStore } from '@/stores/apiStore'
 import { useUtilityStore } from '@/stores/utilityStore'
 import { useMapStore } from '@/stores/mapStore'
+import RegisterVue from '../components/RegisterVue.vue'
+
+
 
 export default {
   data() {
@@ -51,7 +58,7 @@ export default {
 
     }
   },
-  components: { NavBar, Cards, MapVue },
+  components: { NavBar, Cards, MapVue, LoginVue, RegisterVue },
 
   async mounted() {
     this.api_store.api_filtered_results = []
@@ -66,7 +73,7 @@ export default {
       this.map_store.setMarkers(this.api_store.api_unpaginated_results)
     }
 
-    console.log(this.api_store.api_filtered_results)
+
   },
   methods: {
     async openMap() {

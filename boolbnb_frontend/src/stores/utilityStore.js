@@ -8,6 +8,8 @@ export const useUtilityStore = defineStore('utility_store', {
         showMessageHost: false,
         success: false,
         showMessageFeedback: false,
+        show_login: false,
+        show_register: false
     }),
     getters: {
 
