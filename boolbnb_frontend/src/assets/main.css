@@ -26,6 +26,10 @@ img {
     cursor: pointer;
 }
 
+.gradient-background {
+    background: linear-gradient(135deg, #00CBD8, #B844FF);
+}
+
 
 
 /* Width */

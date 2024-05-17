@@ -1,5 +1,6 @@
 <template>
     <div class="login-container">
+        <i class="fa-solid fa-xmark ms-auto cursor-pointer" @click="closeRegister()"></i>
         <form @submit.prevent="register()" class="py-6 rounded-lg">
             <h2 class="text-xl font-semibold text-center mb-4">
                 Sign Up
@@ -81,6 +82,9 @@ export default {
             }
 
             await this.api_strore.sendRegisterRequest(this.register_data)
+        },
+        closeRegister() {
+            this.utility_store.show_register = false
         },
         goToLogin() {
             this.utility_store.show_register = false

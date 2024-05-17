@@ -1,8 +1,11 @@
 <template>
     <div class="login-container">
         <form @submit.prevent="logIn()" class="py-12 rounded-lg">
+            <i class="fa-solid fa-xmark ms-auto cursor-pointer" @click="() => {
+                utility_store.show_login = false
+            }"></i>
             <h2 class="text-xl font-semibold text-center mb-8">
-                Login or Sign Up
+                Login
             </h2>
             <input type="email" v-model="login_data.email" placeholder="Your Email*" class="w-full" autocomplete="">
             <input type="password" v-model="login_data.password" placeholder="Your Password*" class="w-full"

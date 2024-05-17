@@ -40,7 +40,11 @@ export const useApiStore = defineStore('api_store', {
     },
     found_results: 0,
     user_ip_address: undefined,
-    user: undefined
+    user: undefined,
+    user_messages: {
+      sent: [],
+      received: []
+    }
 
   }),
   getters: {
@@ -277,8 +281,12 @@ export const useApiStore = defineStore('api_store', {
           console.log(response.data);
           if (response.data.user) {
             this.user = response.data.user
+            console.log(this.user)
+            this.auth_token = response.data.token
+            localStorage.setItem('auth_token', JSON.stringify(response.data.token));
             localStorage.setItem('user', JSON.stringify(response.data.user));
             this.utility_store.show_login = false
+            this.getUserMessages()
           }
         } catch (error) {
           console.error(error); // Handle login error
@@ -286,7 +294,6 @@ export const useApiStore = defineStore('api_store', {
       })
 
     },
-
     async sendLogoutRequest() {
       try {
         const response = await axios.post('http://127.0.0.1:8000/api/logout', {}, {
@@ -297,13 +304,13 @@ export const useApiStore = defineStore('api_store', {
           // Clear user data or perform any other necessary actions
           this.user = undefined;
           localStorage.removeItem('user');
+          localStorage.removeItem('auth_token');
         }
       } catch (error) {
         console.error(error); // Handle logout error
       }
     }
     ,
-
     async sendRegisterRequest(data) {
       try {
         await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
@@ -325,15 +332,38 @@ export const useApiStore = defineStore('api_store', {
         });
         if (response.data.user) {
           this.user = response.data.user
+          this.auth_token = response.data.token
+          localStorage.setItem('auth_token', JSON.stringify(response.data.token));
           localStorage.setItem('user', JSON.stringify(response.data.user));
           this.utility_store.show_register = false
         }
       } catch (error) {
         console.error(error.response.data);
       }
+    },
+    async getUserMessages() {
+      if (!this.auth_token || !this.user.id) {
+        return;
+      }
+      const headers = {
+        Authorization: `Bearer ${this.auth_token}`,
+      };
+      const params = {
+        user_id: this.user.id
+
+      }
+      console.log(params)
+      try {
+        const res = await axios.get(this.backend_endpoint + '/get-messages', {
+          params,
+          headers,
+        });
+        console.log(res);
+        this.user_messages.received = res.data.received_messages
+        this.user_messages.sent = res.data.sent_messages
+      } catch (error) {
+        console.error(error); // Handle error
+      }
     }
-
-
-
   },
 })

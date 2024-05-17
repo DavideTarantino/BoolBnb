@@ -58,9 +58,18 @@
                                 <a @click="openPopup('login')">Log In</a>
                             </div>
                             <div class="dropdown-content cursor-pointer" v-else>
-                                <a @click="page.action()" v-for="(page, index) in user_pages" :key="index">
-                                    {{ page.label }}
-                                </a>
+                                <span @click="page.action()" v-for="(page, index) in user_pages" :key="index">
+                                    <div class="flex items-center ps-2 gap-1">
+                                        <span> {{ page.label }}</span>
+
+                                        <div v-if="page.label == 'Messages'"
+                                            class="gradient-background rounded-full pointer-events-none w-[30px] h-[30px] flex items-center justify-center text-white text-sm font-bold">
+                                            {{ received_messages_counter }}
+                                        </div>
+                                    </div>
+
+
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -161,6 +170,11 @@ export default {
             this.api_store.resetFilters()
         }
 
+    },
+    computed: {
+        received_messages_counter() {
+            return this.api_store.user_messages.received.length
+        }
     }
 
 }
@@ -203,7 +217,7 @@ input {
 .dropdown-content a,
 .dropdown-content span {
     color: black;
-    padding: 12px 16px;
+    padding: 12px 5px;
     text-decoration: none;
     display: block;
 }

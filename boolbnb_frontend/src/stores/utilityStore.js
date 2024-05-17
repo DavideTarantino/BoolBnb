@@ -9,7 +9,8 @@ export const useUtilityStore = defineStore('utility_store', {
         success: false,
         showMessageFeedback: false,
         show_login: false,
-        show_register: false
+        show_register: false,
+        show_messages: true
     }),
     getters: {
 
