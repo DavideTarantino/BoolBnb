@@ -269,22 +269,7 @@ export const useApiStore = defineStore('api_store', {
       this.filters.type = undefined
       this.filters.services = []
     },
-    async getCsrfToken() {
-
-      // try {
-      //   const response = await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
-      //   console.log(response)
-      // } catch (error) {
-      //   console.error(error);
-      // }
-    },
-
-    async getToken() {
-
-    },
     async sendLoginRequest(email, password) {
-      // axios.defaults.withCredentials = true;
-      // axios.defaults.withXSRFToken = true;
       axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie').then(async () => {
         const params = { email, password };
         try {
@@ -292,6 +277,7 @@ export const useApiStore = defineStore('api_store', {
           console.log(response.data);
           if (response.data.user) {
             this.user = response.data.user
+            localStorage.setItem('user', JSON.stringify(response.data.user));
             this.utility_store.show_login = false
           }
         } catch (error) {
@@ -300,9 +286,24 @@ export const useApiStore = defineStore('api_store', {
       })
 
     },
+
+    async sendLogoutRequest() {
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/api/logout', {}, {
+          withCredentials: true, // Include credentials (cookies) in the request
+        });
+
+        if (response.status === 200 || response.status === 204) {
+          // Clear user data or perform any other necessary actions
+          this.user = undefined;
+        }
+      } catch (error) {
+        console.error(error); // Handle logout error
+      }
+    }
+    ,
+
     async sendRegisterRequest(data) {
-
-
       try {
         await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
         let formData = new FormData();
@@ -323,6 +324,7 @@ export const useApiStore = defineStore('api_store', {
         });
         if (response.data.user) {
           this.user = response.data.user
+          localStorage.setItem('user', JSON.stringify(response.data.user));
           this.utility_store.show_register = false
         }
       } catch (error) {

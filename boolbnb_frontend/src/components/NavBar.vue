@@ -53,9 +53,14 @@
                                 <img :src="api_store.user.user_propic" alt="profile-picture"
                                     class="rounded-full w-[50px]" v-else>
                             </button>
-                            <div class="dropdown-content cursor-pointer">
+                            <div class="dropdown-content cursor-pointer" v-if="!api_store.user">
                                 <a @click="openPopup('register')">Sign Up</a>
                                 <a @click="openPopup('login')">Log In</a>
+                            </div>
+                            <div class="dropdown-content cursor-pointer" v-else>
+                                <a @click="page.action()" v-for="(page, index) in user_pages" :key="index">
+                                    {{ page.label }}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -85,6 +90,19 @@ export default {
             map_store: useMapStore(),
             search_string: '',
             address_suggestions: [],
+            user_pages: [
+                {
+                    label: 'Messages',
+                    action: () => { }
+                },
+                {
+                    label: 'Log out',
+                    action: () => {
+
+                        this.api_store.sendLogoutRequest()
+                    }
+                },
+            ]
         }
     },
     methods: {
