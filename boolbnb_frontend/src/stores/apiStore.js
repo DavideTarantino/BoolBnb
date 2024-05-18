@@ -352,7 +352,7 @@ export const useApiStore = defineStore('api_store', {
         user_id: this.user.id
 
       }
-      console.log(params)
+
       try {
         const res = await axios.get(this.backend_endpoint + '/get-messages', {
           params,
@@ -364,6 +364,35 @@ export const useApiStore = defineStore('api_store', {
       } catch (error) {
         console.error(error); // Handle error
       }
+    },
+    async sendReservationRequest(start_date, end_date) {
+      if (!this.auth_token || !this.user.id || !this.single_accomodation.id) {
+        return false;
+      }
+
+      const headers = {
+        Authorization: `Bearer ${this.auth_token}`,
+        'Content-Type': 'application/json',
+      };
+
+      const data = {
+        guest_id: this.user.id,
+        start_date,
+        end_date,
+        accomodation_id: this.single_accomodation.id,
+      };
+
+      try {
+        const res = await axios.post(this.backend_endpoint + '/reservations', data, { headers });
+
+        if (res.status === 201) {
+          return true;
+        }
+      } catch (error) {
+        console.error('Reservation request failed:', error.response?.data || error.message);
+        return false;
+      }
     }
+
   },
 })

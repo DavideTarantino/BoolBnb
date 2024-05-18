@@ -1,7 +1,8 @@
 <template>
-    <div class="login-container">
-        <i class="fa-solid fa-xmark ms-auto cursor-pointer" @click="closeRegister()"></i>
+    <div class="login-container fixed inset-0 flex items-center justify-center">
+
         <form @submit.prevent="register()" class="py-6 rounded-lg">
+            <i class="fa-solid fa-xmark ms-auto cursor-pointer" @click="closeRegister()"></i>
             <h2 class="text-xl font-semibold text-center mb-4">
                 Sign Up
             </h2>
@@ -112,17 +113,9 @@ export default {
 
 <style scoped>
 .login-container {
-    position: fixed;
     height: 100%;
     width: 100%;
     background-color: rgba(100, 100, 100, 0.6);
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 form {

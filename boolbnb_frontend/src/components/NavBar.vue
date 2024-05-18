@@ -41,7 +41,7 @@
                                     <path
                                         d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
                                 </svg>
-                                <div class="bg-gray-500	p-1.5 rounded-full" v-if="!api_store.user?.user_propic">
+                                <div class="bg-gray-500	p-1.5 rounded-full" v-if="!api_store.user">
                                     <svg class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
                                         v-if="!api_store.user?.user_propic">
 
@@ -51,7 +51,11 @@
 
                                 </div>
                                 <img :src="api_store.user.user_propic" alt="profile-picture"
-                                    class="rounded-full w-[50px]" v-else>
+                                    class="rounded-full w-[50px]" v-else-if="api_store.user.user_propic">
+                                <span v-else-if="api_store.user && !api_store.user.user_propic"
+                                    class="bg-gray-900 text-white rounded-full w-[35px] aspect-square flex items-center justify-center">
+                                    {{ api_store.user.name[0] }}
+                                </span>
                             </button>
                             <div class="dropdown-content cursor-pointer" v-if="!api_store.user">
                                 <a @click="openPopup('register')">Sign Up</a>
@@ -102,7 +106,9 @@ export default {
             user_pages: [
                 {
                     label: 'Messages',
-                    action: () => { }
+                    action: () => {
+                        this.$router.push({ name: 'messages' })
+                    }
                 },
                 {
                     label: 'Log out',
@@ -117,6 +123,10 @@ export default {
     methods: {
         openPopup(popup) {
             popup == 'register' ? this.utility_store.show_register = true : this.utility_store.show_login = true
+        },
+        openMessagesPage() {
+            console.log()
+            this.$router.push({ name: 'messages' })
         },
         async getAddressReccomandations() {
             const debouncedGetAddressReccomandations = debounce(async (search_string) => {

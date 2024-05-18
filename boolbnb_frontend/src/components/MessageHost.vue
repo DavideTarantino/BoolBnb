@@ -16,7 +16,7 @@
                 class="bg-white box flex ml-20 mb-20 rounded-lg flex-col gap-4 items-center justify-between w-3/12 px-6 py-10 relative container">
                 <img @click="closeMessageHost" src="../../other-icons/close-icon.svg"
                     class="top-3 left-3 text-4xl cursor-pointer w-10 absolute" alt="">
-                <p class="font-medium">Message Host</p>
+                <p class="font-medium">Message <span class="text-[#a254fa]">{{ recipient_name }}</span></p>
 
                 <hr class="w-full mb-5">
 
@@ -76,7 +76,7 @@ export default {
     components: {
 
     },
-    props: ['accomodation_id', 'prop_dates'],
+    props: ['accomodation_id', 'prop_dates', 'recipient_name'],
     data() {
         return {
             name: '',

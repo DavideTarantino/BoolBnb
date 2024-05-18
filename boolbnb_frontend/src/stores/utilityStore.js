@@ -10,7 +10,8 @@ export const useUtilityStore = defineStore('utility_store', {
         showMessageFeedback: false,
         show_login: false,
         show_register: false,
-        show_messages: true
+        show_messages: true,
+        showReservationPopup: false
     }),
     getters: {
 
@@ -25,6 +26,17 @@ export const useUtilityStore = defineStore('utility_store', {
                 .replace(/^-+/, '')
                 .replace(/-+$/, '');
         },
+        convertDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate();
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const month = monthNames[date.getMonth()];
+            const hours = date.getHours();
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const formattedDate = `${day} ${month} ${hours}:${minutes}`;
+
+            return formattedDate;
+        }
 
 
 
